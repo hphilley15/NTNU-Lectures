@@ -1,3 +1,5 @@
+from urllib import request
+
 class JBData:
     """
     Class that encapsulates an image and its various representations.
