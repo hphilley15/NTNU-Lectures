@@ -7,14 +7,21 @@ Original file is located at
     https://colab.research.google.com/drive/1m6k3WbxKtr5M-wvNvfWNSo6lxGJiOgA4
 """
 
-from datetime import date
-title = "Computer Vision - Optical Flow"
-today = date.today().strftime("%d %B %Y")
-
+import __main__
 import pathlib
+
+try:
+    GIT_CMD = __main__.GIT_CMD
+except NameError:
+    GIT_CMD = 'git'
+
+try:
+    ROOT_DIR = __main__.ROOT_DIR
+except NameError:
+    ROOT_DIR - pathlib.Path('.')
+
 HOME_DIR = pathlib.Path.home().resolve()
 ORIG_ROOT = pathlib.Path( '.' ).resolve() 
-ROOT_DIR =  ORIG_ROOT / title
 
 ROOT_DIR.mkdir(parents = True, exist_ok = True )
 
@@ -27,10 +34,6 @@ import platform
 
 node = platform.node()
 
-if node == 'NTNU-ERC':
-    GIT_CMD = 'D:\PortableApps\GitPortable\bin\git.exe'
-else:
-    GIT_CMD = 'git'
 
 print("Execute !pip install weasyprint")
 print("!pip install pygments")
@@ -39,12 +42,12 @@ print("!pip install youtube_dl")
 import subprocess
 import pathlib
 import os
-import cd
+from .cd import cd
 
 with cd( ROOT_DIR ):
     p = pathlib.Path("./reveal.js")
     if not p.is_dir():
-        print("cloning reveal.js from github")
+        print("cloning reveal.js from github", 'git command', GIT_CMD)
         os.system( GIT_CMD + " clone https://github.com/hakimel/reveal.js.git" )
     else:
         print("git directory exists")
@@ -569,7 +572,6 @@ REVEAL_SLIDE_TEMPLATE = """
 from urllib import request
 from google.colab import files
 import pathlib
-from __future__ import unicode_literals
 import youtube_dl
 
 class JBData:
@@ -1313,137 +1315,4 @@ author = """
 """
 
 vid1 = JBVideo( 'video1', 0, 0, url='https://youtu.be/OVcwcvwzRPs?t=28', localFile= ROOT_DIR / "reveal.js" / "assets" / "videos" / "video1" )
-
-import numpy as np
-import cv2 as cv
-from google.colab.patches import cv2_imshow
-
-fname = str(vid1.localFile) + vid1.ext
-
-cap = cv.VideoCapture( fname )
-         
-while(True):
-    ret,frame = cap.read()
-    
-    print('ret', ret)
-    if ( ret ):
-         cv2_imshow( frame )
-
-    k = cv.waitKey(30) & 0xff
-    if k == 27:
-        break
-
-"""%%html
-<link rel="stylesheet" href="/nbextensions/google.colab/tabbar.css">
-<div class='goog-tab'>
-  Some content
-</div>
-"""
-
-import portpicker
-import threading
-import socket
-import IPython
-
-from six.moves import socketserver
-from six.moves import SimpleHTTPServer
-
-class V6Server(socketserver.TCPServer):
-  address_family = socket.AF_INET6
-
-class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
-  def do_GET(self):
-    self.send_response(200)
-    # If the response should not be cached in the notebook for
-    # offline access:
-    # self.send_header('x-colab-notebook-cache-control', 'no-cache')
-    self.end_headers()
-    self.wfile.write(b'''
-      document.querySelector('#output-area').appendChild(document.createTextNode('Script result!'));
-    ''')
-
-port = portpicker.pick_unused_port()
-
-def server_entry():
-    httpd = V6Server(('::', port), Handler)
-    # Handle a single request then exit the thread.
-    httpd.serve_forever()
-
-thread = threading.Thread(target=server_entry)
-thread.start()
-
-# Display some HTML referencing the resource.
-display(IPython.display.HTML('<script src="https://localhost:{port}/"></script>'.format(port=port)))
-
-from google.colab.patches import cv2_imshow
-
-!curl -o logo.png https://colab.research.google.com/img/colab_favicon_256px.png
-import cv2
-img = cv2.imread('logo.png', cv2.IMREAD_UNCHANGED)
-cv2_imshow(img)
-
-print(vid1.__repr_html_file__() )
-
-"""%%slide
-%%reveal_html
-
-<h1>Sample Input Video</h1>
-
-{{ vid1.__repr_html_localhost__() }}
-"""
-
-!curl  "http://localhost:17285/Computer%20Vision%20-%20Optical%20Flow/reveal.js/assets/videos/video2.mp4" -o /tmp/vid1.mp4
-!ls -l /content/Comp*/reveal.js/assets/videos/*
-!ls -l /tmp
-
-"""%%slide --id=introduction
-%%reveal_rst
-
-The first AI program - General Problem Solver (GPS) was developed in 1959 by Herbert A. Simon, J. C. Shaw, and Allen Newell.
-
-Focuses on problems requiring intelligence
-
-  * Logic puzzles (Towers of Hanoi, Blocksworld, ... )
-  * Problem was described using well-formed formulas (e.g., <on table blockA>)
-  * Means-ends analysis inspried by human problem solving (of puzzles)
-
-%%html
-<link rel="stylesheet" href="/nbextensions/google.colab/tabbar.css">
-<div class='goog-tab'>
-  Some content
-</div>
-"""
-
-import portpicker
-import threading
-import socket
-import IPython
-
-from six.moves import socketserver
-from six.moves import SimpleHTTPServer
-
-class V6Server(socketserver.TCPServer):
-  address_family = socket.AF_INET6
-
-port = portpicker.pick_unused_port()
-
-def server_entry():
-    httpd = V6Server(('::', port), Handler)
-    # Handle a single request then exit the thread.
-    httpd.serve_forever()
-
-thread = threading.Thread(target=server_entry)
-thread.start()
-
-# Display some HTML referencing the resource.
-display(IPython.display.HTML('<video controls><source src="https://youtu.be/R2PJZjWfMoo"></video>'.format(port=port)))
-
-#doc.createRevealDownload( ROOT_DIR / "reveal.js" )
-#downloadDir( ROOT_DIR / "{title}_reveal.zip".format( title=title ), "reveal.js", ROOT_DIR )  
-doc.createRenpySlideShow( ROOT_DIR )
-downloadDir( ROOT_DIR / "{title}_renpy.zip".format( title=title ), "renpy", ROOT_DIR )
-
-print(platform.platform())
-
-
 
