@@ -567,9 +567,8 @@ REVEAL_SLIDE_TEMPLATE = """
 """
 
 from urllib import request
-from google.colab import files
+#from google.colab import files
 import pathlib
-from __future__ import unicode_literals
 import youtube_dl
 
 class JBData:

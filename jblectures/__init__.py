@@ -466,7 +466,7 @@ from pygments.formatters import HtmlFormatter
 
 from jinja2 import Template
 
-import weasyprint as wp
+#import weasyprint as wp
 import io
 import base64
 
@@ -542,7 +542,7 @@ REVEAL_SLIDE_TEMPLATE = """
 """
 
 from urllib import request
-from google.colab import files
+#from google.colab import files
 import pathlib
 import youtube_dl
 
