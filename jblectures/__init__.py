@@ -34,10 +34,9 @@ import platform
 
 node = platform.node()
 
-
-print("Execute !pip install weasyprint")
-print("!pip install pygments")
-print("!pip install youtube_dl")
+#os.system("!pip install weasyprint")
+#os.system("!pip install pygments")
+#os.system("!pip install youtube_dl")
 
 import subprocess
 import pathlib
