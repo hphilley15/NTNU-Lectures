@@ -39,7 +39,9 @@ class JBDocument:
             ind = -1
         #print('returning', ind )
         return ind
-      
+    
+    from ..JBSlide import JBSlide
+    
     def addSlide( self, id, slideHTML, background = '', header = '', footer = ''):
         #html = wp.HTML( string = slideHTML )
         #doc = html.render( stylesheets = [ self.cssSlides ] )
@@ -70,7 +72,7 @@ class JBDocument:
             del self.slides[oind]
         
         #print("footer", footer )
-        sl = Slide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
+        sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
             leftS = self.slides[ self.findSlideIndex( self.current ) ]
