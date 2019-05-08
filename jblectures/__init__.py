@@ -34,61 +34,54 @@ import platform
 
 node = platform.node()
 
-#os.system("!pip install weasyprint")
-#os.system("!pip install pygments")
-#os.system("!pip install youtube_dl")
+def getDependencies():
+    return [ "weasyprint", "pygments", "youtube-dl" ]
 
 import subprocess
 import pathlib
 import os
 from .cd import cd
 
+def updateGit( url, dirname, root ):
+        with cd( root ):
+            p = pathlib.Path( dirname )
+            if not p.is_dir():
+                print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', GIT_CMD)
+                os.system( GIT_CMD + " clone " + url )
+            else:
+                print("git directory exists")
+
+            with cd( dirname ):
+                print("Executing git pull")
+                o = None
+                try:
+                    o = subprocess.check_output(GIT_CMD + " pull", shell=True)
+                except subprocess.CalledProcessError:
+                    pass
+                if ( o ):
+                    print( 'git pull:' + o.decode('utf-8') )
+            
+import subprocess
+import pathlib
+import os
+from .cd import cd
+
+updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", ROOT_DIR )
+
+with cd( ROOT_DIR / 'reveal.js' ):
+    print("Executing npm install")
+    try:
+        o = subprocess.check_output("npm install", shell = True)
+    except subprocess.CalledProcessError:
+        pass
+    if ( o ):    
+        print( 'npm install:' + o.decode('utf-8') )
+
 with cd( ROOT_DIR ):
-    p = pathlib.Path("./reveal.js")
-    if not p.is_dir():
-        print("cloning reveal.js from github", 'git command', GIT_CMD)
-        os.system( GIT_CMD + " clone https://github.com/hakimel/reveal.js.git" )
-    else:
-        print("git directory exists")
+    pathlib.Path("reveal.js/assets/images").mkdir( parents = True, exist_ok=True )
+    pathlib.Path("reveal.js/assets/videos").mkdir( parents = True, exist_ok=True )
 
-    with cd("./reveal.js"):
-        print("Executing git pull")
-        o = None
-        try:
-            o = subprocess.check_output(GIT_CMD + " pull", shell=True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):
-            print( 'git pull:' + o.decode('utf-8') )
-        print("Executing npm install")
-        try:
-            o = subprocess.check_output("npm install", shell = True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):    
-            print( 'npm install:' + o.decode('utf-8') )
-    
-    with cd("./reveal.js"):
-        pathlib.Path("assets/images").mkdir( parents = True, exist_ok=True )
-        pathlib.Path("assets/videos").mkdir( parents = True, exist_ok=True )
-
-with cd( ROOT_DIR ):
-    p = pathlib.Path("./Lecture-VN")
-    if not p.is_dir():
-        print("cloning Lecture-VN from github")
-        os.system( GIT_CMD + " clone https://github.com/guichristmann/Lecture-VN.git" )
-    else:
-        print("git directory exists")
-
-    with cd("./Lecture-VN"):
-        print("Executing git pull")
-        o = None
-        try:
-            o = subprocess.check_output(GIT_CMD + " pull", shell=True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):
-            print( 'git pull:' + o.decode('utf-8') )
+updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", ROOT_DIR )
 
 import pathlib
 
