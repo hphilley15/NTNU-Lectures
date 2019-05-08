@@ -2,10 +2,10 @@
 name = "jblectures"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Jacky Baltes <jacky.baltes@ntnu.edu.tw>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 weasyprint = "^47.0"
 youtube-dl = "^2019.4"
 pygments = "^2.3"
