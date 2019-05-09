@@ -46,7 +46,7 @@ class JBDocument:
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
         themePath = pathlib.Path( ROOT_DIR / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
-        with themePath.open()) as f:
+        with themePath.open() as f:
             css = f.read()
         for x, r in [("\.reveal \.slides section ", ".jb-render "),
                      ("\.reveal \.slides ", ".jb-render "),
