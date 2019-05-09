@@ -621,6 +621,11 @@ from . jbmagics import load_ipython_extension
 
 doc = load_ipython_extension( get_ipython() )
 
+try:
+    title = __main__.title
+except NameError:
+    title = 'Missing Title'
+
 doc.setTitle( title )
 doc.setTheme('ntnuerc')
 doc.setFooter( revealSlideFooter )
