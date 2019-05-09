@@ -635,7 +635,7 @@ author = """
 </p>
 """
 
-import . jbmagics
+from . jbmagics import load_ipython_extension
 
-doc = jbmagics.load_ipython_extension( get_ipython() )
+doc = load_ipython_extension( get_ipython() )
 __main__.doc = doc
