@@ -537,8 +537,7 @@ from urllib import request
 import pathlib
 import youtube_dl
 
-from .jbdata import JBImage
-from .jbdata import JBVideo
+from .jbdata import JBImage, JBVideo
 
 robbi = JBImage( name='robbi', width=162, height=138, url="https://i.postimg.cc/K81kVbvQ/ntnuerc-logo-1.png", localFile= ROOT_DIR / "reveal.js" / "assets" / "images" / "robbi.png" )
 logo = JBImage( name = 'logo', width=0, height=0, url='https://i.postimg.cc/4xvjvdmq/ntnu-ee-logo.png', localFile=ROOT_DIR / "reveal.js" / "assets" / "images" / "logo.png" )
@@ -620,7 +619,6 @@ codeCellCSS = """
 }
 """
 
-from .jbdocument import JBDocument
 
 localTheme = makeRevealThemeLocal( "/theme/" + THEME ) + codeCellCSS 
 #print("local css", localTheme)
@@ -636,6 +634,8 @@ author = """
       {{today}}
 </p>
 """
+
+import . jbmagics
 
 doc = jbmagics.load_ipython_extension( get_ipython() )
 __main__.doc = doc
