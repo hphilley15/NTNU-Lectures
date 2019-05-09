@@ -1,4 +1,5 @@
 import weasyprint as wp
+from jinja2 import Template
 
 class JBDocument:
     def __init__(self, title, styleSlides, background = '', footer = '', header = '' ):

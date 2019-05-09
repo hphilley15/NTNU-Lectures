@@ -457,8 +457,6 @@ from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 
-from jinja2 import Template
-
 #import weasyprint as wp
 import io
 import base64
