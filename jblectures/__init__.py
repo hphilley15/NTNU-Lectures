@@ -942,7 +942,7 @@ def load_ipython_extension(ipython):
         }}""".format( width=PAGE_SIZE[0], height=PAGE_SIZE[1] )
 
     footer = RevealSlideFooter
-    doc = JBDocument( title, cssStr + "\n" + localTheme, footer = footer )
+    doc = JBDocument( "", cssStr + "\n" + localTheme, footer = footer )
     magics = JackyMagics( ipython, doc )
     doc.user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
@@ -970,6 +970,4 @@ author = """
     {{author}}
    </div>
 """
-
-vid1 = JBVideo( 'video1', 0, 0, url='https://youtu.be/OVcwcvwzRPs?t=28', localFile= ROOT_DIR / "reveal.js" / "assets" / "videos" / "video1" )
 
