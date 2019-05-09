@@ -320,7 +320,7 @@ def load_ipython_extension(ipython):
         }}""".format(width=PAGE_SIZE[0], height=PAGE_SIZE[1])
 
     doc = JBDocument( )
-    magics = JackyMagics(ipython, doc)
+    magics = JBMagics(ipython, doc)
     doc.user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
     return doc
