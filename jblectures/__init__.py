@@ -625,7 +625,6 @@ from .jbdocument import JBDocument
 localTheme = makeRevealThemeLocal( "/theme/" + THEME ) + codeCellCSS 
 #print("local css", localTheme)
 
-doc = load_ipython_extension( get_ipython() )
 
 email="jacky.baltes@ntnu.edu.tw"
 author = """
@@ -638,13 +637,5 @@ author = """
 </p>
 """
 
-"""%%slide --id=first
-%%reveal_html
-
-<h1> {{title}}</h1>
-
-   <div class="author" style="text-align:center;">
-    {{author}}
-   </div>
-"""
-
+doc = jbmagics.load_ipython_extension( get_ipython() )
+__main__.doc = doc

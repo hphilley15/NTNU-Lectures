@@ -301,7 +301,6 @@ class JBMagics(Magics):
 
             cs.addRenpy(rp)
 
-
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
@@ -328,5 +327,3 @@ def load_ipython_extension(ipython):
     return doc
 
 
-doc = load_ipython_extension(get_ipython())
-__main__.doc = doc
