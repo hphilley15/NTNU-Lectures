@@ -1,3 +1,5 @@
+import weasyprint as wp
+
 class JBDocument:
     def __init__(self, title, styleSlides, background = '', footer = '', header = '' ):
         self.title = title
@@ -16,7 +18,10 @@ class JBDocument:
         self.footer = footer
         self.header = header
         self.background = background
-        
+
+    def setTitle(self, title ):
+        self.title = title
+
     @staticmethod
     def sInstTemplate( text, vars ):
         prev = ""

@@ -9,6 +9,7 @@ Original file is located at
 
 import __main__
 import pathlib
+import os
 
 try:
     GIT_CMD = __main__.GIT_CMD
@@ -34,8 +35,8 @@ import platform
 
 node = platform.node()
 
-def getDependencies():
-    return [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]
+for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]:
+    os.system("pip" + " install " + p )
 
 import subprocess
 import pathlib
