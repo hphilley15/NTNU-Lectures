@@ -45,7 +45,7 @@ class JBDocument:
         #print('returning', ind )
         return ind
     
-    from ..JBSlide import JBSlide
+    from .. jbslide import JBSlide
     
     def addSlide( self, id, slideHTML, background = '', header = '', footer = ''):
         #html = wp.HTML( string = slideHTML )
