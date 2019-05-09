@@ -578,7 +578,8 @@ from .jbslide import JBSlide
 import pathlib
 
 THEME="ntnuerc"
-RevealSlideFooter = """
+
+revealSlideFooter = """
 <footer>
 <div class="jb-footer-left">
     <img class="jb-footer-left-img plain" src="{{ logo.url }}" alt="{{logo.name}}" />
@@ -638,4 +639,9 @@ author = """
 from . jbmagics import load_ipython_extension
 
 doc = load_ipython_extension( get_ipython() )
+doc.setTitle( title )
+doc.setTheme('ntnuerc')
+doc.setFooter( revealSlideFooter )
+doc.setHeader("")
+
 __main__.doc = doc

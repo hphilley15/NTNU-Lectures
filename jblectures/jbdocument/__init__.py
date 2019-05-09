@@ -23,6 +23,15 @@ class JBDocument:
     def setTitle(self, title ):
         self.title = title
 
+    def setFooter(self, footer ):
+        self.footer = footer
+
+    def setHeader(self, header):
+        self.header = header
+
+    def setTheme(self, theme ):
+        self.theme = theme
+
     @staticmethod
     def sInstTemplate( text, vars ):
         prev = ""
