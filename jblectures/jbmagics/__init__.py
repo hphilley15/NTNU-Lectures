@@ -319,7 +319,7 @@ def load_ipython_extension(ipython):
             margin: 0px;
         }}""".format(width=PAGE_SIZE[0], height=PAGE_SIZE[1])
 
-    doc = JBDocument("", cssStr + "\n" + localTheme, footer="")
+    doc = JBDocument( )
     magics = JackyMagics(ipython, doc)
     doc.user_ns = magics.shell.user_ns
     ipython.register_magics(magics)

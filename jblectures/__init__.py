@@ -442,6 +442,19 @@ body {
   width: auto;
   height: 1.25cm;
 }
+
+.jb-input-code {
+    color: #101010;
+    width: 90%;
+    display: inline-block;
+}
+
+.jb-stdout {
+    color: #101010;
+    background: #e0e0e0;
+    width: 90%;
+    display: inline-block;
+}
 """
 
 with cd(ROOT_DIR):
@@ -590,38 +603,6 @@ revealSlideFooter = """
 </footer>
 """
 
-import re
-import pathlib
-
-def makeRevealThemeLocal( revealTheme ):
-    """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
-    themePath = pathlib.Path( str(ROOT_DIR) +  '/reveal.js' +  '/css/theme/' + THEME + '.css' )
-    with open( themePath ) as f:
-        css = f.read()
-    for x,r in [ ( "\.reveal \.slides section ", ".jb-render " ), 
-                ("\.reveal \.slides ", ".jb-render " ), 
-                ("\.reveal ", ".jb-render " ), 
-                ("section", ".jb-render ") ]:
-        css = re.sub(x, r, css)
-    return css
-
-codeCellCSS = """
-.jb-input-code {
-    color: #101010;
-    width: 90%;
-    display: inline-block;
-}
-
-.jb-stdout {
-    color: #101010;
-    background: #e0e0e0;
-    width: 90%;
-    display: inline-block;
-}
-"""
-
-
-localTheme = makeRevealThemeLocal( "/theme/" + THEME ) + codeCellCSS 
 #print("local css", localTheme)
 
 
@@ -639,6 +620,7 @@ author = """
 from . jbmagics import load_ipython_extension
 
 doc = load_ipython_extension( get_ipython() )
+
 doc.setTitle( title )
 doc.setTheme('ntnuerc')
 doc.setFooter( revealSlideFooter )

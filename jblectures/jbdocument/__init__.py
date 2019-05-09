@@ -1,10 +1,14 @@
 import weasyprint as wp
 from jinja2 import Template
+import re
+import pathlib
+
+from ..jbslide import JBSlide
+
 
 class JBDocument:
-    def __init__(self, title, styleSlides, background = '', footer = '', header = '' ):
+    def __init__(self, title = '', styleSlides = '', background = '', footer = '', header = '' ):
         self.title = title
-        self.cssSlides = wp.CSS( string = styleSlides )
         self.slides = []
         self.renpy = []
       
@@ -30,7 +34,26 @@ class JBDocument:
         self.header = header
 
     def setTheme(self, theme ):
-        self.theme = theme
+        if (theme ):
+            self.theme = theme
+            self.localTheme = self.makeRevealThemeLocal( theme )
+            self.cssSlides = wp.CSS( string = styleSlides )
+        else:
+            self.theme = ''
+            self.localTheme = ''
+            self.cssSlides = ''
+
+    def makeRevealThemeLocal(self, revealTheme):
+        """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
+        themePath = pathlib.Path( ROOT_DIR / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
+        with themePath.open()) as f:
+            css = f.read()
+        for x, r in [("\.reveal \.slides section ", ".jb-render "),
+                     ("\.reveal \.slides ", ".jb-render "),
+                     ("\.reveal ", ".jb-render "),
+                     ("section", ".jb-render ")]:
+            css = re.sub(x, r, css)
+        return css
 
     @staticmethod
     def sInstTemplate( text, vars ):
@@ -54,9 +77,7 @@ class JBDocument:
             ind = -1
         #print('returning', ind )
         return ind
-    
-    from .. jbslide import JBSlide
-    
+
     def addSlide( self, id, slideHTML, background = '', header = '', footer = ''):
         #html = wp.HTML( string = slideHTML )
         #doc = html.render( stylesheets = [ self.cssSlides ] )
