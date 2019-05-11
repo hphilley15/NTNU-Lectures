@@ -3,11 +3,6 @@ import pathlib
 
 cfg = {}
 
-def createJBDataEnvironment( mycfg ):
-    global cfg
-    cfg = mycfg
-    return cfg
-
 class JBData:
     """
     Class that encapsulates an image and its various representations.
@@ -97,10 +92,7 @@ class JBImage(JBData):
 
     def __repr_html_file__(self, style=""):
         return '<img src="http://localhost:{port}/{src}{ext}" style="{style}" alt="{name}"/>'.format(src=self.localFile,
-                                                                                                     ext=self.ext,
-                                                                                                     port=HTTP_PORT,
-                                                                                                     name=self.name,
-                                                                                                     style=style)
+                    ext=self.ext, port=HTTP_PORT, name=self.name, style=style)
 
     def __repr_html_url__(self, style=""):
         return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
@@ -142,3 +134,7 @@ class JBVideo(JBData):
         p = cfg['VIDEOS_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
         return str(  p.expanduser().resolve() )
 
+def createJBDataEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

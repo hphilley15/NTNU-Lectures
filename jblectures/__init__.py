@@ -152,7 +152,7 @@ def loadModules( cfg ):
 
     from .jbdata import createJBDataEnvironment, JBImage, JBVideo
     cfg = jbdata.createJBDataEnvironment( cfg )
-    
+
     from .jbslide import JBSlide
 
     from .jbmagics import JBMagics
@@ -205,8 +205,8 @@ def createDocEnvironment( params = {} ):
         cfg['IMAGES_DIR']  / 'logo.png')
 
     cfg['IMAGES'] = [
-        jbdata.JBImage( name='robbi', width=162, height=138, localFile= cfg['IMAGES_DIR']  / "robbi.png" ),
-        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= cfg['IMAGES_DIR'] / "logo.png" )
+        jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) ),
+        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
     ]
 
     ratio = 1.0
