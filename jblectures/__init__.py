@@ -143,13 +143,14 @@ def updateGit( url, dirname, branch,  root ):
                     print( 'git pull:' + o.decode('utf-8') )
 
 def loadModules( cfg ):
+    print('Loading Modules')
     sys.path.append( cfg['MODULE_ROOT'] )    
     from .cd import cd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
     from .jbdocument import JBDocument
-    
+
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
     
