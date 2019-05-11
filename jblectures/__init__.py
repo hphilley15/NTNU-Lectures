@@ -118,7 +118,7 @@ defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
 
 def updateGit( url, dirname, branch,  root ):
-        with cd( root ):
+        with JBcd( root ):
             p = pathlib.Path( dirname )
             if not p.is_dir():
                 print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', GIT_CMD)
@@ -132,7 +132,7 @@ def updateGit( url, dirname, branch,  root ):
             else:
                 print("git directory exists")
 
-            with cd( dirname ):
+            with JBcd( dirname ):
                 print("Executing git pull")
                 o = None
                 try:
@@ -145,7 +145,7 @@ def updateGit( url, dirname, branch,  root ):
 def loadModules( cfg ):
     print('Loading Modules')
     sys.path.append( cfg['MODULE_ROOT'] )    
-    from .cd import cd
+    from .cd import JBcd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
@@ -169,7 +169,7 @@ def createDocEnvironment( params = {} ):
 
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
-    with cd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
         print("Executing npm install")
         try:
             o = subprocess.check_output("npm install", shell = True)
@@ -183,7 +183,7 @@ def createDocEnvironment( params = {} ):
         
     updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
-    with cd(ROOT_DIR):
+    with JBcd(ROOT_DIR):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
