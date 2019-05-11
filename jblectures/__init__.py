@@ -15,7 +15,7 @@ defaults = {}
 defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
-defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / defaults['TITLE']
+defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images"
 defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
@@ -156,7 +156,7 @@ def loadModules( cfg ):
 
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
-    
+    print('Title', cfg['TITLE'] )
     cfg['ROOT_DIR'].mkdir(parents = True, exist_ok = True )
 
     node = platform.node()
@@ -191,7 +191,8 @@ def createDocEnvironment( params = {} ):
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
 
-    shutil.copy( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , cfg['ORIG_ROOT'] / 'reveal.js' / 'css' / 'theme'  )
+    shutil.copy( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
+        cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
 
     cfg['IMAGES'] = [
         JBImage( name='robbi', width=162, height=138, localFile= cfg['MODULE_ROOT'] / 'assets' / "images" / "robbi.png" ),
