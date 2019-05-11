@@ -163,6 +163,8 @@ def createDocEnvironment( params = {} ):
             print('Using pip to install missing dependency', p)
             os.system("pip" + " install " + p )
 
+    loadModules( cfg )
+
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
     with cd( cfg['ROOT_DIR'] / 'reveal.js' ):
@@ -197,8 +199,6 @@ def createDocEnvironment( params = {} ):
             size: {width}px {height}px;
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
-
-    loadModules( cfg )
 
     doc = JBDocument( cfg['TITLE'], theme = cfg['THEME'], footer = cfg['revealSlideFooter'], header=cfg['revealSlideHeader'] )
     cfg['doc'] = doc
