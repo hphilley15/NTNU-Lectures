@@ -191,12 +191,16 @@ def createDocEnvironment( params = {} ):
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
 
-    shutil.copy( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
+    shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
+        cfg['IMAGES_DIR'] / 'robbi.png' )
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
+        cfg['IMAGES_DIR']  / 'logo.png')
 
     cfg['IMAGES'] = [
-        jbdata.JBImage( name='robbi', width=162, height=138, localFile= cfg['MODULE_ROOT'] / 'assets' / "images" / "robbi.png" ),
-        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= cfg['MODULE_ROOT'] / "assets" / "images" / "logo.png" )
+        jbdata.JBImage( name='robbi', width=162, height=138, localFile= cfg['IMAGES_DIR']  / "robbi.png" ),
+        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= cfg['IMAGES_DIR'] / "logo.png" )
     ]
 
     ratio = 1.0
