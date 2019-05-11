@@ -103,15 +103,16 @@ label start:
 
     
     jump {{startId}}
-        """,
+"""
 
-        'RenpyScriptTemplate': """
+defaults['RenpyScriptTemplate'] = """
 # Slide {{id}}
 label {{label}}:
     scene bg {{id}} with {{transition}}
 {{renpy}}
     jump {{right}}
 """
+
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
 
