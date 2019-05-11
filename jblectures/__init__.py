@@ -181,7 +181,7 @@ def createDocEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
-    for d in [ cfg['IMAGES_DIR'], cfg['VIDOES_DIR'], cfg['SOUNDS_DIR'], cfg['DATA_DIR'] ]:
+    for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'], cfg['DATA_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
