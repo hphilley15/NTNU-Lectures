@@ -186,7 +186,7 @@ def createDocEnvironment( params = {} ):
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
-    with jbcd.JBcd(ROOT_DIR):
+    with jbcd.JBcd( cfg['ROOT_DIR'] ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
