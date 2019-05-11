@@ -163,7 +163,7 @@ def createDocEnvironment( params = {} ):
             print('Using pip to install missing dependency', p)
             os.system("pip" + " install " + p )
 
-    updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", cfg['ROOT_DIR'] )
+    updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
     with cd( cfg['ROOT_DIR'] / 'reveal.js' ):
         print("Executing npm install")
@@ -177,7 +177,7 @@ def createDocEnvironment( params = {} ):
     for d in [ cfg['IMAGES_DIR'], cfg['VIDOES_DIR'], cfg['SOUNDS_DIR'], cfg['DATA_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", cfg['ROOT_DIR'] )
+    updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
     with cd(ROOT_DIR):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
