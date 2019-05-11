@@ -121,22 +121,22 @@ def updateGit( url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
             p = pathlib.Path( dirname )
             if not p.is_dir():
-                print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', GIT_CMD)
+                print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
                 if ( branch ):
                     bs = " --branch " + branch
                 else:
                     bs = ""
                     
-                cmd = GIT_CMD + " clone " + bs + " " + url + " " + dirname 
+                cmd = cfg['GIT_CMD'] + " clone " + bs + " " + url + " " + dirname 
                 os.system( cmd )
             else:
                 print("git directory exists")
 
-            with JBcd( dirname ):
+            with jbcd.JBcd( dirname ):
                 print("Executing git pull")
                 o = None
                 try:
-                    o = subprocess.check_output(GIT_CMD + " pull", shell=True)
+                    o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
                 except subprocess.CalledProcessError:
                     pass
                 if ( o ):
@@ -148,9 +148,6 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
     from .jbcd import JBcd
-    #print("Testing JBcd")
-    #with JBcd( '/content' ):
-    #    print('JBCD works')
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
@@ -172,13 +169,10 @@ def createDocEnvironment( params = {} ):
             os.system("pip" + " install " + p )
 
     loadModules( cfg )
-    print("Testing JBcd")
-    with jbcd.JBcd( '/content' ):
-        print('JBCD works')
 
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
-    with JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
         print("Executing npm install")
         try:
             o = subprocess.check_output("npm install", shell = True)
@@ -192,7 +186,7 @@ def createDocEnvironment( params = {} ):
         
     updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
-    with JBcd(ROOT_DIR):
+    with jbcd.JBcd(ROOT_DIR):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
