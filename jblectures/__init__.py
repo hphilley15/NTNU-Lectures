@@ -118,7 +118,7 @@ defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
 
 def updateGit( url, dirname, branch,  root ):
-        with JBcd( root ):
+        with jbcd.JBcd( root ):
             p = pathlib.Path( dirname )
             if not p.is_dir():
                 print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', GIT_CMD)
@@ -173,7 +173,7 @@ def createDocEnvironment( params = {} ):
 
     loadModules( cfg )
     print("Testing JBcd")
-    with JBcd( '/content' ):
+    with jbcd.JBcd( '/content' ):
         print('JBCD works')
 
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
