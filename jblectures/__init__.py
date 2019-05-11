@@ -15,10 +15,10 @@ defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / defaults['TITLE']
-defaults['MODULE_ROOT'] = ORIG_ROOT / 'NTNU-Lectures'
-defaults['IMAGES_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "images"
-defaults['VIDEOS_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "videos"
-defaults['SOUNDS_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "sounds"
+defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
+defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images"
+defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
+defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
 defaults['GIT_CMD'] = 'git'
 defaults['THEME'] = 'ntnuerc'
 defaults['INSTALL_DEPENDENCIES'] : True
