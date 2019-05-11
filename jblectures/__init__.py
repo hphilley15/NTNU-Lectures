@@ -147,8 +147,9 @@ def loadModules( cfg ):
     from .cd import cd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
-    from . jbmagics import JBMagics
-
+    from .jbmagics import JBMagics
+    from .jbdocument import JBDocument
+    
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
     
