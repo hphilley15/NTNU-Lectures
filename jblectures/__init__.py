@@ -9,6 +9,7 @@ import subprocess
 import glob
 import shutil
 import importlib
+import sys
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
