@@ -301,28 +301,5 @@ class JBMagics(Magics):
 
             cs.addRenpy(rp)
 
-def load_ipython_extension(ipython):
-    """
-    Any module file that define a function named `load_ipython_extension`
-    can be loaded via `%load_ext module.path` or be configured to be
-    autoloaded by IPython at startup time.
-    """
-    # This class must then be registered with a manually created instance,
-    # since its constructor has different arguments from the default:
-
-    ratio = 1.0
-    PAGE_SIZE = (int(1280 * ratio), int(720 * ratio))
-
-    cssStr = """
-        @page {{
-            size: {width}px {height}px;
-            margin: 0px;
-        }}""".format(width=PAGE_SIZE[0], height=PAGE_SIZE[1])
-
-    doc = JBDocument( )
-    magics = JBMagics(ipython, doc)
-    doc.user_ns = magics.shell.user_ns
-    ipython.register_magics(magics)
-    return doc
 
 
