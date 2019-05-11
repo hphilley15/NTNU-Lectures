@@ -5,7 +5,6 @@ import pathlib
 
 from ..jbslide import JBSlide
 
-
 class JBDocument:
     def __init__(self, title = '', styleSlides = '', background = '', footer = '', header = '' ):
         self.title = title
@@ -37,7 +36,7 @@ class JBDocument:
         if (theme ):
             self.theme = theme
             self.localTheme = self.makeRevealThemeLocal( theme )
-            self.cssSlides = wp.CSS( string = styleSlides )
+            self.cssSlides = wp.CSS( string = self.localTheme )
         else:
             self.theme = ''
             self.localTheme = ''
