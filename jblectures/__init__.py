@@ -148,13 +148,14 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
     from .jbcd import JBcd
-    print("Testing JBcd")
-    with JBcd( '/content' ):
-        print('JBCD works')
+    #print("Testing JBcd")
+    #with JBcd( '/content' ):
+    #    print('JBCD works')
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
     from .jbdocument import JBDocument
+    print('Loading of modules finished')
 
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
