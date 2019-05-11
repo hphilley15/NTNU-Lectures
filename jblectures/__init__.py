@@ -143,8 +143,10 @@ def updateGit( url, dirname, branch,  root ):
                     print( 'git pull:' + o.decode('utf-8') )
 
 def loadModules( cfg ):
-    print('Loading Modules')
-    sys.path.append( cfg['MODULE_ROOT'] )    
+    print('Loading Modules', cfg['MODULE_ROOT'])
+    if cfg['MODULE_ROOT'] not in sys.path:
+        sys.path.append( cfg['MODULE_ROOT'] )
+    print('sys.path', sys.path )    
     from .jbcd import JBcd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
