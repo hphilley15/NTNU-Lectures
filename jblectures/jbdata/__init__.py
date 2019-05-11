@@ -3,6 +3,11 @@ import pathlib
 
 cfg = {}
 
+def createJBDataEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg
+
 class JBData:
     """
     Class that encapsulates an image and its various representations.
@@ -137,7 +142,3 @@ class JBVideo(JBData):
         p = cfg['VIDEOS_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
         return str(  p.expanduser().resolve() )
 
-def createJBDataEnvironment( mycfg ):
-    global cfg
-    cfg = mycfg
-    return cfg
