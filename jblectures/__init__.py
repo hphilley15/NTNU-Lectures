@@ -191,7 +191,7 @@ def createDocEnvironment( params = {} ):
         for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
 
-    shutil.copy( cfg['ORIG_ROOT'] / 'html' / 'ntnuerc.css' , cfg['ORIG_ROOT'] / 'reveal.js' / 'css' / 'theme'  )
+    shutil.copy( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , cfg['ORIG_ROOT'] / 'reveal.js' / 'css' / 'theme'  )
 
     cfg['IMAGES'] = [
         JBImage( name='robbi', width=162, height=138, localFile= cfg['MODULE_ROOT'] / 'assets' / "images" / "robbi.png" ),
