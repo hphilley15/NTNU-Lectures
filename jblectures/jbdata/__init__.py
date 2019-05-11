@@ -1,4 +1,7 @@
 from urllib import request
+import pathlib
+
+cfg = {}
 
 class JBData:
     """
@@ -22,7 +25,8 @@ class JBData:
             f.write(data)
 
     def getDefaultFileName(self):
-        return DATA_DIR + "/{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{ext}".format(name=name, ext=self.ext)
+        return str(  p.expanduser().resolve() )
 
     def __init__(self, name, url=None, data=None, localFile=None, ext=".dat"):
         self.url = url
@@ -101,7 +105,8 @@ class JBImage(JBData):
             src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
-        return IMAGES_DIR + "/{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['IMAGES_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
+        return str(  p.expanduser().resolve() )
 
 
 class JBVideo(JBData):
@@ -129,4 +134,10 @@ class JBVideo(JBData):
             ydl.download([url])
 
     def getDefaultFileName(self):
-        return VIDEOS_DIR + "/{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['VIDEOS_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
+        return str(  p.expanduser().resolve() )
+
+def createJBDataEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

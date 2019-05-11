@@ -147,10 +147,16 @@ def loadModules( cfg ):
     if cfg['MODULE_ROOT'] not in sys.path:
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
+
     from .jbcd import JBcd
-    from .jbdata import JBImage, JBVideo
+
+    from .jbdata import createJBDataEnvironment, JBImage, JBVideo
+    cfg = jbdata.createJBDataEnvironment( cfg )
+    
     from .jbslide import JBSlide
+
     from .jbmagics import JBMagics
+
     from .jbdocument import JBDocument
     print('Loading of modules finished')
 
