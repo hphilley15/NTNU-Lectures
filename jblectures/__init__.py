@@ -195,8 +195,8 @@ def createDocEnvironment( params = {} ):
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
 
     cfg['IMAGES'] = [
-        JBImage( name='robbi', width=162, height=138, localFile= cfg['MODULE_ROOT'] / 'assets' / "images" / "robbi.png" ),
-        JBImage( name = 'logo', width=0, height=0, localFile= cfg['MODULE_ROOT'] / "assets" / "images" / "logo.png" )
+        jbdata.JBImage( name='robbi', width=162, height=138, localFile= cfg['MODULE_ROOT'] / 'assets' / "images" / "robbi.png" ),
+        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= cfg['MODULE_ROOT'] / "assets" / "images" / "logo.png" )
     ]
 
     ratio = 1.0
@@ -206,7 +206,7 @@ def createDocEnvironment( params = {} ):
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
 
-    doc = JBDocument( cfg['TITLE'], theme = cfg['THEME'], footer = cfg['revealSlideFooter'], header=cfg['revealSlideHeader'] )
+    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['THEME'], footer = cfg['revealSlideFooter'], header=cfg['revealSlideHeader'] )
     cfg['doc'] = doc
 
     return cfg
