@@ -145,7 +145,7 @@ def updateGit( url, dirname, branch,  root ):
 def loadModules( cfg ):
     print('Loading Modules')
     sys.path.append( cfg['MODULE_ROOT'] )    
-    from .cd import JBcd
+    from .jbcd import JBcd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
