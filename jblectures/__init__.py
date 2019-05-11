@@ -151,7 +151,6 @@ def loadModules( cfg ):
 
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
-    loadModules( cfg )
     
     cfg['ROOT_DIR'].mkdir(parents = True, exist_ok = True )
 
@@ -198,6 +197,8 @@ def createDocEnvironment( params = {} ):
             size: {width}px {height}px;
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
+
+    loadModules( cfg )
 
     doc = JBDocument( cfg['TITLE'], theme = cfg['THEME'], footer = cfg['revealSlideFooter'], header=cfg['revealSlideHeader'] )
     cfg['doc'] = doc
