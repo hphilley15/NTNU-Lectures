@@ -8,22 +8,21 @@ import platform
 import subprocess
 import glob
 import shutil
+import importlib
 
-defaults = {
-        'TITLE': '',
-        'HOME_DIR': pathlib.Path.home().resolve(),
-        'ORIG_ROOT': pathlib.Path('.').resolve(),
-        'ROOT_DIR': ORIG_ROOT / title,
-        'MODULE_ROOT' : ORIG_ROOT / 'NTNU-Lectures',
-        'IMAGES_DIR': ROOT_DIR / "reveal.js" / "assets" / "images",
-        'VIDEOS_DIR': ROOT_DIR / "reveal.js" / "assets" / "videos",
-        'SOUNDS_DIR': ROOT_DIR / "reveal.js" / "assets" / "sounds",
-        'DATA_DIR': ROOT_DIR / "reveal.js" / "assets" / "data",
-        
-        'GIT_CMD': 'git',
-        'THEME' : 'ntnuerc',
-        'INSTALL_DEPENDENCIES' : True,
-        'REVEAL_PRESENTATION_TEMPLATE': """
+defaults = {}
+defaults['TITLE'] = 'TempTitle'
+defaults['HOME_DIR'] = pathlib.Path.home().resolve()
+defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
+defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / defauts['TITLE']
+defaults['MODULE_ROOT'] = ORIG_ROOT / 'NTNU-Lectures'
+defaults['IMAGES_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "images"
+defaults['VIDEOS_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "videos"
+defaults['SOUNDS_DIR'] = ROOT_DIR / "reveal.js" / "assets" / "sounds"
+defaults['GIT_CMD'] = 'git'
+defaults['THEME'] = 'ntnuerc'
+defaults['INSTALL_DEPENDENCIES'] : True
+defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 <!doctype html>
 <html>
 	<head>
@@ -72,9 +71,8 @@ defaults = {
 		</script>
 	</body>
 </html>
-        """,
-
-        'REVEAL_SLIDE_TEMPLATE': """
+"""
+defaults['REVEAL_SLIDE_TEMPLATE'] = """
 <section id="{{id}}">
 
 {{slideHTML}}
@@ -86,9 +84,8 @@ defaults = {
 {{slideChildren}}
 
 </section>
-        """,
-
-        'RenpyInitTemplate' : """
+"""
+defaults['RenpyInitTemplate'] = """
 define jb = Character("Prof. Jacky Baltes", color="#06799f", callback=speaker("jb"))
 define gc = Character("Student G.C.", color="#069f67", callback=speaker("gc"))
 define msG = Character("Student G.", color="#069f67", callback=speaker("msG"))
@@ -114,21 +111,22 @@ label {{label}}:
     scene bg {{id}} with {{transition}}
 {{renpy}}
     jump {{right}}
-        """,
+"""
+defaults['RenpyTransition'] = "fade"
+defaults['RenpyInitLabel'] =  ".init"
 
-
-        'RenpyTransition': "fade",
-        'RenpyInitLabel': ".init",
-
-
-}
-
-def updateGit( url, dirname, root ):
+def updateGit( url, dirname, branch,  root ):
         with cd( root ):
             p = pathlib.Path( dirname )
             if not p.is_dir():
                 print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', GIT_CMD)
-                os.system( GIT_CMD + " clone " + url )
+                if ( branch ):
+                    bs = " --branch " + branch
+                else:
+                    bs = ""
+                    
+                cmd = GIT_CMD + " clone " + bs + " " + url + " " + dirname 
+                os.system( cmd )
             else:
                 print("git directory exists")
 
@@ -143,7 +141,6 @@ def updateGit( url, dirname, root ):
                     print( 'git pull:' + o.decode('utf-8') )
 
 def loadModules( cfg ):
-
     sys.path.append( cfg['MODULE_ROOT'] )    
     from .cd import cd
     from .jbdata import JBImage, JBVideo
@@ -159,7 +156,11 @@ def createDocEnvironment( params = {} ):
     node = platform.node()
 
     for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]:
-        os.system("pip" + " install " + p )
+        try:
+            importlib.import_module( p )
+        except ImportError:
+            print('Using pip to install missing dependency', p)
+            os.system("pip" + " install " + p )
 
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", cfg['ROOT_DIR'] )
 
