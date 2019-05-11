@@ -117,7 +117,7 @@ label {{label}}:
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
 
-def updateGit( url, dirname, branch,  root ):
+def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
             p = pathlib.Path( dirname )
             if not p.is_dir():
@@ -170,7 +170,7 @@ def createDocEnvironment( params = {} ):
 
     loadModules( cfg )
 
-    updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
+    updateGit( cfg, "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
     with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
         print("Executing npm install")
@@ -184,7 +184,7 @@ def createDocEnvironment( params = {} ):
     for d in [ cfg['IMAGES_DIR'], cfg['VIDOES_DIR'], cfg['SOUNDS_DIR'], cfg['DATA_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
+    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
     with jbcd.JBcd(ROOT_DIR):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
