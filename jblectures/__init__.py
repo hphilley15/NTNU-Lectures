@@ -147,7 +147,7 @@ def loadModules( cfg ):
     from .cd import cd
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
-    from . jbmagics import load_ipython_extension
+    from . jbmagics import JBMagics
 
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
