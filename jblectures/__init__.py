@@ -172,6 +172,9 @@ def createDocEnvironment( params = {} ):
             os.system("pip" + " install " + p )
 
     loadModules( cfg )
+    print("Testing JBcd")
+    with JBcd( '/content' ):
+        print('JBCD works')
 
     updateGit( "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
