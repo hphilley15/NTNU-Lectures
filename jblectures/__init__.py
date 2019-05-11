@@ -145,9 +145,12 @@ def updateGit( url, dirname, branch,  root ):
 def loadModules( cfg ):
     print('Loading Modules', cfg['MODULE_ROOT'])
     if cfg['MODULE_ROOT'] not in sys.path:
-        sys.path.append( cfg['MODULE_ROOT'] )
+        sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
     from .jbcd import JBcd
+    print("Testing JBcd")
+    with JBcd( '/content' ):
+        print('JBCD works')
     from .jbdata import JBImage, JBVideo
     from .jbslide import JBSlide
     from .jbmagics import JBMagics
