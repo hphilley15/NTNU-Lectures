@@ -241,7 +241,7 @@ def createDocEnvironment( params = {} ):
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
 
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['THEME'], 
+    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'], 
         background = cfg['REVEAL_SLIDE_BACKGROUND'],
         footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
     cfg['doc'] = doc
