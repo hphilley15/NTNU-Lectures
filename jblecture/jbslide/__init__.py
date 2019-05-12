@@ -1,3 +1,5 @@
+from ..jbdocument import JBDocument
+
 class JBSlide:
     def __init__(self, id, html, renpy, left = '', right = '', up = '', down = '', parent = '' ):
         self.id = id
@@ -15,7 +17,7 @@ class JBSlide:
 
         
     def __repr_reveal_html__( self ):
-        reveal = JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
+        reveal = jbdocument.JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
         return reveal
         
     def createJBImage( self, css ):
