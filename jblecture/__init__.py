@@ -256,7 +256,7 @@ def createEnvironment( params = {} ):
     return cfg
 
 def zipDirectory( archive, dir, root = '.' ):
-    with cd(root):
+    with jbcd.JBcd(root):
         xroot = dir
 
         with zipfile.ZipFile( archive, 'w', zipfile.ZIP_DEFLATED, True ) as zf:
