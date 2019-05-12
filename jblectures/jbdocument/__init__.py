@@ -44,7 +44,7 @@ class JBDocument:
 
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
-        themePath = pathlib.Path( ROOT_DIR / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
+        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
         with themePath.open() as f:
             css = f.read()
         for x, r in [("\.reveal \.slides section ", ".jb-render "),
@@ -193,3 +193,10 @@ class JBDocument:
         self.createSlideImages( rdir )
         self.createBackgroundsFile( rdir )
         self.createScriptFiles( rdir, startId )
+
+cfg = {}
+
+def createJBDocumentEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

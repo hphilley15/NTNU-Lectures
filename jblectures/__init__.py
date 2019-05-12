@@ -116,6 +116,7 @@ label {{label}}:
 
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
+defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
@@ -153,12 +154,16 @@ def loadModules( cfg ):
     from .jbdata import createJBDataEnvironment, JBImage, JBVideo
     cfg = jbdata.createJBDataEnvironment( cfg )
 
-    from .jbslide import JBSlide
+    from .jbslide import createJBSlideEnvironment, JBSlide
+    cfg = jbslide.createJBSlideEnvironment( cfg )
 
     from .jbmagics import JBMagics
 
-    from .jbdocument import JBDocument
+    from .jbdocument import createJBDocumentEnvironment, JBDocument
+    cfg = jbdocument.createJBDocumentEnvironment( cfg )
+
     print('Loading of modules finished')
+    return cfg
 
 def createDocEnvironment( params = {} ):
     cfg = { **defaults, **params }
@@ -174,7 +179,7 @@ def createDocEnvironment( params = {} ):
             print('Using pip to install missing dependency', p)
             os.system("pip" + " install " + p )
 
-    loadModules( cfg )
+    cfg = loadModules( cfg )
 
     updateGit( cfg, "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
