@@ -16,8 +16,8 @@ class JBSlide:
 
         
     def __repr_reveal_html__( self ):
-        from ..jbdocument import JBDocument
-        reveal = jbdocument.JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
+        from ..jbdocument import JBDocument as JBD
+        reveal = JBD.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
         return reveal
         
     def createJBImage( self, css ):
