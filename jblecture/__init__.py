@@ -99,7 +99,7 @@ defaults['REVEAL_SLIDE_FOOTER'] = """
 </div>
 """
 
-defaults['REVEAL_SLIDE_HEADER'] = """
+defaults['REVEAL_SLIDE_HEADER'] = """  
 """
 
 defaults['REVEAL_SLIDE_BACKGROUND'] = """
