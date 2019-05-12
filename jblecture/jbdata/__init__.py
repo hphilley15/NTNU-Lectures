@@ -135,7 +135,7 @@ class JBVideo(JBData):
         p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-def createJBDataEnvironment( mycfg ):
+def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg
     return cfg

@@ -33,7 +33,7 @@ class JBSlide:
 
 cfg = {}
 
-def createJBSlideEnvironment( mycfg ):
+def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg
     return cfg

@@ -171,16 +171,16 @@ def loadModules( cfg ):
 
     from .jbcd import JBcd
 
-    from .jbdata import createJBDataEnvironment, JBImage, JBVideo
+    from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
-    from .jbslide import createJBSlideEnvironment, JBSlide
+    from .jbslide import createEnvironment, JBSlide
     cfg = jbslide.createEnvironment( cfg )
 
-    from .jbmagics import JBMagics
+    from .jbmagics import createEnvironment, JBMagics
     cfg = jbmagics.createEnvironment( cfg )
 
-    from .jbdocument import createJBDocumentEnvironment, JBDocument
+    from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
@@ -259,7 +259,7 @@ def load_ipython_extension(ipython):
     # since its constructor has different arguments from the default:
 
     global cfg
-    cfg = createLectureEnvironment( {} )
+    cfg = createEnvironment( {} )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
