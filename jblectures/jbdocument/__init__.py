@@ -6,8 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self, title = '', styleSlides = '', background = '', footer = '', header = '' ):
-        self.title = title
+    def __init__(self, title = '', theme='', background = '', footer = '', header = '' ):
         self.slides = []
         self.renpy = []
       
@@ -19,9 +18,11 @@ class JBDocument:
         
         self.user_ns = {}
         
-        self.footer = footer
-        self.header = header
-        self.background = background
+        self.setTitle( title )
+        self.setTheme( theme )
+        self.setFooter( footer )
+        self.setHeader( header )
+        self.setBackground( background )
 
     def setTitle(self, title ):
         self.title = title
@@ -32,6 +33,9 @@ class JBDocument:
     def setHeader(self, header):
         self.header = header
 
+    def setBackground( self, bg ):
+        self.background = bg
+        
     def setTheme(self, theme ):
         if (theme ):
             self.theme = theme
