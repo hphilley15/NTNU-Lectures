@@ -2,6 +2,7 @@ from IPython.core import magic_arguments
 from IPython.core.magic import line_magic, cell_magic, line_cell_magic, Magics, magics_class
 from IPython.core.display import HTML, Image, Pretty, Javascript, display
 from IPython.utils.capture import capture_output
+from docutils import core, io
 
 from ..jbdocument import JBDocument
 
@@ -139,7 +140,7 @@ class JBMagics(Magics):
 
     @cell_magic
     def reveal_html(self, line, cell):
-        it = self.embedCellHTML(cell, line, 'jb-output', localTheme)
+        it = self.embedCellHTML(cell, line, 'jb-output', self.doc.getLocalTheme())
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
@@ -147,7 +148,7 @@ class JBMagics(Magics):
 
         md = self.html_body(input_string=cell)
 
-        it = self.embedCellHTML(md, line, 'jb-output', localTheme)
+        it = self.embedCellHTML(md, line, 'jb-output', self.doc.getLocalTheme())
 
         display(HTML(self.instTemplate(it, {})))
 
@@ -230,7 +231,7 @@ class JBMagics(Magics):
             html = html + self.embedCellHTML(highlight(cell, PythonLexer(),
                                                        HtmlFormatter(cssstyles="color:#101010;display=inline-block;",
                                                                      noclasses=True)), mystyle, 'jb-input-code',
-                                             localTheme) + '\n'
+                                             self.doc.getLocalTheme()) + '\n'
             html = html + "</div>" + "\n"
         # print("html", html)
 
@@ -268,7 +269,7 @@ class JBMagics(Magics):
                                   args.footer)
 
         # print(t)
-        display(HTML('<style>\n' + localTheme + '\n' + '</style>' + '\n' + slide.html))
+        display(HTML('<style>\n' + self.doc.getLocalTheme() + '\n' + '</style>' + '\n' + slide.html))
         # display( Image(slide.image ) )
 
     @magic_arguments.magic_arguments()
