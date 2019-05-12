@@ -76,6 +76,11 @@ class JBData:
         self.clearCache()
         return ret
 
+    def readData( self ):
+        if ( self.localFile ):
+            fname = self.localFile
+            self.data = sReadData( fname )
+            
     @staticmethod
     def getBase64Data(fname):
         data = JBData.sReadData(fname)
@@ -98,11 +103,12 @@ class JBImage(JBData):
                     port=HTTP_PORT, name=self.name, style=style)
 
     def __repr_html_url__(self, style=""):
-        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
+#        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
+        return '{src}'.format(src=self.url )
 
     def __repr_html_b64__(self, style=""):
-        return '<img src="data:image/png;base64,{src}" style="{style}" alt="{name}"/>'.format(
-            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
+        return 'data:image/png;base64,{src}'.format(src=JBData.getBase64Data( self.localFile )
+#            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
         p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
