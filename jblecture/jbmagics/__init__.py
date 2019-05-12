@@ -2,11 +2,14 @@ from IPython.core import magic_arguments
 from IPython.core.magic import line_magic, cell_magic, line_cell_magic, Magics, magics_class
 from IPython.core.display import HTML, Image, Pretty, Javascript, display
 from IPython.utils.capture import capture_output
+
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
+
 from docutils import core, io
 
 from ..jbdocument import JBDocument
-
-import __main__
 
 @magics_class
 class JBMagics(Magics):
@@ -228,10 +231,10 @@ class JBMagics(Magics):
         # print(args.echo)
         if (args.echo):
             html = html + '<div class="jb-input jb-render jb-code" style="text-align:center">' + '\n'
-            html = html + self.embedCellHTML(highlight(cell, PythonLexer(),
-                                                       HtmlFormatter(cssstyles="color:#101010;display=inline-block;",
-                                                                     noclasses=True)), mystyle, 'jb-input-code',
-                                             self.doc.createLocalTheme()) + '\n'
+            html = html + self.embedCellHTML( highlight(cell, PythonLexer(),
+                                                        HtmlFormatter(cssstyles="color:#101010;display=inline-block;",
+                                                                      noclasses=True)), mystyle, 'jb-input-code',
+                                              self.doc.createLocalTheme()) + '\n'
             html = html + "</div>" + "\n"
         # print("html", html)
 
