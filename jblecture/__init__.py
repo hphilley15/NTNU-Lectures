@@ -185,7 +185,7 @@ def loadModules( cfg ):
     print('Loading of modules finished')
     return cfg
 
-def createDocEnvironment( params = {} ):
+def createLectureEnvironment( params = {} ):
     cfg = { **defaults, **params }
     print('Title', cfg['TITLE'] )
     cfg['ROOT_DIR'].mkdir(parents = True, exist_ok = True )
@@ -257,8 +257,9 @@ def load_ipython_extension(ipython):
     # This class must then be registered with a manually created instance,
     # since its constructor has different arguments from the default:
 
-    cfg = createDocEnvironment()
-    magics = JBMagics( ipython, cfg['doc'] )
+    global cfg
+    cfg = createLectureEnvironment( {} )
+    magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     doc.user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
     

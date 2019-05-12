@@ -264,7 +264,8 @@ class JBMagics(Magics):
         if args.output:
             self.shell.user_ns[args.output] = html
 
-        slide = self.doc.addSlide(args.id, html, args.background, args.header, args.footer)
+        slide = self.doc.addSlide(args.id, html, args.background, args.header, 
+                                  args.footer)
 
         # print(t)
         display(HTML('<style>\n' + localTheme + '\n' + '</style>' + '\n' + slide.html))
