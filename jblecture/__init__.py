@@ -260,6 +260,6 @@ def load_ipython_extension(ipython):
     global cfg
     cfg = createLectureEnvironment( {} )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
-    doc.user_ns = magics.shell.user_ns
+    cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
     
