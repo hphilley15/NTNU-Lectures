@@ -39,13 +39,14 @@ class JBDocument:
     def setTheme(self, theme ):
         if (theme ):
             self.theme = theme
-            self.localTheme = self.makeRevealThemeLocal( theme )
-            self.cssSlides = wp.CSS( string = self.localTheme )
+            self.cssSlides = wp.CSS( string = self.createLocalTheme() )
         else:
             self.theme = ''
-            self.localTheme = ''
             self.cssSlides = ''
 
+    def createLocalTheme( self ):
+        return self.makeRevealThemeLocal( self.theme )
+            
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
         tname = cfg['REVEAL_THEME'] + '.css' 
