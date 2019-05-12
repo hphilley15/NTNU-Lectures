@@ -17,7 +17,7 @@ class JBSlide:
         
     def __repr_reveal_html__( self ):
         from ..jbdocument import JBDocument
-        reveal = ..jbdocument.JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
+        reveal = jbdocument.JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
         return reveal
         
     def createJBImage( self, css ):
@@ -25,7 +25,7 @@ class JBSlide:
         doc = html.render( stylesheets = [ css ] )
         png, width, height = doc.write_png( target=None )
         from ..jbdata import JBImage
-        img = ..jbdata.JBImage( self.id, width, height, data = png, localFile= cfg['ROOT_DIR'] / self.getImageFileName() )
+        img = jbdata.JBImage( self.id, width, height, data = png, localFile= cfg['ROOT_DIR'] / self.getImageFileName() )
         return img
 
     def getImageFileName( self ):
