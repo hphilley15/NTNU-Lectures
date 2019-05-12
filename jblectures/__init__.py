@@ -21,8 +21,11 @@ defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images
 defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
 defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
 defaults['GIT_CMD'] = 'git'
-defaults['THEME'] = 'ntnuerc'
-defaults['INSTALL_DEPENDENCIES'] : True
+
+
+# Reveal.js Parameters
+defaults['REVEAL_THEME'] = 'ntnuerc'
+
 defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 <!doctype html>
 <html>
@@ -33,7 +36,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 		<title>{{title}}</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/{{THEME}}.css">
+		<link rel="stylesheet" href="css/theme/{{ cfg['REVEAL_THEME'] }}.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -86,6 +89,23 @@ defaults['REVEAL_SLIDE_TEMPLATE'] = """
 
 </section>
 """
+
+defaults['REVEAL_SLIDE_FOOTER'] = """
+<div class="jb-footer-left">
+    <img class="jb-footer-left-img plain" src="{{ logo.url }}" alt="{{logo.name}}" />
+</div>
+<div class="jb-footer-right">
+    <img class="jb-footer-right-img plain" src="{{ robbi.url }}" alt="{{robbi.name}}" />
+</div>
+"""
+
+defaults['REVEAL_SLIDE_HEADER'] = """
+"""
+
+defaults['REVEAL_SLIDE_BACKGROUND'] = """
+"""
+
+# RENPY Parameters
 defaults['RenpyInitTemplate'] = """
 define jb = Character("Prof. Jacky Baltes", color="#06799f", callback=speaker("jb"))
 define gc = Character("Student G.C.", color="#069f67", callback=speaker("gc"))
@@ -221,7 +241,9 @@ def createDocEnvironment( params = {} ):
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
 
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['THEME'], footer = cfg['revealSlideFooter'], header=cfg['revealSlideHeader'] )
+    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['THEME'], 
+        background = cfg['REVEAL_SLIDE_BACKGROUND'],
+        footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
     cfg['doc'] = doc
 
     return cfg

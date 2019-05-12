@@ -44,7 +44,7 @@ class JBDocument:
 
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
-        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
+        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / cfg['REVEAL_THEME'] + '.css' ).resolve()
         with themePath.open() as f:
             css = f.read()
         for x, r in [("\.reveal \.slides section ", ".jb-render "),
@@ -141,19 +141,13 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        presentation = self.instTemplate( REVEAL_PRESENTATION_TEMPLATE, { 'title': self.title, 'slides': slides } )
+        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': self.title, 'slides': slides } )
         return presentation
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
             f.write( html )
-        #enc = base64.b64encode( bytes(html, 'utf-8' ) ).decode('utf-8')
-        
-        #lnk1 =  '<p><a href="data:text/html;base64,{data}" target="_blank">Open reveal slide show </a></p>\n'.format( title=self.title, data=enc )
-        #lnk2 =  '<p><a href="" download="{title}_reveal.html">Download reveal slide show </a></p>\n'.format( title=self.title, data=enc )
-        
-        #display( HTML( lnk1 + lnk2 ) )
     
     def createSlideImages(self, rdir ):
         for s in self.slides:
