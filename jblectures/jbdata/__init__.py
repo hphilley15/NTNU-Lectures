@@ -25,13 +25,13 @@ class JBData:
             f.write(data)
 
     def getDefaultFileName(self):
-        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def __init__(self, name, url=None, data=None, localFile=None, ext=".dat"):
+    def __init__(self, name, url=None, data=None, localFile=None, suffix=".dat"):
         self.url = url
         self.name = name
-        self.ext = ext
+        self.suffix = suffix
         self.data = None
         if data:
             if not localFile:
@@ -49,7 +49,8 @@ class JBData:
         elif localFile:
             data = JBData.sReadData(localFile)
             print('localFile', localFile)
-            self.localFile, self.ext = pathlib.Path(localFile)
+            self.suffix = pathlib.Path( localFile ).suffix
+            self.localFile = pathlib.Path(localFile)
         else:
             uploaded = files.upload()
             for fn in uploaded.keys():
@@ -86,13 +87,13 @@ class JBData:
 
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBImage, self).__init__(name, url, data, localFile, ext=".png")
+        super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
         self.width = width
         self.height = height
 
     def __repr_html_file__(self, style=""):
-        return '<img src="http://localhost:{port}/{src}{ext}" style="{style}" alt="{name}"/>'.format(src=self.localFile,
-                    ext=self.ext, port=HTTP_PORT, name=self.name, style=style)
+        return '<img src="http://localhost:{port}/{src}" style="{style}" alt="{name}"/>'.format(src=self.localFile,
+                    port=HTTP_PORT, name=self.name, style=style)
 
     def __repr_html_url__(self, style=""):
         return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
@@ -102,27 +103,27 @@ class JBImage(JBData):
             src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
-        p = cfg['IMAGES_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, ext=".mp4")
+        super(JBVideo, self).__init__(name, url, data, localFile, suffix=".mp4")
         self.width = width
         self.height = height
 
     def __repr_html_localhost__(self, style=""):
         return """<video controls>
-                    <source src="http://localhost:{port}/{src}{ext}" style="{style}">'
+                    <source src="http://localhost:{port}/{src}" style="{style}">'
                     </video>
-                 """.format(src=self.localFile, ext=self.ext, port=HTTP_PORT, name=self.name, style=style)
+                 """.format(src=self.localFile, port=HTTP_PORT, name=self.name, style=style)
 
     def __repr_html_file__(self, style=""):
         return """<video controls>
-                    <source src="{src}{ext}" style="{style}">'
+                    <source src="{src}" style="{style}">'
                     </video>
-                 """.format(src=self.localFile, ext=self.ext, port=HTTP_PORT, name=self.name, style=style)
+                 """.format(src=self.localFile, port=HTTP_PORT, name=self.name, style=style)
 
     def readDataFromURL(self, url, localFile=None):
         print('Reading video from', url)
@@ -131,7 +132,7 @@ class JBVideo(JBData):
             ydl.download([url])
 
     def getDefaultFileName(self):
-        p = cfg['VIDEOS_DIR'] /  "{name}{ext}".format(name=name, ext=self.ext)
+        p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 def createJBDataEnvironment( mycfg ):
