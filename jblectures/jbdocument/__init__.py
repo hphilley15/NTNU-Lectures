@@ -35,7 +35,7 @@ class JBDocument:
 
     def setBackground( self, bg ):
         self.background = bg
-        
+
     def setTheme(self, theme ):
         if (theme ):
             self.theme = theme
@@ -48,7 +48,8 @@ class JBDocument:
 
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
-        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / cfg['REVEAL_THEME'] + '.css' ).resolve()
+        tname = cfg['REVEAL_THEME'] + '.css' 
+        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / tname ).resolve()
         with themePath.open() as f:
             css = f.read()
         for x, r in [("\.reveal \.slides section ", ".jb-render "),
