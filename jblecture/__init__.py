@@ -172,21 +172,21 @@ def loadModules( cfg ):
     from .jbcd import JBcd
 
     from .jbdata import createJBDataEnvironment, JBImage, JBVideo
-    cfg = jbdata.createJBDataEnvironment( cfg )
+    cfg = jbdata.createEnvironment( cfg )
 
     from .jbslide import createJBSlideEnvironment, JBSlide
-    cfg = jbslide.createJBSlideEnvironment( cfg )
+    cfg = jbslide.createEnvironment( cfg )
 
     from .jbmagics import JBMagics
-    cfg = jbslide.createJBMagicsEnvironment( cfg )
+    cfg = jbmagics.createEnvironment( cfg )
 
     from .jbdocument import createJBDocumentEnvironment, JBDocument
-    cfg = jbdocument.createJBDocumentEnvironment( cfg )
+    cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
     return cfg
 
-def createLectureEnvironment( params = {} ):
+def createEnvironment( params = {} ):
     cfg = { **defaults, **params }
     print('Title', cfg['TITLE'] )
     cfg['ROOT_DIR'].mkdir(parents = True, exist_ok = True )

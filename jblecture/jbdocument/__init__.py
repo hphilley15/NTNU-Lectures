@@ -63,7 +63,6 @@ class JBDocument:
     def sInstTemplate( text, vars ):
         prev = ""
         current = text
-        #vars = { **self.user_ns, **vars }
         while( prev != current ):
             t = Template( current )
             prev = current
@@ -195,7 +194,7 @@ class JBDocument:
 
 cfg = {}
 
-def createJBDocumentEnvironment( mycfg ):
+def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg
     return cfg
