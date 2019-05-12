@@ -92,10 +92,10 @@ defaults['REVEAL_SLIDE_TEMPLATE'] = """
 
 defaults['REVEAL_SLIDE_FOOTER'] = """
 <div class="jb-footer-left">
-    <img class="jb-footer-left-img plain" src="{{ logo.url }}" alt="{{logo.name}}" />
+    <img class="jb-footer-left-img plain" src="{{ cfg['ASSETS']['logo'].url }}" alt="{{cfg['ASSETS']['logo'].name}}" />
 </div>
 <div class="jb-footer-right">
-    <img class="jb-footer-right-img plain" src="{{ robbi.url }}" alt="{{robbi.name}}" />
+    <img class="jb-footer-right-img plain" src="{{ cfg['ASSETS']['robbi'].url }}" alt="{{cfg['ASSETS']['robbi'].name}}" />
 </div>
 """
 
@@ -229,10 +229,10 @@ def createLectureEnvironment( params = {} ):
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['IMAGES_DIR']  / 'logo.png')
 
-    cfg['IMAGES'] = [
-        jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) ),
-        jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
-    ]
+    cfg['ASSETS'] = {}
+
+    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
+    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
 
     ratio = 1.0
     cssStr = """
