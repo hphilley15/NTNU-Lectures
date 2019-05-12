@@ -15,9 +15,9 @@ class JBData:
         return data
 
     @staticmethod
-    def sReadData(name):
+    def sReadData( fname ):
         print('JBData.sReadData', 'Reading file', fname)
-        with open(name, "rb") as f:
+        with open( fname, "rb") as f:
             data = f.read()
         return data
 
