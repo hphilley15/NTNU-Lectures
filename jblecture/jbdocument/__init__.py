@@ -70,7 +70,7 @@ class JBDocument:
         return current 
       
     def instTemplate( self, text, vars ):
-        return JBDocument.sInstTemplate( text, { **self.user_ns, **cfg, **vars } )
+        return JBDocument.sInstTemplate( text, { **cfg, **self.user_ns, **vars } )
         
     def findSlideIndex( self, id ):
         #print('Looking for', id)
