@@ -6,8 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self, title = '', styleSlides = '', background = '', footer = '', header = '' ):
-        self.title = title
+    def __init__(self, title = '', theme='', background = '', footer = '', header = '' ):
         self.slides = []
         self.renpy = []
       
@@ -19,9 +18,11 @@ class JBDocument:
         
         self.user_ns = {}
         
-        self.footer = footer
-        self.header = header
-        self.background = background
+        self.setTitle( title )
+        self.setTheme( theme )
+        self.setFooter( footer )
+        self.setHeader( header )
+        self.setBackground( background )
 
     def setTitle(self, title ):
         self.title = title
@@ -32,19 +33,24 @@ class JBDocument:
     def setHeader(self, header):
         self.header = header
 
+    def setBackground( self, bg ):
+        self.background = bg
+
     def setTheme(self, theme ):
         if (theme ):
             self.theme = theme
-            self.localTheme = self.makeRevealThemeLocal( theme )
-            self.cssSlides = wp.CSS( string = self.localTheme )
+            self.cssSlides = wp.CSS( string = self.createLocalTheme() )
         else:
             self.theme = ''
-            self.localTheme = ''
             self.cssSlides = ''
 
+    def createLocalTheme( self ):
+        return self.makeRevealThemeLocal( self.theme )
+            
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
-        themePath = pathlib.Path( ROOT_DIR / 'reveal.js' / 'css' / 'theme' / revealTheme + '.css' ).resolve()
+        tname = cfg['REVEAL_THEME'] + '.css' 
+        themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / tname ).resolve()
         with themePath.open() as f:
             css = f.read()
         for x, r in [("\.reveal \.slides section ", ".jb-render "),
@@ -58,7 +64,6 @@ class JBDocument:
     def sInstTemplate( text, vars ):
         prev = ""
         current = text
-        #vars = { **self.user_ns, **vars }
         while( prev != current ):
             t = Template( current )
             prev = current
@@ -66,7 +71,7 @@ class JBDocument:
         return current 
       
     def instTemplate( self, text, vars ):
-        return JBDocument.sInstTemplate( text, { **self.user_ns, **vars } )
+        return JBDocument.sInstTemplate( text, { **cfg, **self.user_ns, **vars } )
         
     def findSlideIndex( self, id ):
         #print('Looking for', id)
@@ -141,19 +146,13 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        presentation = self.instTemplate( REVEAL_PRESENTATION_TEMPLATE, { 'title': self.title, 'slides': slides } )
+        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': self.title, 'slides': slides } )
         return presentation
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
             f.write( html )
-        #enc = base64.b64encode( bytes(html, 'utf-8' ) ).decode('utf-8')
-        
-        #lnk1 =  '<p><a href="data:text/html;base64,{data}" target="_blank">Open reveal slide show </a></p>\n'.format( title=self.title, data=enc )
-        #lnk2 =  '<p><a href="" download="{title}_reveal.html">Download reveal slide show </a></p>\n'.format( title=self.title, data=enc )
-        
-        #display( HTML( lnk1 + lnk2 ) )
     
     def createSlideImages(self, rdir ):
         for s in self.slides:
@@ -193,3 +192,10 @@ class JBDocument:
         self.createSlideImages( rdir )
         self.createBackgroundsFile( rdir )
         self.createScriptFiles( rdir, startId )
+
+cfg = {}
+
+def createEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

@@ -2,6 +2,7 @@ from IPython.core import magic_arguments
 from IPython.core.magic import line_magic, cell_magic, line_cell_magic, Magics, magics_class
 from IPython.core.display import HTML, Image, Pretty, Javascript, display
 from IPython.utils.capture import capture_output
+from docutils import core, io
 
 from ..jbdocument import JBDocument
 
@@ -14,7 +15,7 @@ class JBMagics(Magics):
         self.doc = doc
 
     def instTemplate(self, text, vars):
-        return JBDocument.sInstTemplate(text, {**self.shell.user_ns, **vars})
+        return JBDocument.sInstTemplate(text, {**cfg, **self.shell.user_ns, **vars})
 
     def html_parts(self, input_string, source_path=None, destination_path=None,
                    input_encoding='unicode', doctitle=True,
@@ -139,7 +140,7 @@ class JBMagics(Magics):
 
     @cell_magic
     def reveal_html(self, line, cell):
-        it = self.embedCellHTML(cell, line, 'jb-output', localTheme)
+        it = self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
@@ -147,7 +148,7 @@ class JBMagics(Magics):
 
         md = self.html_body(input_string=cell)
 
-        it = self.embedCellHTML(md, line, 'jb-output', localTheme)
+        it = self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
 
         display(HTML(self.instTemplate(it, {})))
 
@@ -230,7 +231,7 @@ class JBMagics(Magics):
             html = html + self.embedCellHTML(highlight(cell, PythonLexer(),
                                                        HtmlFormatter(cssstyles="color:#101010;display=inline-block;",
                                                                      noclasses=True)), mystyle, 'jb-input-code',
-                                             localTheme) + '\n'
+                                             self.doc.createLocalTheme()) + '\n'
             html = html + "</div>" + "\n"
         # print("html", html)
 
@@ -264,10 +265,11 @@ class JBMagics(Magics):
         if args.output:
             self.shell.user_ns[args.output] = html
 
-        slide = self.doc.addSlide(args.id, html, args.background, args.header, args.footer)
+        slide = self.doc.addSlide(args.id, html, args.background, args.header, 
+                                  args.footer)
 
         # print(t)
-        display(HTML('<style>\n' + localTheme + '\n' + '</style>' + '\n' + slide.html))
+        display(HTML('<style>\n' + self.doc.createLocalTheme() + '\n' + '</style>' + '\n' + slide.html))
         # display( Image(slide.image ) )
 
     @magic_arguments.magic_arguments()
@@ -301,28 +303,7 @@ class JBMagics(Magics):
 
             cs.addRenpy(rp)
 
-def load_ipython_extension(ipython):
-    """
-    Any module file that define a function named `load_ipython_extension`
-    can be loaded via `%load_ext module.path` or be configured to be
-    autoloaded by IPython at startup time.
-    """
-    # This class must then be registered with a manually created instance,
-    # since its constructor has different arguments from the default:
-
-    ratio = 1.0
-    PAGE_SIZE = (int(1280 * ratio), int(720 * ratio))
-
-    cssStr = """
-        @page {{
-            size: {width}px {height}px;
-            margin: 0px;
-        }}""".format(width=PAGE_SIZE[0], height=PAGE_SIZE[1])
-
-    doc = JBDocument( )
-    magics = JBMagics(ipython, doc)
-    doc.user_ns = magics.shell.user_ns
-    ipython.register_magics(magics)
-    return doc
-
-
+def createEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

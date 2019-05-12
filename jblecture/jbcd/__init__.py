@@ -1,8 +1,7 @@
-import subprocess
 import pathlib
 import os
 
-class cd:
+class JBcd:
     """Context manager for changing the current working directory"""
     def __init__(self, newPath):
         self.newPath = pathlib.Path(newPath).expanduser().resolve()

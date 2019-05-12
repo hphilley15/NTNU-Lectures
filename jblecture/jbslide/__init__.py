@@ -15,14 +15,14 @@ class JBSlide:
 
         
     def __repr_reveal_html__( self ):
-        reveal = JBDocument.sInstTemplate( REVEAL_SLIDE_TEMPLATE, { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
+        reveal = JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
         return reveal
         
     def createJBImage( self, css ):
         html = wp.HTML( string = self.html )
         doc = html.render( stylesheets = [ css ] )
         png, width, height = doc.write_png( target=None )
-        img = JBImage( self.id, width, height, data = png, localFile= ROOT_DIR / self.getImageFileName() )
+        img = JBImage( self.id, width, height, data = png, localFile= cfg['ROOT_DIR'] / self.getImageFileName() )
         return img
 
     def getImageFileName( self ):
@@ -30,3 +30,10 @@ class JBSlide:
       
     def addRenpy( self, txt ):
         self.renpy = self.renpy + '\n' + txt
+
+cfg = {}
+
+def createEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg
