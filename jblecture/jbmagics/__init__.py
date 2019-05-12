@@ -302,5 +302,7 @@ class JBMagics(Magics):
 
             cs.addRenpy(rp)
 
-
-
+def createJBMagicsEnvironment( mycfg ):
+    global cfg
+    cfg = mycfg
+    return cfg

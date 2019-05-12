@@ -178,6 +178,7 @@ def loadModules( cfg ):
     cfg = jbslide.createJBSlideEnvironment( cfg )
 
     from .jbmagics import JBMagics
+    cfg = jbslide.createJBMagicsEnvironment( cfg )
 
     from .jbdocument import createJBDocumentEnvironment, JBDocument
     cfg = jbdocument.createJBDocumentEnvironment( cfg )
