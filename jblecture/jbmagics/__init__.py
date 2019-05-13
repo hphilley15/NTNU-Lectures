@@ -1,3 +1,5 @@
+import base64
+
 from IPython.core import magic_arguments
 from IPython.core.magic import line_magic, cell_magic, line_cell_magic, Magics, magics_class
 from IPython.core.display import HTML, Image, Pretty, Javascript, display
@@ -10,6 +12,7 @@ from pygments.formatters import HtmlFormatter
 from docutils import core, io
 
 from ..jbdocument import JBDocument
+
 
 @magics_class
 class JBMagics(Magics):
