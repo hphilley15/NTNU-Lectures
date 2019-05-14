@@ -283,7 +283,6 @@ def downloadDir( zFile, dir, root = None  ):
     if cfg['GOOGLE_COLAB']:
         files.download( zFile )
 
-
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
@@ -315,3 +314,55 @@ def addJBData( name, url=None, data=None, localFile=None, suffix=".dat" ):
     cfg['ASSETS'][dat.name] = dat
     return dat
 
+tableT = """
+<table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
+cellspacing="2"; border-color: #aaaaaa>
+{0}
+<tbody>
+{1}
+</tbody>
+</table>
+"""
+
+trT = """
+<tr>
+{0}
+</tr>
+"""
+
+tdT = """
+<td style="vertical-align: top;">
+{0}
+</td>
+"""
+
+thT = """
+<th>
+{0}
+</th>
+"""
+
+def createTable( data, index = None, columns = None, tableT = tableT, thT = thT, tdT = tdT, trT = trT ):
+    if columns:
+        cdata = """
+        <thead>
+          <tr>
+        """
+        for c in columns:
+            cdata = cdata + thT.format(c)
+        cdata = cdata + """
+          </tr>
+        </thead>
+        """
+    else:
+        cdata = ""
+
+    bdata = ""
+    for i,r in enumerate( data ):
+        rdata = ""
+        for j,d in enumerate( r ):
+            rdata = rdata + tdT.format( d )
+        row = trT.format( rdata )
+        bdata = bdata + row
+    table = tableT.format( cdata, bdata )
+    return table
