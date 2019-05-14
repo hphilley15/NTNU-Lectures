@@ -368,3 +368,7 @@ body {
 .jb-highlight {
     color: #ffc000
 }
+
+.jb-text {
+  text-align: left;
+}
