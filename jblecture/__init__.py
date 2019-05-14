@@ -10,6 +10,7 @@ import glob
 import shutil
 import importlib
 import sys
+import zipfile
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -22,6 +23,11 @@ defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos
 defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
 defaults['GIT_CMD'] = 'git'
 
+defaults['GOOGLE_COLAB'] = False
+try:
+    from google.colab import files
+except ImportError:
+    defaults['GOOGLE_COLAB'] = False
 
 # Reveal.js Parameters
 defaults['REVEAL_THEME'] = 'ntnuerc'
@@ -36,7 +42,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 		<title>{{title}}</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/{{ cfg['REVEAL_THEME'] }}.css">
+		<link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -248,6 +254,33 @@ def createEnvironment( params = {} ):
     cfg['doc'] = doc
 
     return cfg
+
+def zipDirectory( archive, dir, root = '.' ):
+    with jbcd.JBcd(root):
+        xroot = dir
+
+        with zipfile.ZipFile( archive, 'w', zipfile.ZIP_DEFLATED, True ) as zf:
+            zf.Debug = 3
+            for root, dirs, files in os.walk( xroot ):
+                #print(root, dirs, files )
+
+                for f in files:
+                    zf.write( pathlib.Path( root ).joinpath( f ) )
+
+                for rdir in [ '.git', 'node_modules' ]:
+                    if ( rdir in dirs ):
+                        dirs.remove( rdir )
+
+        #print('Zipping Files', filesList)
+
+        with zipfile.ZipFile( archive, 'r' ) as zf:
+            zf.namelist()
+
+def downloadDir( zFile, dir, root = None  ):        
+    zipDirectory(  zFile, dir, root )
+    if cfg['GOOGLE_COLAB']:
+        files.download( zFile )
+
 
 def load_ipython_extension(ipython):
     """
