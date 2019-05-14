@@ -367,4 +367,4 @@ def createTable( data, index = None, columns = None, tableT = tableT, thT = thT,
     table = tableT.format( cdata, bdata )
     return table
 
-instTemplate = jbdocument.sInstTemplate
+instTemplate = JBDocument.sInstTemplate
