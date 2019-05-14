@@ -21,7 +21,9 @@ class JBMagics(Magics):
         self.doc = doc
 
     def instTemplate(self, text, vars):
-        return JBDocument.sInstTemplate(text, {**cfg, **self.shell.user_ns, **vars})
+        d = { **self.shell.user_ns, **vars }
+        d[ 'cfg' ] = cfg
+        return JBDocument.sInstTemplate(text, d)
 
     def html_parts(self, input_string, source_path=None, destination_path=None,
                    input_encoding='unicode', doctitle=True,

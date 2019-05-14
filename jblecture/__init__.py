@@ -98,10 +98,10 @@ defaults['REVEAL_SLIDE_TEMPLATE'] = """
 
 defaults['REVEAL_SLIDE_FOOTER'] = """
 <div class="jb-footer-left">
-    <img class="jb-footer-left-img plain" src="{{ ASSETS['logo'].__repr_html_b64__() }}" alt="{{ASSETS['logo'].name}}" />
+    <img class="jb-footer-left-img plain" src="{{ cfg['ASSETS']['logo'].__repr_html_b64__() }}" alt="{{ASSETS['logo'].name}}" />
 </div>
 <div class="jb-footer-right">
-    <img class="jb-footer-right-img plain" src="{{ ASSETS['robbi'].__repr_html_b64__() }}" alt="{{ASSETS['robbi'].name}}" />
+    <img class="jb-footer-right-img plain" src="{{ ASSETS['robbi'].__repr_html_b64__() }}" alt="{{ cfg['ASSETS']['robbi'].name}}" />
 </div>
 """
 
@@ -247,13 +247,15 @@ def createEnvironment( params = {} ):
             size: {width}px {height}px;
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
+    doc = createDocument( cfg )
+    cfg['doc'] = doc
+    return cfg
 
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'], 
+def createDocument( cfg ):
+    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'],
         background = cfg['REVEAL_SLIDE_BACKGROUND'],
         footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
-    cfg['doc'] = doc
-
-    return cfg
+    return doc
 
 def zipDirectory( archive, dir, root = '.' ):
     with jbcd.JBcd(root):
