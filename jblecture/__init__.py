@@ -101,7 +101,7 @@ defaults['REVEAL_SLIDE_FOOTER'] = """
     <img class="jb-footer-left-img plain" src="{{ cfg['ASSETS']['logo'].__repr_html_b64__() }}" alt="{{ASSETS['logo'].name}}" />
 </div>
 <div class="jb-footer-right">
-    <img class="jb-footer-right-img plain" src="{{ ASSETS['robbi'].__repr_html_b64__() }}" alt="{{ cfg['ASSETS']['robbi'].name}}" />
+    <img class="jb-footer-right-img plain" src="{{ cfg['ASSETS']['robbi'].__repr_html_b64__() }}" alt="{{ cfg['ASSETS']['robbi'].name}}" />
 </div>
 """
 
