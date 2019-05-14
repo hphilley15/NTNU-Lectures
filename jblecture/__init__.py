@@ -363,7 +363,9 @@ def createTable( data, index = None, columns = None, tableT = tableT, thT = thT,
         for j,d in enumerate( r ):
             rdata = rdata + tdT.format( d )
         row = trT.format( rdata )
+        #print(row)
         bdata = bdata + row
+    #/print(bdata)
     table = tableT.format( cdata, bdata )
     return table
 
