@@ -361,3 +361,7 @@ body {
     width: 90%;
     display: inline-block;
 }
+
+.jb-highlight {
+    color: #ffc000
+}
