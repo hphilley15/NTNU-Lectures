@@ -303,13 +303,15 @@ def load_ipython_extension(ipython):
 def addJBImage( name, width, height, url=None, data=None, localFile=None ):
     img = jbdata.JBImage( name, width, height, url, data, localFile )
     cfg['ASSETS'][img.name] = img
+    return img
 
 def addJBVideo( name, width, height, url=None, data=None, localFile=None ):
     vid = jbdata.JBImage( name, width, height, url, data, localFile )
     cfg['ASSETS'][vid.name] = vid
+    return vid
 
 def addJBData( name, url=None, data=None, localFile=None, suffix=".dat" ):
     dat = jbdata.JBData( name, url, data, localFile, suffix )
     cfg['ASSETS'][dat.name] = dat
-
+    return dat
 
