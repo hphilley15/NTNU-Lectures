@@ -136,7 +136,7 @@ label {{label}}:
 
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
-defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
+defaults['PAGE_SIZE'] = [ int(720), int (1280) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
@@ -232,7 +232,6 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
 
-    ratio = 1.0
     cssStr = """
         @page {{
             size: {width}px {height}px;
