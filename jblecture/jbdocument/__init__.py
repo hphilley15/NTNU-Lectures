@@ -173,7 +173,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         
-        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': title, 'startId': startId } )
+        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': self.title, 'startId': startId } )
         with open( pathlib.Path( rdir ).joinpath( "renpy/game/start.rpy"), "w" ) as f:
             f.write( rpyScript )
 
