@@ -183,7 +183,7 @@ class JBDocument:
             s = self.slides[ currentIdx ]
             if ( s.renpy ):
                 print('Slide', s.id, 'has renpy', s.renpy )
-            rpyScript = self.instTemplate( cfg['RenpyScriptTemplate'], { 'label': s.id, 'transition': RenpyTransition, 'id': s.id, 'renpy': s.renpy, 'right': s.right } )
+            rpyScript = self.instTemplate( cfg['RenpyScriptTemplate'], { 'label': s.id, 'transition': cfg['RenpyTransition'], 'id': s.id, 'renpy': s.renpy, 'right': s.right } )
             
             with open( pathlib.Path( rdir ).joinpath( f"renpy/game/{s.id}.rpy"), "w" ) as f:
                 f.write( rpyScript )
