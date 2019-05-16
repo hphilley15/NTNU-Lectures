@@ -1,3 +1,4 @@
+import weasyprint as wp
 
 class JBSlide:
     def __init__(self, id, html, renpy, left = '', right = '', up = '', down = '', parent = '' ):
