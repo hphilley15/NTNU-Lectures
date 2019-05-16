@@ -304,7 +304,7 @@ class JBMagics(Magics):
         # print(s)
         rp = self.instTemplate(it, {})
         display(Pretty(rp))
-        cs = doc.getCurrentSlide()
+        cs = self.doc.getCurrentSlide()
         if (cs):
             # print("*** Adding renpy to slide ", cs.id )
             # print(rp)
