@@ -218,11 +218,6 @@ def createEnvironment( params = {} ):
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] ):
-        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-        for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
-            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
@@ -230,6 +225,8 @@ def createEnvironment( params = {} ):
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['IMAGES_DIR']  / 'logo.png')
 
+    copyRenpyData( cfg['ROOT_DIR'] / 'Lecture-VN', cfg['ROOT_DIR'] / 'renpy' )
+	
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
@@ -249,6 +246,15 @@ def createEnvironment( params = {} ):
 
     return cfg
 
+def copyRenpyData( src, dest ):
+	shutil.copytree(  src / 'Resources' / 'templateProject' / 'game' , 
+         dest )
+	with jbcd.JBcd( cfg['ROOT_DIR'] ):
+	print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
+	for d in ["renpy", "renpy/game", "renpy/game/images/slides", "renpy/game/sounds", "renpy/game/videos", "renpy/game/gui", "renpy/game/tl" ]:
+		pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+
+    	
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
