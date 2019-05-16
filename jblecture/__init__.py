@@ -305,7 +305,7 @@ def addJBImage( name, width, height, url=None, data=None, localFile=None ):
     return img
 
 def addJBVideo( name, width, height, url=None, data=None, localFile=None ):
-    vid = jbdata.JBImage( name, width, height, url, data, localFile )
+    vid = jbdata.JBVideo( name, width, height, url, data, localFile )
     cfg['ASSETS'][vid.name] = vid
     return vid
 
