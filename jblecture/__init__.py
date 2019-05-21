@@ -229,6 +229,15 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
+    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+        print("Executing npm install decktape")
+        try:
+            o = subprocess.check_output("npm install decktape", shell = True)
+        except subprocess.CalledProcessError:
+            pass
+        if ( o ):    
+            print( 'npm install decktape:' + o.decode('utf-8') )
+
     for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
