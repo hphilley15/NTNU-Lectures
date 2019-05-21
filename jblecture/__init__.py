@@ -231,7 +231,7 @@ def createEnvironment( params = {} ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
         for d in ["renpy", "renpy/game", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'scripts.rpy', 'transforms.rpy' ]:
+    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
                       cfg['ROOT_DIR'] / 'renpy' / 'game')
     shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
