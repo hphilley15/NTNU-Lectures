@@ -28,6 +28,8 @@ defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
 defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
 defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
 defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
+defaults['RENPY_SOUNDS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "sounds"
+defaults['RENPY_VIDEOS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "videos"
 
 defaults['GIT_CMD'] = 'git'
 
@@ -235,7 +237,7 @@ def createEnvironment( params = {} ):
     with jbcd.JBcd( cfg['ROOT_DIR'] ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
         for d in [ cfg['RENPY_GAME_DIR'], cfg['RENPY_ASSETS_DIR'], cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", 
-		  cfg['RENPY_SOUNDS_DIR'], cfg['VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
+		  cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
