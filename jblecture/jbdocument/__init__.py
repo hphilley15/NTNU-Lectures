@@ -162,7 +162,7 @@ class JBDocument:
             img.writeData( rdir )
     
     def createBackgroundsFile( self, rdir ):
-        with open( pathlib.Path( rdir ).joinpath( "renpy/game/backgrounds.rpy" ), "w" ) as f:
+        with open( pathlib.Path( rdir ).joinpath( "game/backgrounds.rpy" ), "w" ) as f:
             for s in self.slides:
                 fname = s.getImageFileName()
                 p = pathlib.Path( fname )
@@ -174,7 +174,7 @@ class JBDocument:
             startId = self.slides[0].id
         
         rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': self.title, 'startId': startId } )
-        with open( pathlib.Path( rdir ).joinpath( "renpy/game/start.rpy"), "w" ) as f:
+        with open( pathlib.Path( rdir ).joinpath( "game/start.rpy"), "w" ) as f:
             f.write( rpyScript )
 
         currentIdx = self.findSlideIndex( startId )
@@ -185,7 +185,7 @@ class JBDocument:
                 print('Slide', s.id, 'has renpy', s.renpy )
             rpyScript = self.instTemplate( cfg['RenpyScriptTemplate'], { 'label': s.id, 'transition': cfg['RenpyTransition'], 'id': s.id, 'renpy': s.renpy, 'right': s.right } )
             
-            with open( pathlib.Path( rdir ).joinpath( f"renpy/game/{s.id}.rpy"), "w" ) as f:
+            with open( pathlib.Path( rdir ).joinpath( f"game/{s.id}.rpy"), "w" ) as f:
                 f.write( rpyScript )
 
             currentIdx = self.findSlideIndex( s.right )
