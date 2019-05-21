@@ -21,6 +21,9 @@ defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images"
 defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
 defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
+
+defaults['RENPY_IMAGES_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game" / "assets" / "images"
+
 defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
