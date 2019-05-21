@@ -235,7 +235,7 @@ def createEnvironment( params = {} ):
         shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
                       cfg['ROOT_DIR'] / 'renpy' / 'game')
     shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
-                     cfg['ROOT_DIR'] / 'renpy' / 'game' )
+                     cfg['ROOT_DIR'] / 'renpy' / 'game' / 'gui' )
      
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
