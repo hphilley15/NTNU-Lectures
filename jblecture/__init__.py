@@ -229,9 +229,14 @@ def createEnvironment( params = {} ):
 
     with jbcd.JBcd( cfg['ROOT_DIR'] ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-        for d in ["renpy", "renpy/game", "renpy/images/Slides", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
+        for d in ["renpy", "renpy/game", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-
+    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'scripts.rpy', 'transforms.rpy' ]:
+        shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
+                      cfg['ROOT_DIR'] / 'renpy' / 'game')
+    shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
+                     cfg['ROOT_DIR'] / 'renpy' / 'game' )
+     
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
