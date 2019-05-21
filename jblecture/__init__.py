@@ -241,6 +241,8 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
 
+    installRenpy()
+    
     ratio = 1.0
     cssStr = """
         @page {{
@@ -282,6 +284,9 @@ def downloadDir( zFile, dir, root = None  ):
     zipDirectory(  zFile, dir, root )
     if cfg['GOOGLE_COLAB']:
         files.download( zFile )
+
+def installRenpy():
+    os.system("sudo apt install renpy") 
 
 def load_ipython_extension(ipython):
     """
