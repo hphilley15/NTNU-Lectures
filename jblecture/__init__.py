@@ -20,7 +20,7 @@ defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
-defaults['ASSETS_DIR'] = cfg['REVEAL_DIR'] / "assets"
+defaults['ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
 defaults['IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
 defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
 defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
