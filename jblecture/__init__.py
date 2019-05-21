@@ -18,11 +18,16 @@ defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
-defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images"
-defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
-defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
 
-defaults['RENPY_IMAGES_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game" / "assets" / "images"
+defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
+defaults['ASSETS_DIR'] = cfg['REVEAL_DIR'] / "assets"
+defaults['IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
+defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
+defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
+
+defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
+defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_DIR'] / "assets"
+defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
 
 defaults['GIT_CMD'] = 'git'
 
@@ -229,7 +234,8 @@ def createEnvironment( params = {} ):
 
     with jbcd.JBcd( cfg['ROOT_DIR'] ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-        for d in ["renpy", "renpy/game", "renpy/assets/images/slides", "renpy/assets/sounds", "renpy/assets/videos", "renpy/gui", "renpy/tl" ]:
+        for d in [ cfg['RENPY_GAME_DIR'], cfg['RENPY_ASSETS_DIR'], cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", 
+		  cfg['RENPY_SOUNDS_DIR'], cfg['VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
