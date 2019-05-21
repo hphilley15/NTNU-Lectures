@@ -225,7 +225,7 @@ def createEnvironment( params = {} ):
     for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
+    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
 
     with jbcd.JBcd( cfg['ROOT_DIR'] ):
         print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
