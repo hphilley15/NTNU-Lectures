@@ -26,7 +26,7 @@ defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
 defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
 
 defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
-defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_DIR'] / "assets"
+defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
 defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
 
 defaults['GIT_CMD'] = 'git'
