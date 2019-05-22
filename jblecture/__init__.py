@@ -319,6 +319,7 @@ def copyRenpyData( src, cfg ):
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( src / f, cfg['RENPY_GAME_DIR'] / f )
     #shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
+    copy_tree( str( src / "gui" ), str( cfg['RENPY_GAME_DIR'] / "gui" ) )
     copy_tree( str( src / "images" / "Characters" ), str( cfg['RENPY_IMAGES_DIR'] / "characters" ) )
 
         
