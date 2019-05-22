@@ -152,7 +152,7 @@ label {{label}}:
 
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
-defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
+defaults['PAGE_SIZE'] = [ int(720), int (1280) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
@@ -243,17 +243,9 @@ def createEnvironment( params = {} ):
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] ):
-        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-        for d in [ cfg['RENPY_GAME_DIR'], cfg['RENPY_ASSETS_DIR'], cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", 
-		  cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
-            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
-        shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
-                      cfg['ROOT_DIR'] / 'renpy' / 'game')
-    shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
-                     cfg['ROOT_DIR'] / 'renpy' / 'game' / 'gui' )
-     
+    copyRenpyData( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game',
+                   cfg['ROOT_DIR'] / 'renpy' / 'game' )
+
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
@@ -308,11 +300,20 @@ def zipDirectory( archive, dir, root = '.' ):
 def downloadDir( zFile, dir, root = None  ):        
     zipDirectory(  zFile, dir, root )
     if cfg['GOOGLE_COLAB']:
+        print("Downloading file", zFile )
         files.download( zFile )
 
 def installRenpy():
     os.system("sudo apt install renpy") 
 
+def copyRenpyData( src, dest ):
+	shutil.copytree(  src, dest )
+	with jbcd.JBcd( cfg['ROOT_DIR'] ):
+	    print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
+	    for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
+		    pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+
+    	
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
