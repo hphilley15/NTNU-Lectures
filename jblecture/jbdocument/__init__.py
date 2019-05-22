@@ -184,8 +184,9 @@ class JBDocument:
             if ( s.renpy ):
                 print('Slide', s.id, 'has renpy', s.renpy )
             rpyScript = self.instTemplate( cfg['RenpyScriptTemplate'], { 'label': s.id, 'transition': cfg['RenpyTransition'], 'id': s.id, 'renpy': s.renpy, 'right': s.right } )
-            
-            with open( pathlib.Path( rdir ).joinpath( f"{s.id}.rpy"), "w" ) as f:
+            spf = pathlib.Path( rdir ) / f"{s.id}.rpy" 
+                                          
+            with open( spf, "w" ) as f:
                 f.write( rpyScript )
 
             currentIdx = self.findSlideIndex( s.right )
