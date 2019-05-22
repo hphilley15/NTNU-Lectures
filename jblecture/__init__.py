@@ -243,20 +243,6 @@ def createEnvironment( params = {} ):
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
 
-<<<<<<< HEAD
-=======
-    with jbcd.JBcd( cfg['ROOT_DIR'] ):
-        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-        for d in [ cfg['RENPY_GAME_DIR'], cfg['RENPY_ASSETS_DIR'], cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", 
-		  cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
-            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
-        shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
-                      cfg['ROOT_DIR'] / 'renpy' / 'game')
-    shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
-                     cfg['ROOT_DIR'] / 'renpy' / 'game' / 'gui' )
-     
->>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
@@ -264,19 +250,15 @@ def createEnvironment( params = {} ):
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['IMAGES_DIR']  / 'logo.png')
 
-    copyRenpyData( cfg['ROOT_DIR'] / 'Lecture-VN', cfg['ROOT_DIR'] / 'renpy' )
 	
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
 
-<<<<<<< HEAD
-=======
     installRenpy()
     
     ratio = 1.0
->>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a
     cssStr = """
         @page {{
             size: {width}px {height}px;
@@ -316,6 +298,7 @@ def zipDirectory( archive, dir, root = '.' ):
 def downloadDir( zFile, dir, root = None  ):        
     zipDirectory(  zFile, dir, root )
     if cfg['GOOGLE_COLAB']:
+        print("Downloading file", zFile )
         files.download( zFile )
 
 def installRenpy():
@@ -328,7 +311,6 @@ def copyRenpyData( src, dest ):
 	print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
 	for d in ["renpy", "renpy/game", "renpy/game/images/slides", "renpy/game/sounds", "renpy/game/videos", "renpy/game/gui", "renpy/game/tl" ]:
 		pathlib.Path(d).mkdir( parents = True, exist_ok = True )
-
     	
 def load_ipython_extension(ipython):
     """
@@ -344,9 +326,6 @@ def load_ipython_extension(ipython):
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
-<<<<<<< HEAD
-    
-=======
 
 # Functions that should be exported
 def addJBImage( name, width, height, url=None, data=None, localFile=None ):
@@ -427,4 +406,3 @@ def instTemplate( text, vars ):
         prev = current
         current = t.render( vars )
     return current
->>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a
