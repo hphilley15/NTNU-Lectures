@@ -306,14 +306,14 @@ def downloadDir( zFile, dir, root = None  ):
 def installRenpy():
     os.system("sudo apt install renpy") 
 
-def copyRenpyData( src, dest ):
-    with jbcd.JBcd( cfg['ROOT_DIR'] ):
-        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
+def copyRenpyData( src, cfg ):
+    with jbcd.JBcd( cfg['RENPY_GAME_DIR'] ):
+        print("Creating renpy directory in " + str( cfg['RENPY_GAME_DIR'] ) )
         for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
     
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
-        shutil.copy2( src / f, dest / f )
+        shutil.copy2( src / f, cfg['RENPY_GAME_DIR'] / f )
     shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
 
         
