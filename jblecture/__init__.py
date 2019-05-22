@@ -21,9 +21,9 @@ defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
 defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
-defaults['REVEAL_IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
-defaults['REVEAL_VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
-defaults['REVEAL_SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
+defaults['REVEAL_IMAGES_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "images"
+defaults['REVEAL_VIDEOS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "videos"
+defaults['REVEAL_SOUNDS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "sounds"
 
 defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
 defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
