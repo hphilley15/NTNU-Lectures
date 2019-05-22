@@ -111,7 +111,7 @@ class JBImage(JBData):
 #            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
-        p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
+        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 
@@ -140,7 +140,7 @@ class JBVideo(JBData):
             ydl.download([url])
 
     def getDefaultFileName(self):
-        p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
+        p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 def createEnvironment( mycfg ):
