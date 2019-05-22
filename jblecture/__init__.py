@@ -45,51 +45,51 @@ defaults['REVEAL_THEME'] = 'ntnuerc'
 defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>{{title}}</title>
+        <title>{{title}}</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
         <div class="slides">
             {{slides}}
         </div>
-		</div>
+        </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
 </html>
 """
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
@@ -307,16 +307,16 @@ def installRenpy():
     os.system("sudo apt install renpy") 
 
 def copyRenpyData( src, dest ):
-	with jbcd.JBcd( cfg['ROOT_DIR'] ):
-	    print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-	    for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
-		    pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+    with jbcd.JBcd( cfg['ROOT_DIR'] ):
+        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
+        for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
+            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
     
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( src / f, dest / f )
     shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
 
-    	
+        
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
