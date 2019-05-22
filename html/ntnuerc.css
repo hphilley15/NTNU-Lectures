@@ -60,13 +60,13 @@ body {
   text-align: center; }
 
 .reveal h1 {
-  font-size: 1.80em; }
+  font-size: 1.75em; }
 
 .reveal h2 {
-  font-size: 1.50em; }
+  font-size: 1.25em; }
 
 .reveal h3 {
-  font-size: 1.25em; }
+  font-size: 1.10em; }
 
 .reveal h4 {
   font-size: 1em; }
@@ -150,7 +150,7 @@ body {
   width: 90%;
   margin: 20px auto;
   text-align: left;
-  font-size: 0.55em;
+  font-size: 0.60em;
   font-family: monospace;
   line-height: 1.2em;
   word-wrap: break-word;
@@ -170,7 +170,8 @@ body {
 .reveal table {
   margin: auto;
   border-collapse: collapse;
-  border-spacing: 0; }
+  border-spacing: 0;
+  border-color: #aaaaaa}
 
 .reveal table th {
   font-weight: bold; }
@@ -309,11 +310,13 @@ body {
   text-align:center;
 }
 
+.jb-small {
+  font-size: 0.75em;
+}
+
 .jb-very-small {
-  display: inline-block;
   font-size: 0.5em;
-  line-height: 1.0em;
-  vertical-align: top; }
+}
   
 .jb-footer-right {
   position: absolute;
@@ -360,4 +363,12 @@ body {
     background: #e0e0e0;
     width: 90%;
     display: inline-block;
+}
+
+.jb-highlight {
+    color: #ffc000
+}
+
+.jb-text {
+  text-align: left;
 }

@@ -10,6 +10,7 @@ import glob
 import shutil
 import importlib
 import sys
+import zipfile
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -17,11 +18,26 @@ defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
-defaults['IMAGES_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "images"
-defaults['VIDEOS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "videos"
-defaults['SOUNDS_DIR'] = defaults['ROOT_DIR'] / "reveal.js" / "assets" / "sounds"
+
+defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
+defaults['ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
+defaults['IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
+defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
+defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
+
+defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
+defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
+defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
+defaults['RENPY_SOUNDS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "sounds"
+defaults['RENPY_VIDEOS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "videos"
+
 defaults['GIT_CMD'] = 'git'
 
+defaults['GOOGLE_COLAB'] = False
+try:
+    from google.colab import files
+except ImportError:
+    defaults['GOOGLE_COLAB'] = False
 
 # Reveal.js Parameters
 defaults['REVEAL_THEME'] = 'ntnuerc'
@@ -36,7 +52,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 		<title>{{title}}</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/{{ cfg['REVEAL_THEME'] }}.css">
+		<link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -92,10 +108,10 @@ defaults['REVEAL_SLIDE_TEMPLATE'] = """
 
 defaults['REVEAL_SLIDE_FOOTER'] = """
 <div class="jb-footer-left">
-    <img class="jb-footer-left-img plain" src="{{ ASSETS['logo'].__repr_html_b64__() }}" alt="{{ASSETS['logo'].name}}" />
+    <img class="jb-footer-left-img plain" src="{{ cfg['ASSETS']['logo'].__repr_html_b64__() }}" alt="{{cfg['ASSETS']['logo'].name}}" />
 </div>
 <div class="jb-footer-right">
-    <img class="jb-footer-right-img plain" src="{{ ASSETS['robbi'].__repr_html_b64__() }}" alt="{{ASSETS['robbi'].name}}" />
+    <img class="jb-footer-right-img plain" src="{{ cfg['ASSETS']['robbi'].__repr_html_b64__() }}" alt="{{ cfg['ASSETS']['robbi'].name}}" />
 </div>
 """
 
@@ -213,11 +229,34 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
+    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+        print("Executing npm install decktape")
+        try:
+            o = subprocess.check_output("npm install decktape", shell = True)
+        except subprocess.CalledProcessError:
+            pass
+        if ( o ):    
+            print( 'npm install decktape:' + o.decode('utf-8') )
+
     for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ROOT_DIR'] )
+    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
 
+<<<<<<< HEAD
+=======
+    with jbcd.JBcd( cfg['ROOT_DIR'] ):
+        print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
+        for d in [ cfg['RENPY_GAME_DIR'], cfg['RENPY_ASSETS_DIR'], cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", 
+		  cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], cfg['RENPY_GAME_DIR'] / "tl" ]:
+            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+    for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
+        shutil.copy2( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / f,
+                      cfg['ROOT_DIR'] / 'renpy' / 'game')
+    shutil.copytree( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game' / 'gui',
+                     cfg['ROOT_DIR'] / 'renpy' / 'game' / 'gui' )
+     
+>>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
@@ -232,18 +271,55 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
 
+<<<<<<< HEAD
+=======
+    installRenpy()
+    
+    ratio = 1.0
+>>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a
     cssStr = """
         @page {{
             size: {width}px {height}px;
             margin: 0px;
         }}""".format(width=cfg['PAGE_SIZE'][0], height=cfg['PAGE_SIZE'][1])
+    doc = createDocument( cfg )
+    cfg['doc'] = doc
+    return cfg
 
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'], 
+def createDocument( cfg ):
+    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'],
         background = cfg['REVEAL_SLIDE_BACKGROUND'],
         footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
-    cfg['doc'] = doc
+    return doc
 
-    return cfg
+def zipDirectory( archive, dir, root = '.' ):
+    with jbcd.JBcd(root):
+        xroot = dir
+
+        with zipfile.ZipFile( archive, 'w', zipfile.ZIP_DEFLATED, True ) as zf:
+            zf.Debug = 3
+            for root, dirs, files in os.walk( xroot ):
+                #print(root, dirs, files )
+
+                for f in files:
+                    zf.write( pathlib.Path( root ).joinpath( f ) )
+
+                for rdir in [ '.git', 'node_modules' ]:
+                    if ( rdir in dirs ):
+                        dirs.remove( rdir )
+
+        #print('Zipping Files', filesList)
+
+        with zipfile.ZipFile( archive, 'r' ) as zf:
+            zf.namelist()
+
+def downloadDir( zFile, dir, root = None  ):        
+    zipDirectory(  zFile, dir, root )
+    if cfg['GOOGLE_COLAB']:
+        files.download( zFile )
+
+def installRenpy():
+    os.system("sudo apt install renpy") 
 
 def copyRenpyData( src, dest ):
 	shutil.copytree(  src / 'Resources' / 'templateProject' / 'game' , 
@@ -268,4 +344,87 @@ def load_ipython_extension(ipython):
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
+<<<<<<< HEAD
     
+=======
+
+# Functions that should be exported
+def addJBImage( name, width, height, url=None, data=None, localFile=None ):
+    img = jbdata.JBImage( name, width, height, url, data, localFile )
+    cfg['ASSETS'][img.name] = img
+    return img
+
+def addJBVideo( name, width, height, url=None, data=None, localFile=None ):
+    vid = jbdata.JBVideo( name, width, height, url, data, localFile )
+    cfg['ASSETS'][vid.name] = vid
+    return vid
+
+def addJBData( name, url=None, data=None, localFile=None, suffix=".dat" ):
+    dat = jbdata.JBData( name, url, data, localFile, suffix )
+    cfg['ASSETS'][dat.name] = dat
+    return dat
+
+tableT = """
+<table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
+cellspacing="2"; border-color: #aaaaaa>
+{0}
+<tbody>
+{1}
+</tbody>
+</table>
+"""
+
+trT = """
+<tr>
+{0}
+</tr>
+"""
+
+tdT = """
+<td style="vertical-align: top;">
+{0}
+</td>
+"""
+
+thT = """
+<th>
+{0}
+</th>
+"""
+
+def createTable( data, index = None, columns = None, tableT = tableT, thT = thT, tdT = tdT, trT = trT ):
+    if columns:
+        cdata = """
+        <thead>
+          <tr>
+        """
+        for c in columns:
+            cdata = cdata + thT.format(c)
+        cdata = cdata + """
+          </tr>
+        </thead>
+        """
+    else:
+        cdata = ""
+
+    bdata = ""
+    for i,r in enumerate( data ):
+        rdata = ""
+        for j,d in enumerate( r ):
+            rdata = rdata + tdT.format( d )
+        row = trT.format( rdata )
+        #print(row)
+        bdata = bdata + row
+    #/print(bdata)
+    table = tableT.format( cdata, bdata )
+    return table
+
+def instTemplate( text, vars ):
+    prev = ""
+    current = text
+    while( prev != current ):
+        t = Template( current )
+        prev = current
+        current = t.render( vars )
+    return current
+>>>>>>> 487f817c5bac3086a7f00d428f0b29cb45fb049a

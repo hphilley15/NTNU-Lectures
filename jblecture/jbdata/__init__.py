@@ -1,5 +1,7 @@
 from urllib import request
 import pathlib
+import base64
+import youtube_dl
 
 cfg = {}
 
@@ -14,8 +16,9 @@ class JBData:
         return data
 
     @staticmethod
-    def sReadData(name):
-        with open(name, "rb") as f:
+    def sReadData( fname ):
+        #print('JBData.sReadData', 'Reading file', fname)
+        with open( fname, "rb") as f:
             data = f.read()
         return data
 
@@ -25,7 +28,7 @@ class JBData:
             f.write(data)
 
     def getDefaultFileName(self):
-        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
     def __init__(self, name, url=None, data=None, localFile=None, suffix=".dat"):
@@ -74,6 +77,11 @@ class JBData:
         self.clearCache()
         return ret
 
+    def readData( self ):
+        if ( self.localFile ):
+            fname = self.localFile
+            self.data = sReadData( fname )
+            
     @staticmethod
     def getBase64Data(fname):
         data = JBData.sReadData(fname)
@@ -83,7 +91,6 @@ class JBData:
     def clearCache(self):
         if (self.data) and (len(self.data) > 1024 * 1024):
             self.data = None
-
 
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
@@ -96,14 +103,15 @@ class JBImage(JBData):
                     port=HTTP_PORT, name=self.name, style=style)
 
     def __repr_html_url__(self, style=""):
-        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
+#        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
+        return '{src}'.format(src=self.url )
 
     def __repr_html_b64__(self, style=""):
-        return '<img src="data:image/png;base64,{src}" style="{style}" alt="{name}"/>'.format(
-            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
+        return 'data:image/png;base64,{src}'.format(src=JBData.getBase64Data( self.localFile ) )
+#            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
-        p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 
@@ -132,7 +140,7 @@ class JBVideo(JBData):
             ydl.download([url])
 
     def getDefaultFileName(self):
-        p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 def createEnvironment( mycfg ):
