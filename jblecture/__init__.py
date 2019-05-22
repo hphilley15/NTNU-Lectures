@@ -222,6 +222,7 @@ def createEnvironment( params = {} ):
 
     with jbcd.JBcd( cfg['REVEAL_DIR'] ):
         print("Executing npm install")
+        o = None
         try:
             o = subprocess.check_output("npm install", shell = True)
         except subprocess.CalledProcessError:
@@ -231,6 +232,7 @@ def createEnvironment( params = {} ):
 
     with jbcd.JBcd( cfg['REVEAL_DIR']  ):
         print("Executing npm install decktape")
+        o = None
         try:
             o = subprocess.check_output("npm install decktape", shell = True)
         except subprocess.CalledProcessError:
