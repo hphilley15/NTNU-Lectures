@@ -20,10 +20,10 @@ defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
-defaults['ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
-defaults['IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
-defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
-defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
+defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
+defaults['REVEAL_IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
+defaults['REVEAL_VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
+defaults['REVEAL_SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
 
 defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
 defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
@@ -220,7 +220,7 @@ def createEnvironment( params = {} ):
 
     updateGit( cfg, "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with jbcd.JBcd( cfg['REVEAL_DIR'] ):
         print("Executing npm install")
         try:
             o = subprocess.check_output("npm install", shell = True)
@@ -229,7 +229,7 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with jbcd.JBcd( cfg['REVEAL_DIR']  ):
         print("Executing npm install decktape")
         try:
             o = subprocess.check_output("npm install decktape", shell = True)
@@ -238,7 +238,7 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install decktape:' + o.decode('utf-8') )
 
-    for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'] ]:
+    for d in [ cfg['REVEAL_IMAGES_DIR'], cfg['REVEAL_VIDEOS_DIR'], cfg['REVEAL_SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
@@ -249,14 +249,14 @@ def createEnvironment( params = {} ):
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
-        cfg['IMAGES_DIR'] / 'robbi.png' )
+        cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
-        cfg['IMAGES_DIR']  / 'logo.png')
+        cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
 
     cfg['ASSETS'] = {}
 
-    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
-    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
+    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
+    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
 
     installRenpy()
     
