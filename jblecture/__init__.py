@@ -244,7 +244,7 @@ def createEnvironment( params = {} ):
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
 
     copyRenpyData( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game',
-                   cfg['ROOT_DIR'] / 'renpy' / 'game' )
+                   cfg )
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
