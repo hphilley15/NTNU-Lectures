@@ -11,7 +11,8 @@ import shutil
 import importlib
 import sys
 import zipfile
-
+from distutils.dir_util import copy_tree
+    
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
@@ -317,7 +318,8 @@ def copyRenpyData( src, cfg ):
     
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
         shutil.copy2( src / f, cfg['RENPY_GAME_DIR'] / f )
-    shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
+    #shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
+    copy_tree( src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
 
         
 def load_ipython_extension(ipython):
