@@ -307,6 +307,7 @@ def installRenpy():
     os.system("sudo apt install renpy") 
 
 def copyRenpyData( src, cfg ):
+    cfg['RENPY_GAME_DIR'].mkdir(parents = True, exist_ok = True )
     with jbcd.JBcd( cfg['RENPY_GAME_DIR'] ):
         print("Creating renpy directory in " + str( cfg['RENPY_GAME_DIR'] ) )
         for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
