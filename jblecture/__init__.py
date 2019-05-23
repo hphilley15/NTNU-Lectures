@@ -32,6 +32,12 @@ defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
 defaults['RENPY_SOUNDS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "sounds"
 defaults['RENPY_VIDEOS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "videos"
 
+defaults['MG_GAME_DIR'] = defaults['ROOT_DIR'] / "Monogatari"
+defaults['MG_ASSETS_DIR'] = defaults['MG_GAME_DIR'] / "assets"
+defaults['MG_IMAGES_DIR'] = defaults['MG_ASSETS_DIR'] / "images"
+defaults['MG_SOUNDS_DIR'] = defaults['MG_ASSETS_DIR'] / "sound"
+defaults['MG_VIDEOS_DIR'] = defaults['MG_ASSETS_DIR'] / "video"
+
 defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
@@ -153,7 +159,7 @@ label {{label}}:
 
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
-defaults['PAGE_SIZE'] = [ int(720), int (1280) ]
+defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
@@ -244,10 +250,7 @@ def createEnvironment( params = {} ):
     for d in [ cfg['REVEAL_IMAGES_DIR'], cfg['REVEAL_VIDEOS_DIR'], cfg['REVEAL_SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
-
-    copyRenpyData( cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game',
-                   cfg )
+    fetchRenpyData( cfg )
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
@@ -256,12 +259,14 @@ def createEnvironment( params = {} ):
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
 
+    fetchMGData( cfg )
+
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
 
-    installRenpy()
+    #installRenpy()
     
     ratio = 1.0
     cssStr = """
@@ -309,7 +314,9 @@ def downloadDir( zFile, dir, root = None  ):
 def installRenpy():
     os.system("sudo apt install renpy") 
 
-def copyRenpyData( src, cfg ):
+def fetchRenpyData( cfg ):
+    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
+    src = cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game'
     cfg['RENPY_GAME_DIR'].mkdir(parents = True, exist_ok = True )
     with jbcd.JBcd( cfg['RENPY_GAME_DIR'] ):
         print("Creating renpy directory in " + str( cfg['RENPY_GAME_DIR'] ) )
@@ -322,7 +329,10 @@ def copyRenpyData( src, cfg ):
     copy_tree( str( src / "gui" ), str( cfg['RENPY_GAME_DIR'] / "gui" ) )
     copy_tree( str( src / "images" / "Characters" ), str( cfg['RENPY_IMAGES_DIR'] / "characters" ) )
 
-        
+def fetchMGData( cfg ):
+    updateGit( cfg, "https://github.com/Monogatari/Monogatari.git", "Monogatari", "", cfg['ORIG_ROOT'] )
+    copy_tree( cfg['ORIG_ROOT'] / "Monogatari" / "dist" ), str( cfg['MG_GAME_DIR'] ) )
+            
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
