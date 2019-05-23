@@ -266,8 +266,6 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
 
-    #installRenpy()
-    
     ratio = 1.0
     cssStr = """
         @page {{
@@ -311,10 +309,8 @@ def downloadDir( zFile, dir, root = None  ):
         print("Downloading file", zFile )
         files.download( zFile )
 
-def installRenpy():
-    os.system("sudo apt install renpy") 
-
 def fetchRenpyData( cfg ):
+#    os.system("sudo apt install renpy") 
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
     src = cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game'
     cfg['RENPY_GAME_DIR'].mkdir(parents = True, exist_ok = True )
