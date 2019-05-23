@@ -1,6 +1,7 @@
 from urllib import request
 import pathlib
 import base64
+import youtube_dl
 
 cfg = {}
 
@@ -27,7 +28,7 @@ class JBData:
             f.write(data)
 
     def getDefaultFileName(self):
-        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
     def __init__(self, name, url=None, data=None, localFile=None, suffix=".dat"):
@@ -110,7 +111,7 @@ class JBImage(JBData):
 #            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
 
     def getDefaultFileName(self):
-        p = cfg['IMAGES_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 
@@ -139,7 +140,7 @@ class JBVideo(JBData):
             ydl.download([url])
 
     def getDefaultFileName(self):
-        p = cfg['VIDEOS_DIR'] /  "{name}{suffix}".format(name=name, suffix=self.suffix)
+        p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
 def createEnvironment( mycfg ):

@@ -1,3 +1,4 @@
+import weasyprint as wp
 
 class JBSlide:
     def __init__(self, id, html, renpy, left = '', right = '', up = '', down = '', parent = '' ):
@@ -29,7 +30,7 @@ class JBSlide:
         return img
 
     def getImageFileName( self ):
-        return f"renpy/images/Slides/{self.id}.png"
+        return cfg['RENPY_IMAGES_DIR'] / "slides" / f"{self.id}.png"
       
     def addRenpy( self, txt ):
         self.renpy = self.renpy + '\n' + txt
