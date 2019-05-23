@@ -12,7 +12,18 @@ import importlib
 import sys
 import zipfile
 from distutils.dir_util import copy_tree
-    
+
+import .jbcd
+from .jbcd import JBcd
+import .jbdata
+from .jbdata import JBImage, JBVideo
+import .jbslide
+from .jbslide import JBSlide
+import .jbmagics
+from .jbmagics import JBMagics
+import .jbdocument
+from .jbdocument import JBDocument
+
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
@@ -192,18 +203,12 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
 
-    from .jbcd import JBcd
-
-    from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
-    from .jbslide import createEnvironment, JBSlide
     cfg = jbslide.createEnvironment( cfg )
 
-    from .jbmagics import createEnvironment, JBMagics
     cfg = jbmagics.createEnvironment( cfg )
 
-    from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
@@ -327,7 +332,7 @@ def fetchRenpyData( cfg ):
 
 def fetchMGData( cfg ):
     updateGit( cfg, "https://github.com/Monogatari/Monogatari.git", "Monogatari", "", cfg['ORIG_ROOT'] )
-    copy_tree( cfg['ORIG_ROOT'] / "Monogatari" / "dist" ), str( cfg['MG_GAME_DIR'] ) )
+    copy_tree( str( cfg['ORIG_ROOT'] / "Monogatari" / "dist" ), str( cfg['MG_GAME_DIR'] ) ) 
             
 def load_ipython_extension(ipython):
     """
