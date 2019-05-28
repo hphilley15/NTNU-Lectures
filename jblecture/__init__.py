@@ -14,15 +14,10 @@ import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
 
-import .jbcd
 from .jbcd import JBcd
-import .jbdata
 from .jbdata import JBImage, JBVideo
-import .jbslide
 from .jbslide import JBSlide
-import .jbmagics
 from .jbmagics import JBMagics
-import .jbdocument
 from .jbdocument import JBDocument
 
 defaults = {}
