@@ -70,7 +70,7 @@ else:
 import jblecture
 jblecture.load_ipython_extension( get_ipython() )
 
-from jblecture import addJBImage, addJBVideo, addJBData, createTable, instTemplate, aprint
+from jblecture import addJBImage, addJBVideo, addJBData, createTable, instTemplate, _a
 from jblecture import cfg
 from jblecture import downloadDir
 
