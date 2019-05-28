@@ -1,7 +1,7 @@
 import subprocess
 import pathlib
 import os
-import wordwrap
+import textwrap
 
 try:
     GIT_CMD
