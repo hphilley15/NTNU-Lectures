@@ -11,6 +11,19 @@ import shutil
 import importlib
 import sys
 import zipfile
+from distutils.dir_util import copy_tree
+import textwrap
+
+import .jbcd
+from .jbcd import JBcd
+import .jbdata
+from .jbdata import JBImage, JBVideo
+import .jbslide
+from .jbslide import JBSlide
+import .jbmagics
+from .jbmagics import JBMagics
+import .jbdocument
+from .jbdocument import JBDocument
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -20,16 +33,22 @@ defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
-defaults['ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
-defaults['IMAGES_DIR'] = defaults['ASSETS_DIR'] / "images"
-defaults['VIDEOS_DIR'] = defaults['ASSETS_DIR'] / "videos"
-defaults['SOUNDS_DIR'] = defaults['ASSETS_DIR'] / "sounds"
+defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
+defaults['REVEAL_IMAGES_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "images"
+defaults['REVEAL_VIDEOS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "videos"
+defaults['REVEAL_SOUNDS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "sounds"
 
 defaults['RENPY_GAME_DIR'] = defaults['ROOT_DIR'] / "renpy" / "game"
 defaults['RENPY_ASSETS_DIR'] = defaults['RENPY_GAME_DIR'] / "assets"
 defaults['RENPY_IMAGES_DIR'] = defaults['RENPY_ASSETS_DIR'] / "images"
 defaults['RENPY_SOUNDS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "sounds"
 defaults['RENPY_VIDEOS_DIR'] = defaults['RENPY_ASSETS_DIR'] / "videos"
+
+defaults['MG_GAME_DIR'] = defaults['ROOT_DIR'] / "Monogatari"
+defaults['MG_ASSETS_DIR'] = defaults['MG_GAME_DIR'] / "assets"
+defaults['MG_IMAGES_DIR'] = defaults['MG_ASSETS_DIR'] / "images"
+defaults['MG_SOUNDS_DIR'] = defaults['MG_ASSETS_DIR'] / "sound"
+defaults['MG_VIDEOS_DIR'] = defaults['MG_ASSETS_DIR'] / "video"
 
 defaults['GIT_CMD'] = 'git'
 
@@ -45,51 +64,51 @@ defaults['REVEAL_THEME'] = 'ntnuerc'
 defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>{{title}}</title>
+        <title>{{title}}</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
         <div class="slides">
             {{slides}}
         </div>
-		</div>
+        </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
 </html>
 """
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
@@ -152,7 +171,7 @@ label {{label}}:
 
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
-defaults['PAGE_SIZE'] = [ int(720), int (1280) ]
+defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
         with jbcd.JBcd( root ):
@@ -185,18 +204,12 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
 
-    from .jbcd import JBcd
-
-    from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
-    from .jbslide import createEnvironment, JBSlide
     cfg = jbslide.createEnvironment( cfg )
 
-    from .jbmagics import createEnvironment, JBMagics
     cfg = jbmagics.createEnvironment( cfg )
 
-    from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
@@ -220,9 +233,9 @@ def createEnvironment( params = {} ):
 
     updateGit( cfg, "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with jbcd.JBcd( cfg['REVEAL_DIR'] ):
         print("Executing npm install")
-	o = None
+        o = None
         try:
             o = subprocess.check_output("npm install", shell = True)
         except subprocess.CalledProcessError:
@@ -230,9 +243,9 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
-    with jbcd.JBcd( cfg['ROOT_DIR'] / 'reveal.js' ):
+    with jbcd.JBcd( cfg['REVEAL_DIR']  ):
         print("Executing npm install decktape")
-	o = None
+        o = None
         try:
             o = subprocess.check_output("npm install decktape", shell = True)
         except subprocess.CalledProcessError:
@@ -240,26 +253,26 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install decktape:' + o.decode('utf-8') )
 
-    for d in [ cfg['IMAGES_DIR'], cfg['VIDEOS_DIR'], cfg['SOUNDS_DIR'] ]:
+    for d in [ cfg['REVEAL_IMAGES_DIR'], cfg['REVEAL_VIDEOS_DIR'], cfg['REVEAL_SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
         
-    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
+    fetchRenpyData( cfg )
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
-        cfg['IMAGES_DIR'] / 'robbi.png' )
+        cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
-        cfg['IMAGES_DIR']  / 'logo.png')
+        cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
+
+    fetchMGData( cfg )
 
 	
     cfg['ASSETS'] = {}
 
-    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['IMAGES_DIR']  / "robbi.png" ) )
-    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['IMAGES_DIR'] / "logo.png" ) )
+    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
+    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
 
-    installRenpy()
-    
     ratio = 1.0
     cssStr = """
         @page {{
@@ -303,19 +316,26 @@ def downloadDir( zFile, dir, root = None  ):
         print("Downloading file", zFile )
         files.download( zFile )
 
-def installRenpy():
-    os.system("sudo apt install renpy") 
-
-def copyRenpyData( src, dest ):
-	with jbcd.JBcd( cfg['ROOT_DIR'] ):
-	    print("Creating renpy directory in " + str( cfg['ROOT_DIR'] ) )
-	    for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
-		    pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+def fetchRenpyData( cfg ):
+#    os.system("sudo apt install renpy") 
+    updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
+    src = cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game'
+    cfg['RENPY_GAME_DIR'].mkdir(parents = True, exist_ok = True )
+    with jbcd.JBcd( cfg['RENPY_GAME_DIR'] ):
+        print("Creating renpy directory in " + str( cfg['RENPY_GAME_DIR'] ) )
+        for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
+            pathlib.Path(d).mkdir( parents = True, exist_ok = True )
+    
     for f in [ 'characters.rpy', 'gui.rpy', 'options.rpy', 'screens.rpy', 'script.rpy', 'transforms.rpy' ]:
-        shutil.copy2( src / f, dest / f )
-    shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
+        shutil.copy2( src / f, cfg['RENPY_GAME_DIR'] / f )
+    #shutil.copytree(  src / "images" / "Characters", cfg['RENPY_IMAGES_DIR'] / "characters" )
+    copy_tree( str( src / "gui" ), str( cfg['RENPY_GAME_DIR'] / "gui" ) )
+    copy_tree( str( src / "images" / "Characters" ), str( cfg['RENPY_IMAGES_DIR'] / "characters" ) )
 
-    	
+def fetchMGData( cfg ):
+    updateGit( cfg, "https://github.com/Monogatari/Monogatari.git", "Monogatari", "", cfg['ORIG_ROOT'] )
+    copy_tree( str( cfg['ORIG_ROOT'] / "Monogatari" / "dist" ), str( cfg['MG_GAME_DIR'] ) ) 
+            
 def load_ipython_extension(ipython):
     """
     Any module file that define a function named `load_ipython_extension`
@@ -410,3 +430,16 @@ def instTemplate( text, vars ):
         prev = current
         current = t.render( vars )
     return current
+
+#print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)
+def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=None):
+    s = ""
+    for o in objects:
+        if len(s) >  0:
+            s.append(sep)
+        s.append( repr(o) )
+    s.append(end)
+    if width:
+        s = textwrap.fill(s, width )
+    print(s, end="", file=file, flush=flush )
+    
