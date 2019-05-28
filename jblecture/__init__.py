@@ -12,6 +12,7 @@ import importlib
 import sys
 import zipfile
 from distutils.dir_util import copy_tree
+import textwrap
 
 import .jbcd
 from .jbcd import JBcd
@@ -428,3 +429,16 @@ def instTemplate( text, vars ):
         prev = current
         current = t.render( vars )
     return current
+
+#print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)
+def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=None):
+    s = ""
+    for o in objects:
+        if len(s) >  0:
+            s.append(sep)
+        s.append( repr(o) )
+    s.append(end)
+    if width:
+        s = textwrap.fill(s, width )
+    print(s, end="", file=file, flush=flush )
+    
