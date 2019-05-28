@@ -431,9 +431,9 @@ def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=Non
     s = ""
     for o in objects:
         if len(s) >  0:
-            s.append(sep)
-        s.append( repr(o) )
-    s.append(end)
+            s += sep
+        s += repr(o)
+    s += end
     if width:
         s = textwrap.fill(s, width )
     print(s, end="", file=file, flush=flush )
