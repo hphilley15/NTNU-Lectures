@@ -163,29 +163,30 @@ defaults['RenpyInitLabel'] =  ".init"
 defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
-        with jbcd.JBcd( root ):
-            p = pathlib.Path( dirname )
-            if not p.is_dir():
-                print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
-                if ( branch ):
-                    bs = " --branch " + branch
-                else:
-                    bs = ""
-                    
-                cmd = cfg['GIT_CMD'] + " clone " + bs + " " + url + " " + dirname 
-                os.system( cmd )
+    from .jbcd import JBcd
+    with jbcd.JBcd( root ):
+        p = pathlib.Path( dirname )
+        if not p.is_dir():
+            print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
+            if ( branch ):
+                bs = " --branch " + branch
             else:
-                print("git directory exists")
+                bs = ""
+                
+            cmd = cfg['GIT_CMD'] + " clone " + bs + " " + url + " " + dirname 
+            os.system( cmd )
+        else:
+            print("git directory exists")
 
-            with jbcd.JBcd( dirname ):
-                print("Executing git pull")
-                o = None
-                try:
-                    o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
-                except subprocess.CalledProcessError:
-                    pass
-                if ( o ):
-                    print( 'git pull:' + o.decode('utf-8') )
+        with jbcd.JBcd( dirname ):
+            print("Executing git pull")
+            o = None
+            try:
+                o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
+            except subprocess.CalledProcessError:
+                pass
+            if ( o ):
+                print( 'git pull:' + o.decode('utf-8') )
 
 def loadModules( cfg ):
     print('Loading Modules', cfg['MODULE_ROOT'])
@@ -194,7 +195,7 @@ def loadModules( cfg ):
     print('sys.path', sys.path )    
 
     from .jbcd import JBcd
-    
+
     from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
@@ -207,6 +208,7 @@ def loadModules( cfg ):
     from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
+    import jbcd
     print('Loading of modules finished')
     return cfg
 
