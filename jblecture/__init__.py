@@ -428,6 +428,10 @@ def instTemplate( text, vars ):
 
 #print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)
 def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=None):
+    s = _a( objects, sep, end, width )
+    print(s, end="", file=file, flush=flush )
+    
+def _a( *objects, sep=' ', end='\n', width=None):
     s = ""
     for o in objects:
         if len(s) >  0:
@@ -436,5 +440,4 @@ def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=Non
     s += end
     if width:
         s = textwrap.fill(s, width )
-    print(s, end="", file=file, flush=flush )
-    
+    return s
