@@ -14,12 +14,6 @@ import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
 
-from .jbcd import JBcd
-from .jbdata import JBImage, JBVideo
-from .jbslide import JBSlide
-from .jbmagics import JBMagics
-from .jbdocument import JBDocument
-
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
@@ -199,12 +193,18 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
 
+    from .jbcd import JBcd
+    
+    from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
+    from .jbslide import createEnvironment, JBSlide
     cfg = jbslide.createEnvironment( cfg )
 
+    from .jbmagics import createEnvironment, JBMagics
     cfg = jbmagics.createEnvironment( cfg )
 
+    from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
