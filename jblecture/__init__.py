@@ -220,7 +220,7 @@ def createEnvironment( params = {} ):
     for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]:
         try:
             importlib.import_module( p )
-        except ImportError:
+        except ModuleNotFoundError:
             print('Using pip to install missing dependency', p)
             os.system("pip" + " install " + p )
 
