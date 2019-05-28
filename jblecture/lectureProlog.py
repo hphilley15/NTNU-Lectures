@@ -74,6 +74,5 @@ jblecture.load_ipython_extension( get_ipython() )
 from jblecture import addJBImage, addJBVideo, addJBData, createTable, instTemplate, aprint
 from jblecture import cfg
 from jblecture import downloadDir
-from jblecture import 
 
 doc = cfg['doc']
