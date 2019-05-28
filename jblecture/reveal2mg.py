@@ -5,6 +5,7 @@ import bs4
 from bs4 import BeautifulSoup
 import sys
 import re
+import pathlib
 
 slideNum = 0
 
@@ -61,8 +62,8 @@ class MGDocParser():
     def parseRenpy(self, dialog ):
         out = ""
         for d in dialog.splitlines():
-            d.replace('"', '').lstrip().rstrip()
-            print(d)
+            d = d.replace('"', '').lstrip().rstrip()
+            print('d=', d)
             line = ""
             if d:
                 line = line + '"'
@@ -81,4 +82,5 @@ def main( args = None ):
     parser.printTree( )
 
 if __name__ == "__main__":
-    main( [ "C:/Users/negri/Desktop/reveal.js/index.html" ] )
+    home = pathlib.Path.home().resolve()
+    main( [ home / "Desktop" / "reveal.js" / "index.html" ] )
