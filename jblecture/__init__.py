@@ -208,7 +208,6 @@ def loadModules( cfg ):
     from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
-    import jbcd
     print('Loading of modules finished')
     return cfg
 
