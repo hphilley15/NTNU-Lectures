@@ -436,7 +436,10 @@ def _a( *objects, sep=' ', end='\n', width=None):
     for o in objects:
         if len(s) >  0:
             s += sep
-        s += repr(o)
+        if isinstance(o, str):
+            s += o
+        else:    
+            s += repr(o)
     s += end
     if width:
         s = textwrap.fill(s, width )
