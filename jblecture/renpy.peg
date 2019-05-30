@@ -1,0 +1,11 @@
+grammar renpy
+
+    message <- dtriple / dsingle / squoted / dquoted 
+    
+    squoted <- "'" [^'\r\n]* "'"
+    dquoted <- "\"" [^"\r\n]* "\""
+    dtriple <- "\"\"\"" (!"\"\"\"" .)* "\"\"\""
+    dsingle <- "'''" (!"'''" .)* "'''"
+    
+#.* ["] ["] ["] / ['] ['] ['] [.\n]* ['] ['] ['] 
+
