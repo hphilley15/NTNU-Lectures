@@ -140,7 +140,9 @@ def fetchMGData( mgHome, dir ):
     updateGit( "https://github.com/Monogatari/Monogatari.git", "Monogatari", "", mgHome  )
     dir.mkdir( parents = True, exist_ok = True )
     copy_tree( str( mgHome / "Monogatari" / "dist" ), str( dir ) ) 
-    
+    installNPMCanopy( dir )
+    installNPM( dir )
+
 def updateGit( url, dirname, branch,  root ):
         with cd( root ):
             p = pathlib.Path( dirname )
