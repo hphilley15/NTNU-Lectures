@@ -70,8 +70,14 @@ else:
 import jblecture
 jblecture.load_ipython_extension( get_ipython() )
 
-from jblecture import addJBImage, addJBVideo, addJBData, createTable, instTemplate, _a
+from jblecture import addJBImage, addJBVideo, addJBData
+from jblecture import createTable
+from jblecture import instTemplate
+from jblecture import _a
 from jblecture import cfg
-from jblecture import downloadDir
+from jblecture import downloadDir, zipDirectory
+
+from IPython.core.display import display, HTML
 
 doc = cfg['doc']
+
