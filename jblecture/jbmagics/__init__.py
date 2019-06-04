@@ -265,15 +265,15 @@ class JBMagics(Magics):
         html = html + "\n" + "</div>"
 
         # html = re.sub("<style>.*", "", html, flags=re.MULTILINE )
-        # htmlNoStyle=html
-        # if ( html.find("<style>") >= 0 ) and  ( html.find("</style>") >= 0 ):
-        #    htmlNoStyle = html[:html.find("<style>")] + html[html.find("</style>") + len("</style>"):]
+        htmlNoStyle=html
+        if ( html.find("<style>") >= 0 ) and  ( html.find("</style>") >= 0 ):
+            htmlNoStyle = html[:html.find("<style>")] + html[html.find("</style>") + len("</style>"):]
         # print('*** HTML ***', html)
 
         if args.output:
             self.shell.user_ns[args.output] = html
 
-        slide = self.doc.addSlide(args.id, html, args.background, args.header, 
+        slide = self.doc.addSlide(args.id, htmlNoStyle, args.background, args.header, 
                                   args.footer)
 
         # print(t)
