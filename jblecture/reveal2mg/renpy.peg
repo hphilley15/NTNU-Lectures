@@ -1,4 +1,7 @@
 grammar renpy
+    stmt <- label? message+
+
+    ws <- [ \t]
 
     message <- dtriple / dsingle / squoted / dquoted 
     
@@ -7,5 +10,7 @@ grammar renpy
     dtriple <- "\"\"\"" (!"\"\"\"" .)* "\"\"\""
     dsingle <- "'''" (!"'''" .)* "'''"
     
+    label <- `label` ws* (![:] .)+ ws* ":" ws* "\n" 
+
 #.* ["] ["] ["] / ['] ['] ['] [.\n]* ['] ['] ['] 
 

@@ -218,7 +218,7 @@ def createEnvironment( params = {} ):
 
     node = platform.node()
 
-    for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]:
+    for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2", "PyDrive" ]:
         try:
             importlib.import_module( p )
         except ModuleNotFoundError:
