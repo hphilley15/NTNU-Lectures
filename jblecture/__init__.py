@@ -14,17 +14,6 @@ import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
 
-import .jbcd
-from .jbcd import JBcd
-import .jbdata
-from .jbdata import JBImage, JBVideo
-import .jbslide
-from .jbslide import JBSlide
-import .jbmagics
-from .jbmagics import JBMagics
-import .jbdocument
-from .jbdocument import JBDocument
-
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
@@ -174,29 +163,30 @@ defaults['RenpyInitLabel'] =  ".init"
 defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
-        with jbcd.JBcd( root ):
-            p = pathlib.Path( dirname )
-            if not p.is_dir():
-                print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
-                if ( branch ):
-                    bs = " --branch " + branch
-                else:
-                    bs = ""
-                    
-                cmd = cfg['GIT_CMD'] + " clone " + bs + " " + url + " " + dirname 
-                os.system( cmd )
+    from .jbcd import JBcd
+    with jbcd.JBcd( root ):
+        p = pathlib.Path( dirname )
+        if not p.is_dir():
+            print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
+            if ( branch ):
+                bs = " --branch " + branch
             else:
-                print("git directory exists")
+                bs = ""
+                
+            cmd = cfg['GIT_CMD'] + " clone " + bs + " " + url + " " + dirname 
+            os.system( cmd )
+        else:
+            print("git directory exists")
 
-            with jbcd.JBcd( dirname ):
-                print("Executing git pull")
-                o = None
-                try:
-                    o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
-                except subprocess.CalledProcessError:
-                    pass
-                if ( o ):
-                    print( 'git pull:' + o.decode('utf-8') )
+        with jbcd.JBcd( dirname ):
+            print("Executing git pull")
+            o = None
+            try:
+                o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
+            except subprocess.CalledProcessError:
+                pass
+            if ( o ):
+                print( 'git pull:' + o.decode('utf-8') )
 
 def loadModules( cfg ):
     print('Loading Modules', cfg['MODULE_ROOT'])
@@ -204,12 +194,18 @@ def loadModules( cfg ):
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
 
+    from .jbcd import JBcd
+
+    from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
 
+    from .jbslide import createEnvironment, JBSlide
     cfg = jbslide.createEnvironment( cfg )
 
+    from .jbmagics import createEnvironment, JBMagics
     cfg = jbmagics.createEnvironment( cfg )
 
+    from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
     print('Loading of modules finished')
@@ -222,10 +218,10 @@ def createEnvironment( params = {} ):
 
     node = platform.node()
 
-    for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2" ]:
+    for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2", "PyDrive" ]:
         try:
             importlib.import_module( p )
-        except ImportError:
+        except ModuleNotFoundError:
             print('Using pip to install missing dependency', p)
             os.system("pip" + " install " + p )
 
@@ -433,13 +429,19 @@ def instTemplate( text, vars ):
 
 #print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)
 def aprint( *objects, sep=' ', end='\n', file=sys.stdout, flush=False, width=None):
+    s = _a( objects, sep, end, width )
+    print(s, end="", file=file, flush=flush )
+    
+def _a( *objects, sep=' ', end='\n', width=None):
     s = ""
     for o in objects:
         if len(s) >  0:
-            s.append(sep)
-        s.append( repr(o) )
-    s.append(end)
+            s += sep
+        if isinstance(o, str):
+            s += o
+        else:    
+            s += repr(o)
+    s += end
     if width:
         s = textwrap.fill(s, width )
-    print(s, end="", file=file, flush=flush )
-    
+    return s

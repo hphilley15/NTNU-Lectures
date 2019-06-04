@@ -15,7 +15,6 @@ class JBSlide:
         
         self.note = ""
 
-        
     def __repr_reveal_html__( self ):
         from ..jbdocument import JBDocument 
         reveal = JBDocument.sInstTemplate( cfg['REVEAL_SLIDE_TEMPLATE'], { 'id': self.id, 'slideHTML': self.html, 'slideNote': self.renpy, 'slideChildren':"" } )
