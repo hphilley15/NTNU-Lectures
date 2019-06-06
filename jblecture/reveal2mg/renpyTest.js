@@ -1,6 +1,9 @@
 const parser = require("./renpy.js")
 
-tests = [ "'xxyyx cvcvc xxx'", '"This is the new lecture style"', '"""A\nmultiline\nstring"""', "'''Another\r\ntest'''" ]
+tests = [   "'xxyyx cvcvc xxx'", 
+            '"This is the new lecture style"', 
+            '"""A\nmultiline\nstring"""', 
+            "'''Another\r\ntest'''" ]
 for(var i = 0; i < tests.length; i++ ) {
     try{
         parser.parse(tests[i]);

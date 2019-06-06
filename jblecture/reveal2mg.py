@@ -200,6 +200,7 @@ def main( args = None ):
     parser.parseFile( args[0] )
     parser.printTree( )
     parser.writeMGDirectory( args[1] )
+    
 if __name__ == "__main__":
     home = pathlib.Path.home().resolve()
     main( [ home / "Desktop" / "reveal.js" / "index.html", home / "Desktop" / "mg" ] )

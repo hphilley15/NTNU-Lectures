@@ -1,6 +1,9 @@
 import subprocess
 import pathlib
 import os
+import sys
+import platform
+from importlib import reload 
 
 try:
     GIT_CMD
@@ -46,17 +49,40 @@ def updateGit( url, dirname, branch,  root ):
 
 updateGit('https://github.com/cvroberto21/NTNU-Lectures.git', 'NTNU-Lectures', 'mg', '.')
 
-import sys
-import pathlib
+def gDriveLogin():
+    from pydrive.auth import GoogleAuth
+    from pydrive.drive import GoogleDrive
+    from google.colab import auth
+    from oauth2client.client import GoogleCredentials
+    global GDrive
+
+    # 1. Authenticate and create the PyDrive client.
+    auth.authenticate_user()
+    gauth = GoogleAuth()
+    gauth.credentials = GoogleCredentials.get_application_default()
+    drive = GoogleDrive(gauth)
+
+    GDrive = drive
+    return drive
+
+def gDriveUpload( dir, file ):
+    global GDrive
+
+    if (not GDrive):
+        gDriveLogin()
+    # 2. Create & upload a file file.
+    uploaded = drive.CreateFile( file )
+    uploaded.SetContentFile( dir / file )
+    uploaded.Upload()
+    print('Uploaded file with ID {}'.format(uploaded.get('id')))
+
 
 d = str( pathlib.Path( pathlib.Path('.') / 'NTNU-Lectures' ).resolve() )
 if d not in sys.path:    
     sys.path.append(  d )
 print('System Path', sys.path)
 
-import platform
 import jblecture
-from importlib import reload 
 
 jblecture = reload(jblecture)
 node = platform.node()
@@ -80,4 +106,5 @@ from jblecture import downloadDir, zipDirectory
 from IPython.core.display import display, HTML
 
 doc = cfg['doc']
+GDrive = None
 

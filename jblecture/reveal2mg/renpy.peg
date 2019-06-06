@@ -1,5 +1,5 @@
 grammar renpy
-    stmt <- label? message+
+    stmt <- label? ws* message+
 
     ws <- [ \t]
 
