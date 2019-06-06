@@ -1,16 +1,28 @@
 grammar renpy
-    stmt <- label? ws* message+
+    g <- stmt+
+
+    stmt <- speak / label
+
+    speak <- wsL* `say`? ws* sText? ws* mText wsL*
 
     ws <- [ \t]
+    nl <- "\n" / "\r"
+    wsL <- ws / nl
 
-    message <- dtriple / dsingle / squoted / dquoted 
+    # message <- wsL* speaker? ws* mText wsL*
+
+    mText <- dtriple / dsingle / squoted / dquoted
     
+    uquoted <- [^ "'\r\n]+
     squoted <- "'" [^'\r\n]* "'"
     dquoted <- "\"" [^"\r\n]* "\""
     dtriple <- "\"\"\"" (!"\"\"\"" .)* "\"\"\""
     dsingle <- "'''" (!"'''" .)* "'''"
     
-    label <- `label` ws* (![:] .)+ ws* ":" ws* "\n" 
+    label <- `label` ws* (![:] .)+ ws* ":" ws* wsL+ 
+
+    speaker <- uquoted / squoted / dquoted 
+    sText <- speaker ws* (mText)
 
 #.* ["] ["] ["] / ['] ['] ['] [.\n]* ['] ['] ['] 
 
