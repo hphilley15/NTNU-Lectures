@@ -12,12 +12,27 @@ class Actions( object ):
         return elements[3]
 
     def make_label( self, input, start, end, elements ):
-        print("make_label", elements[3] )    
+        #print("make_label", elements[3] )    
         return elements 
 
     def make_show( self, input, start, end, elements ):
-        print("make_label", elements )    
+        modifiers = elements[4].text    
+        print("make_show", elements, modifiers )
         return elements 
+ 
+    def make_position( self, input, start, end, elements ):
+        position = elements[2]   
+        print("make_position", elements, position )
+        return position
+ 
+    def make_effect( self, input, start, end, elements ):
+        effect = elements[4].text    
+        print("make_effect", elements, effect )
+        return effect
+ 
+    def make_blank( self, input, start, end, elements ):
+        print("make_blank", elements )    
+        return None 
 
     def make_qstring( self, input, start, end, elements ):
         print("make_qstring", input[start:end], elements[1].text )    
@@ -59,10 +74,12 @@ text = """
 label start:
 
     pause 
-
+    show me happy arm raised at center
     "Sylvie" "Hi there! How was class?"
 
     say "Me" 'Good...'
+
+    show "me" at center
 
     "I can't bring myself to admit that it all went in one ear and out the other."
 
@@ -77,6 +94,9 @@ label start:
 
     jump slide2
 """
+
+text = "show me happy up at center\n"
+#text = """show me at center\n"""
 
 if __name__ == "__main__":
     main()
