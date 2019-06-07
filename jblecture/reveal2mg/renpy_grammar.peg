@@ -1,0 +1,62 @@
+grammar renpy
+    g <- stmt+
+
+    stmt <- label / jump / comment / show / hide / pause / scene / window / speak / blank
+
+    speak <- ws* (`say` ws+)? (speaker ws+)? speech ws* nl? %make_say1
+
+    ws <- [ \t]
+    nl <- "\n" / "\r"
+    wsL <- ws / nl
+
+    speech <- dtriple / dsingle / squoted / dquoted
+    
+    uquoted <- [\w]+ %make_string
+    squoted <- "'" [^'\r\n]* "'" %make_qstring
+    dquoted <- "\"" [^"\r\n]* "\"" %make_qstring
+    dtriple <- "\"\"\"" (!"\"\"\"" .)* "\"\"\"" %make_qstring
+    dsingle <- "'''" (!"'''" .)* "'''" %make_qstring
+
+    id <- idS
+    idS <- squoted / dquoted / uquoted
+
+    label <- ws* `label` ws+ id ws* ":" ws* nl? %make_label
+
+    jump <- wsL* `jump` ws+ id ws* nl? %make_jump
+
+    #show <- show3 / show21 / show22 / show1 
+
+    show <- showSeg (ws+ positionSeg)? (ws+ effectSeg)? ws* nl? %make_show
+    #show21 <- showSeg ws+ positionSeg ws* nl?
+    #show22 <- showSeg ws+ effectSeg ws* nl?
+    #show1 <- showSeg ws* nl?
+ 
+    showSeg <- ws* "show" ws+ nameId ws+ modifierList? ws* nl?
+    modifierList <- modifierId (ws+ modifierId)* 
+    effectSeg <- "with" ws* effectId 
+    positionSeg <- "at" ws* positionId ws*
+
+    effectId <- id
+    positionId <- id
+    nameId <- id
+    modifierId <- id
+    sceneId <- id
+
+    speaker <- uquoted / squoted / dquoted 
+
+    comment <- ws* "#" [^\n\r]* nl ws* nl?
+
+    pause <- ws* "pause" (ws+ num)? ws* nl? %make_pause
+    
+    num <- "-"? [0-9]+ ( "." [0-9]+ )? %make_num
+
+    scene <- ws* "scene" (ws+ "bg")? ws+ sceneId (ws+ effectSeg)? ws* nl?
+
+    window <- ws* "window" ws+ ( "hide" / "show" ) ws* nl?
+
+    hide <- ws* "hide" ws+ id ws* nl?
+
+    blank <- ws* nl
+
+#.* ["] ["] ["] / ['] ['] ['] [.\n]* ['] ['] ['] 
+

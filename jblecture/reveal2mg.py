@@ -83,6 +83,7 @@ class MGDocParser():
             self.printTree( c, level + 1 )
 
     def parseRenpyLine( line ):
+        pass
 
     def parseRenpy(self, dialog ):
         out = ""
@@ -190,6 +191,16 @@ def npmInstall( dirname ):
         if ( o ):
             print( 'npm install' + o.decode('utf-8') )
 
+def compileGrammar( dirname, grammar, lang ):
+    with cd( dirname ):
+        print("Executing canopy", grammar, 'language', lang )
+        o = None
+        try:
+            o = subprocess.check_output(f"canopy {grammar} --lang {lang}", shell=True)
+        except subprocess.CalledProcessError:
+            pass
+        if ( o ):
+            print( 'canopy output' + o.decode('utf-8') )
 
 def main( args = None ):
     if args is None:
