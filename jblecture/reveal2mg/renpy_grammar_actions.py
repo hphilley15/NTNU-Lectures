@@ -26,7 +26,7 @@ class Actions( object ):
         return position
  
     def make_effect( self, input, start, end, elements ):
-        effect = elements[4].text    
+        effect = elements[2]    
         print("make_effect", elements, effect )
         return effect
  
@@ -95,7 +95,7 @@ label start:
     jump slide2
 """
 
-text = "show me happy up at center\n"
+text = "show me happy up at center with fade\n"
 #text = """show me at center\n"""
 
 if __name__ == "__main__":

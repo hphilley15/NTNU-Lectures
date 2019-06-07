@@ -24,9 +24,9 @@ grammar renpy
 
     #show <- show3 / show21 / show22 / show1 
 
-    show <- ws* "show" ws+ nameId (ws+ modifierList)? (ws+ positionSeg)? (ws+ effectSeg)? ws* eoc %make_show
+    show <- ws* "show" ws+ nameId modifierList? (ws+ positionSeg)? (ws+ effectSeg)? ws* eoc %make_show
 
-    modifierList <- (!positionSeg modifierId)+  
+    modifierList <- (ws+ (!positionSeg modifierId))+  
     effectSeg <- "with" ws+ effectId %make_effect
     positionSeg <- "at" ws+ positionId %make_position
 
