@@ -263,6 +263,7 @@ def createEnvironment( params = {} ):
 
     fetchMGData( cfg )
 
+	
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
