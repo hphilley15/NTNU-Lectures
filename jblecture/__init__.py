@@ -19,9 +19,13 @@ defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
+defaults['GDRIVE_ROOT'] = '/gDrive'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
+
+defaults['REVEAL_CSS_DIR'] = defaults['REVEAL_DIR'] / "css"
+defaults['REVEAL_THEME_DIR'] = defaults['REVEAL_CSS_DIR'] / "theme"
 defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
 defaults['REVEAL_IMAGES_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "images"
 defaults['REVEAL_VIDEOS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "videos"
@@ -44,6 +48,7 @@ defaults['GIT_CMD'] = 'git'
 defaults['GOOGLE_COLAB'] = False
 try:
     from google.colab import files
+    defaults['GOOGLE_COLAB'] = True
 except ImportError:
     defaults['GOOGLE_COLAB'] = False
 
@@ -255,7 +260,7 @@ def createEnvironment( params = {} ):
     fetchRenpyData( cfg )
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
-        cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
+        cfg['REVEAL_THEME_DIR'] / 'ntnuerc.css'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
         cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
