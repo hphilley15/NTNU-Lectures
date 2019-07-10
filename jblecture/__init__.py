@@ -19,7 +19,7 @@ defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
-defaults['GDRIVE_ROOT'] = '/gDrive'
+defaults['GDRIVE_ROOT'] = '/gDrive/My Drive'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
