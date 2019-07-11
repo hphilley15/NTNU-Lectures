@@ -65,7 +65,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
         <title>{{title}}</title>
 
         <link rel="stylesheet" href="css/reveal.css">
-        <link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
+        <link rel="stylesheet" href="css/theme/{{ theme }}.css">
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
