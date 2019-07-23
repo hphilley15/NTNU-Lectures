@@ -76,7 +76,10 @@ def gDriveUpload( dir, file ):
     uploaded.Upload()
     print('Uploaded file with ID {}'.format(uploaded.get('id')))
 
-
+def gDriveMount(dir):
+    from google.colab import drive
+    drive.mount(dir)
+    
 d = str( pathlib.Path( pathlib.Path('.') / 'NTNU-Lectures' ).resolve() )
 if d not in sys.path:    
     sys.path.append(  d )
