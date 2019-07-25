@@ -105,8 +105,9 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
     </body>
 </html>
 """
+
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
-<section id="{{id}}">
+<section id="{{id}}" data-state="{{id}}">
 
 {{slideHTML}}
 
@@ -244,15 +245,16 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
-    with jbcd.JBcd( cfg['REVEAL_DIR']  ):
-        print("Executing npm install decktape")
-        o = None
-        try:
-            o = subprocess.check_output("npm install decktape", shell = True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):    
-            print( 'npm install decktape:' + o.decode('utf-8') )
+    for pkg in [ 'decktape', 'scenejs' ]:            
+        with jbcd.JBcd( cfg['REVEAL_DIR']  ):
+            print( f"Executing npm install {pkg}" )
+            o = None
+            try:
+                o = subprocess.check_output( f"npm install {pkg}", shell = True)
+            except subprocess.CalledProcessError:
+                pass
+            if ( o ):    
+                print( f'npm install {pkg}:' + o.decode('utf-8') )
 
     for d in [ cfg['REVEAL_IMAGES_DIR'], cfg['REVEAL_VIDEOS_DIR'], cfg['REVEAL_SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
@@ -268,7 +270,6 @@ def createEnvironment( params = {} ):
 
     fetchMGData( cfg )
 
-	
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
