@@ -267,6 +267,8 @@ def createEnvironment( params = {} ):
         cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
+        cfg['REVEAL_IMAGES_DIR']  / 'FIRA-logo-1.png')
 
     fetchMGData( cfg )
 
@@ -274,6 +276,7 @@ def createEnvironment( params = {} ):
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
+    cfg['ASSETS']['fira-logo-1'] =  jbdata.JBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1.png" ) )
 
     ratio = 1.0
     cssStr = """
@@ -348,7 +351,7 @@ def load_ipython_extension(ipython):
     # since its constructor has different arguments from the default:
 
     global cfg
-    cfg = createEnvironment( mycfg )
+    cfg = createEnvironment( {} )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
