@@ -289,7 +289,7 @@ def createEnvironment( params = {} ):
     return cfg
 
 def createDocument( cfg ):
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'],
+    doc = jbdocument.JBDocument(
         background = cfg['REVEAL_SLIDE_BACKGROUND'],
         footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
     return doc

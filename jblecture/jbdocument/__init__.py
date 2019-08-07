@@ -6,7 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self, title = '', theme='', background = '', footer = '', header = '' ):
+    def __init__(self, background = '', footer = '', header = '' ):
         self.slides = []
         self.renpy = []
       
@@ -18,14 +18,10 @@ class JBDocument:
         
         self.user_ns = {}
         
-        self.setTitle( title )
         self.setTheme( theme )
         self.setFooter( footer )
         self.setHeader( header )
         self.setBackground( background )
-
-    def setTitle(self, title ):
-        self.title = title
 
     def setFooter(self, footer ):
         self.footer = footer
@@ -35,14 +31,6 @@ class JBDocument:
 
     def setBackground( self, bg ):
         self.background = bg
-
-    def setTheme(self, theme ):
-        if (theme ):
-            self.theme = theme
-            self.cssSlides = wp.CSS( string = self.createLocalTheme() )
-        else:
-            self.theme = ''
-            self.cssSlides = ''
 
     def createLocalTheme( self ):
         return self.makeRevealThemeLocal( self.theme )
@@ -148,7 +136,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': self.title, 'slides': slides } )
+        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': cfg['TITLE'], 'slides': slides } )
         return presentation
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
@@ -173,7 +161,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         
-        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': self.title, 'startId': startId } )
+        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': cfg['TITLE'], 'startId': startId } )
         sp = pathlib.Path( rdir ) / "start.rpy"
         with sp.open( "w" ) as f:
             f.write( rpyScript )
