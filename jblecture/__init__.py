@@ -348,7 +348,7 @@ def load_ipython_extension(ipython):
     # since its constructor has different arguments from the default:
 
     global cfg
-    cfg = createEnvironment( {} )
+    cfg = createEnvironment( mycfg )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
     cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
