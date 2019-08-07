@@ -106,10 +106,9 @@ class JBDocument:
         if (  oind >= 0 ) and ( oind < len(self.slides) ):
             del self.slides[oind]
         
-        #print("footer", footer )
         #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
-        sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + 
-                          footer + '\n', renpy = '', left='', right='', up='', down='' )
+        sl = JBSlide( id, '<!-- Header -->\n' + header + '<!-- Background -->\n' + background + '<!-- Slide -->\n' + slideHTML + '<!-- Footer -->\n' + 
+                          footer + '<!-- End -->\n', renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
             c = self.findSlideIndex( self.current )
