@@ -106,7 +106,7 @@ class JBDocument:
             del self.slides[oind]
         
         htmltxt = '<!-- Header -->\n' + header + '<!-- Background -->\n' + background + '<!-- Slide -->\n' + slideHTML + '<!-- Footer -->\n' + footer + '<!-- End -->\n'
-        self.instTemplate( htmltxt, {} )
+        htmltxt = self.instTemplate( htmltxt, {} )
         #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
         sl = JBSlide( id, htmltxt, renpy = '', left='', right='', up='', down='' )
         
