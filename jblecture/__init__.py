@@ -263,6 +263,8 @@ def createEnvironment( params = {} ):
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
         cfg['REVEAL_THEME_DIR'] / 'ntnuerc.css'  )
+    shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'fira.css' , 
+        cfg['REVEAL_THEME_DIR'] / 'fira.css'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
         cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
