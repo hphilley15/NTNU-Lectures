@@ -144,7 +144,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': cfg['TITLE'], 'slides': slides } )
+        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { slides': slides } )
         return presentation
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
