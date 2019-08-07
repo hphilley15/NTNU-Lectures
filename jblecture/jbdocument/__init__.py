@@ -33,7 +33,7 @@ class JBDocument:
     #     self.background = bg
 
     def createLocalTheme( self ):
-        return self.makeRevealThemeLocal( self.theme )
+        return self.makeRevealThemeLocal( cfg['THEME'] )
             
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
