@@ -106,8 +106,7 @@ class JBDocument:
         if (  oind >= 0 ) and ( oind < len(self.slides) ):
             del self.slides[oind]
         
-        htmltxt = '<!-- Header -->\n' + header + '<!-- Background -->\n' + background + '<!-- Slide -->\n' + slideHTML + '<!-- Footer -->\n' + 
-                  footer + '<!-- End -->\n'
+        htmltxt = '<!-- Header -->\n' + header + '<!-- Background -->\n' + background + '<!-- Slide -->\n' + slideHTML + '<!-- Footer -->\n' + footer + '<!-- End -->\n'
         self.instTemplate( htmtxt, {} )
         #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
         sl = JBSlide( id, htmltxt, renpy = '', left='', right='', up='', down='' )
