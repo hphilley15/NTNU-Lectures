@@ -106,9 +106,11 @@ class JBDocument:
         sl = JBSlide( id, slideHTML, renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
-            leftS = self.slides[ self.findSlideIndex( self.current ) ]
-            leftS.right = sl.id
-            sl.left = self.current
+            c = self.findSlideIndex( self.current )
+            if ( c >= 0 ) and ( c < len(self.slides) ):
+                leftS = self.slides[ c ]
+                leftS.right = sl.id
+                sl.left = self.current
         
         self.current = id
         self.slides.append( sl )
