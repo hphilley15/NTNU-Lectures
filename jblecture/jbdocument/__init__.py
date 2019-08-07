@@ -102,7 +102,8 @@ class JBDocument:
             del self.slides[oind]
         
         #print("footer", footer )
-        sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
+        #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
+        sl = JBSlide( id, slideHTML, renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
             leftS = self.slides[ self.findSlideIndex( self.current ) ]
