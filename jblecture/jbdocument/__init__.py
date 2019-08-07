@@ -18,19 +18,19 @@ class JBDocument:
         
         self.user_ns = {}
         
-        self.setTheme( theme )
-        self.setFooter( footer )
-        self.setHeader( header )
-        self.setBackground( background )
+        # self.setTheme( theme )
+        # self.setFooter( footer )
+        # self.setHeader( header )
+        # self.setBackground( background )
 
-    def setFooter(self, footer ):
-        self.footer = footer
+    # def setFooter(self, footer ):
+    #     self.footer = footer
 
-    def setHeader(self, header):
-        self.header = header
+    # def setHeader(self, header):
+    #     self.header = header
 
-    def setBackground( self, bg ):
-        self.background = bg
+    # def setBackground( self, bg ):
+    #     self.background = bg
 
     def createLocalTheme( self ):
         return self.makeRevealThemeLocal( self.theme )
