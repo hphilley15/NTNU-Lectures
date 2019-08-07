@@ -10,7 +10,7 @@
  *
  */
  
-@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,700,300italic,700italic);
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans+Display);
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -20,7 +20,7 @@
     --forecolor: #101010;
     --selectcolor: #801010;
     --selectbackground: #c0c0c0;
-    --textfont: 'Times New Roman', Times, serif, "sans-serif";
+    --textfont: 'Noto Sans Display';
 } 
 
 body {
