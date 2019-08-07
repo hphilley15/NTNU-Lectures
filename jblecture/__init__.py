@@ -70,6 +70,8 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
 
+        <script src="http://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
+		
         <!-- Printing and PDF exports -->
         <script>
             var link = document.createElement( 'link' );
