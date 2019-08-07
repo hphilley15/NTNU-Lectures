@@ -6,7 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self, ns ):
+    def __init__( self ):
         self.slides = []
         self.renpy = []
       
