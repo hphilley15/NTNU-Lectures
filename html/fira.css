@@ -31,7 +31,7 @@ body {
   font-family: var(--textfont);
   font-size: 40px;
   font-weight: normal;
-  color: var(forecolor); 
+  color: var(--forecolor); 
 }
 
 ::selection {
