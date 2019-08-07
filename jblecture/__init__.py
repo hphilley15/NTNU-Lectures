@@ -353,7 +353,7 @@ def load_ipython_extension(ipython):
     global cfg
     cfg = createEnvironment( {} )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
-    cfg['doc'].user_ns = magics.shell.user_ns
+    # cfg['doc'].user_ns = magics.shell.user_ns
     ipython.register_magics(magics)
 
 # Functions that should be exported

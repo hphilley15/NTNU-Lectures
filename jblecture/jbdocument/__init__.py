@@ -16,7 +16,7 @@ class JBDocument:
         self.slideCount = 1
         self.slideFragmentCount = 1
         
-        self.user_ns = {}
+        # self.user_ns = {}
         
         # self.setTheme( theme )
         # self.setFooter( footer )
