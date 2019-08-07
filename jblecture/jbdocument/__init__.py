@@ -6,7 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self ):
+    def __init__(self, ns ):
         self.slides = []
         self.renpy = []
       
@@ -15,7 +15,7 @@ class JBDocument:
         
         self.slideCount = 1
         self.slideFragmentCount = 1
-        
+
         # self.user_ns = {}
         
         # self.setTheme( theme )
@@ -59,7 +59,7 @@ class JBDocument:
         return current 
       
     def instTemplate( self, text, vars ):
-        d = { **self.shell.user_ns, **vars }
+        d = { ** cfg['user_ns'], **vars }
         return JBDocument.sInstTemplate( text, d )
         
     def findSlideIndex( self, id ):
