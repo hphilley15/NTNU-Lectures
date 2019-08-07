@@ -59,8 +59,7 @@ class JBDocument:
         return current 
       
     def instTemplate( self, text, vars ):
-        d = { **self.user_ns, **vars }
-        d['cfg'] = cfg
+        d = { **self.shell.user_ns, **vars }
         return JBDocument.sInstTemplate( text, d )
         
     def findSlideIndex( self, id ):
