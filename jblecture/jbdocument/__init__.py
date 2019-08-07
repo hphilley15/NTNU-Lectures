@@ -6,7 +6,7 @@ import pathlib
 from ..jbslide import JBSlide
 
 class JBDocument:
-    def __init__(self, background = '', footer = '', header = '' ):
+    def __init__(self ):
         self.slides = []
         self.renpy = []
       
@@ -72,19 +72,19 @@ class JBDocument:
         #print('returning', ind )
         return ind
 
-    def addSlide( self, id, slideHTML, background = '', header = '', footer = ''):
+    def addSlide( self, id, slideHTML ):
         #html = wp.HTML( string = slideHTML )
         #doc = html.render( stylesheets = [ self.cssSlides ] )
         #png, width, height = doc.write_png( target=None )
         
-        if ( not background ):
-            background = self.instTemplate( self.background, {} )
+        # if ( not background ):
+        #     background = self.instTemplate( self.background, {} )
         
-        if ( not header ):
-            header = self.instTemplate( self.header, {} ) 
+        # if ( not header ):
+        #     header = self.instTemplate( self.header, {} ) 
             
-        if ( not footer ):
-            footer = self.instTemplate( self.footer, {} )
+        # if ( not footer ):
+        #     footer = self.instTemplate( self.footer, {} )
             
         self.slideCount = self.slideCount + 1
         self.slideFragmentCount = 1
