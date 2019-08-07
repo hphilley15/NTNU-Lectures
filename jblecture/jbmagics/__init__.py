@@ -268,12 +268,12 @@ class JBMagics(Magics):
         htmlNoStyle=html
         if ( html.find("<style>") >= 0 ) and  ( html.find("</style>") >= 0 ):
             htmlNoStyle = html[:html.find("<style>")] + html[html.find("</style>") + len("</style>"):]
-        # print('*** HTML ***', html)
+        print('*** HTML ***', htmlNoStyle)
 
         if args.output:
             self.shell.user_ns[args.output] = html
 
-        slide = self.doc.addSlide(args.id, htmlNoStyle ) #, args.background, args.header, args.footer)
+        slide = self.doc.addSlide(args.id, htmlNoStyle, args.background, args.header, args.footer)
 
         # print(t)
         display(HTML('<style>\n' + self.doc.createLocalTheme() + '\n' + '</style>' + '\n' + slide.html))

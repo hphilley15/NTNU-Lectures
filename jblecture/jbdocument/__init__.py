@@ -72,20 +72,25 @@ class JBDocument:
         #print('returning', ind )
         return ind
 
-    def addSlide( self, id, slideHTML ):
+    def addSlide( self, id, slideHTML, background = None, header = None, footer = None ):
         #html = wp.HTML( string = slideHTML )
         #doc = html.render( stylesheets = [ self.cssSlides ] )
         #png, width, height = doc.write_png( target=None )
         
-        # if ( not background ):
-        #     background = self.instTemplate( self.background, {} )
-        
-        # if ( not header ):
-        #     header = self.instTemplate( self.header, {} ) 
-            
-        # if ( not footer ):
-        #     footer = self.instTemplate( self.footer, {} )
-            
+        if ( background ):
+            background = self.instTemplate( self.background, {} )
+        else:
+            background = cfg['REVEAL_SLIDE_BACKGROUND']
+        if ( header ):
+            header = self.instTemplate( self.header, {} ) 
+        else:
+            header = cfg['REVEAL_SLIDE_HEADER']
+
+        if ( footer ):
+            footer = self.instTemplate( self.footer, {} )
+        else:
+            footer = cfg['REVEAL_SLIDE_FOOTER']
+
         self.slideCount = self.slideCount + 1
         self.slideFragmentCount = 1
         
@@ -103,7 +108,8 @@ class JBDocument:
         
         #print("footer", footer )
         #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
-        sl = JBSlide( id, slideHTML, renpy = '', left='', right='', up='', down='' )
+        sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + 
+                          footer + '\n', renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
             c = self.findSlideIndex( self.current )
