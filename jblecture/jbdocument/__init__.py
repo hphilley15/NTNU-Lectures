@@ -1,4 +1,4 @@
-import weasyprint as wp
+
 from jinja2 import Template
 import re
 import pathlib
