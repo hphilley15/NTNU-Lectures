@@ -92,6 +92,9 @@ class JBData:
         if (self.data) and (len(self.data) > 1024 * 1024):
             self.data = None
 
+    def __call__(self):
+        return self.url
+
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
@@ -114,6 +117,8 @@ class JBImage(JBData):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
+    #def __call__(self):
+    #    super(JBImage, self).__call__()
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
