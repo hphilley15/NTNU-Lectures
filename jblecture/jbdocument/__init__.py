@@ -158,7 +158,7 @@ class JBDocument:
             ia = ia + 1
             s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "["
             it = 0 
-            for t in [ assets[a].name, assets[a].url, assets[a].localFile.relative_to(rdir) ]:
+            for t in [ assets[a].name, assets[a].url, Path( assets[a].localFile ).relative_to(rdir) ]:
                 if it > 0:
                     s = s + ", "
                 if t:
