@@ -151,7 +151,7 @@ class JBDocument:
     def createAssets( self ):
         s = "assets = {\n"
         for a in cfg['ASSETS']:
-            s = s + "    " + "{" + s.name + "," + s.url + "," + s.localFile + "}\n"
+            s = s + "    " + "{" + a.name + "," + a.url + "," + a.localFile + "}\n"
         s = s + "}\n"
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
