@@ -70,7 +70,6 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
-
         <script src="http://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
 		
         <!-- Printing and PDF exports -->
@@ -81,6 +80,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
             link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
+        <script src="js/ntnu.js"></script>
     </head>
     <body>
         <div class="reveal">
@@ -104,6 +104,11 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
                     { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
                 ]
             });
+        </script>
+
+        <script>
+            {{assets}}
+            convertURLs(assets, "Local");
         </script>
     </body>
 </html>
