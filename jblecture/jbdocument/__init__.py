@@ -152,7 +152,9 @@ class JBDocument:
         s = "assets = {\n"
         for a in assets:
             s = s + "    " + "{" 
-            for t in [ assets[a].name, assets[a].name, assets[a].name ]:
+            for i,t in enumerate( [ assets[a].name, assets[a].url, assets[a].localFile ] ):
+                if i > 0:
+                    s = s + ", "
                 if t:
                     s = s + t + ","
                 else:
@@ -160,7 +162,7 @@ class JBDocument:
             s = s + "}\n"
         s = s + "}\n"
         return s
-        
+
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
