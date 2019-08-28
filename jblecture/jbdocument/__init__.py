@@ -153,16 +153,16 @@ class JBDocument:
         ia = 0
         for a in assets:
             if ia > 0:
-                s = s + ";"
+                s = s + ","
             ia = ia + 1
             s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "[" 
             for it,t in enumerate( [ assets[a].name, assets[a].url, assets[a].localFile ] ):
                 if it > 0:
                     s = s + ", "
                 if t:
-                    s = s + t + ","
+                    s = s + t
                 else:
-                    s = s + '""' + ","
+                    s = s + '""'
             s = s + "]\n"
         s = s + "};\n"
         return s
