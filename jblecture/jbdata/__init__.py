@@ -117,8 +117,8 @@ class JBImage(JBData):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    #def __call__(self):
-    #    super(JBImage, self).__call__()
+    def __call__(self):
+        super(JBImage, self).__call__()
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
