@@ -144,7 +144,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        assets = self.createAssets( cfg['ASSETS'] )
+        assets = self.createAssets( cfg['ASSETS'], cfg['REVEAL_DIR'] )
         presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'slides': slides, 'assets': assets } )
         return presentation
 
@@ -158,7 +158,7 @@ class JBDocument:
             ia = ia + 1
             s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "["
             it = 0 
-            for t in [ assets[a].name, assets[a].url, assets[a].localFile.relative_to(cfg['REVEAL_DIR']) ]:
+            for t in [ assets[a].name, assets[a].url, assets[a].localFile.relative_to(rdir) ]:
                 if it > 0:
                     s = s + ", "
                 if t:
