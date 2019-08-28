@@ -149,18 +149,20 @@ class JBDocument:
         return presentation
 
     def createAssets( self, assets ):
-        s = "assets = {\n"
-        for a in assets:
+        s = "var assets = {\n"
+        for ia, a in enumerate( assets ):
+            if ia > 0:
+                s = s + ";"
             s = s + "    " + "{" 
-            for i,t in enumerate( [ assets[a].name, assets[a].url, assets[a].localFile ] ):
-                if i > 0:
+            for it,t in enumerate( [ assets[a].name, assets[a].url, assets[a].localFile ] ):
+                if it > 0:
                     s = s + ", "
                 if t:
                     s = s + t + ","
                 else:
                     s = s + '""' + ","
             s = s + "}\n"
-        s = s + "}\n"
+        s = s + "};\n"
         return s
 
     def createRevealDownload( self, dir, fname = 'index.html' ):
