@@ -159,7 +159,8 @@ class JBDocument:
                     s = s + '""' + ","
             s = s + "}\n"
         s = s + "}\n"
-    
+        return s
+        
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
