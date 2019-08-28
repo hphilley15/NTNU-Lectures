@@ -1,3 +1,3 @@
-function getImageLink( name ) {
-    console.log("getImageLink " + name );
+function convertURLs( mode ) {
+    console.log("convertURLs " + mode );
 }
