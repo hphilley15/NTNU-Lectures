@@ -151,7 +151,7 @@ class JBDocument:
     def createAssets( self, assets ):
         s = "assets = {\n"
         for a in assets:
-            print(assets[a])
+            print(assets[a], assets[a].name)
             s = s + "    " + "{" + assets[a].name + "," + assets[a].url + "," + assets[a].localFile + "}\n"
         s = s + "}\n"
     
