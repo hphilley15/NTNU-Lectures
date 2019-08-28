@@ -150,10 +150,12 @@ class JBDocument:
 
     def createAssets( self, assets ):
         s = "var assets = {\n"
-        for ia, a in enumerate( assets ):
+        ia = 0
+        for a in assets:
             if ia > 0:
                 s = s + ";"
-            s = s + "    " + "{" 
+            ia = ia + 1
+            s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "[" 
             for it,t in enumerate( [ assets[a].name, assets[a].url, assets[a].localFile ] ):
                 if it > 0:
                     s = s + ", "
@@ -161,7 +163,7 @@ class JBDocument:
                     s = s + t + ","
                 else:
                     s = s + '""' + ","
-            s = s + "}\n"
+            s = s + "]\n"
         s = s + "};\n"
         return s
 
