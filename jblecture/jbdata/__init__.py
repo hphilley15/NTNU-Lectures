@@ -93,8 +93,8 @@ class JBData:
             self.data = None
 
     def __call__(self):
-        return "add code to show image " + self.name
-        
+        return self.url
+
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
