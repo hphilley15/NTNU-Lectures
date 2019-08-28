@@ -144,14 +144,14 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        assets = self.createAssets( )
+        assets = self.createAssets( cfg['ASSETS'] )
         presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'slides': slides, 'assets': assets } )
         return presentation
 
-    def createAssets( self ):
+    def createAssets( self, assets ):
         s = "assets = {\n"
-        for a in cfg['ASSETS']:
-            s = s + "    " + "{" + a.name + "," + a.url + "," + a.localFile + "}\n"
+        for a in assets:
+            s = s + "    " + "{" + assets[a].name + "," + assets[a].url + "," + assets[a].localFile + "}\n"
         s = s + "}\n"
     
     def createRevealDownload( self, dir, fname = 'index.html' ):
