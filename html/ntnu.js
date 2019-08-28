@@ -1,3 +1,3 @@
-function convertURLs( mode ) {
+function convertURLs( assets, mode ) {
     console.log("convertURLs " + mode );
 }
