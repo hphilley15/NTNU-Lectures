@@ -148,7 +148,7 @@ class JBDocument:
         presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'slides': slides, 'assets': assets } )
         return presentation
 
-    def createAssets( self, assets ):
+    def createAssets( self, assets, rdir ):
         s = "var assets = {"
         ia = 0
         for a in assets:
@@ -158,7 +158,7 @@ class JBDocument:
             ia = ia + 1
             s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "["
             it = 0 
-            for t in [ assets[a].name, assets[a].url, assets[a].localFile ]:
+            for t in [ assets[a].name, assets[a].url, assets[a].localFile.relative_to(cfg['REVEAL_DIR']) ]:
                 if it > 0:
                     s = s + ", "
                 if t:
