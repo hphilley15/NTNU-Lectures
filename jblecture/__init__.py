@@ -25,6 +25,7 @@ defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
 
 defaults['REVEAL_CSS_DIR'] = defaults['REVEAL_DIR'] / "css"
+defaults['REVEAL_JS_DIR'] = defaults['REVEAL_DIR'] / "js"
 defaults['REVEAL_THEME_DIR'] = defaults['REVEAL_CSS_DIR'] / "theme"
 defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
 defaults['REVEAL_IMAGES_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "images"
@@ -271,7 +272,11 @@ def createEnvironment( params = {} ):
         cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
         cfg['REVEAL_IMAGES_DIR']  / 'FIRA-logo-1.png')
-
+    
+    # Copy html, js, and css artefacts
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
+        cfg['REVEAL_JS_DIR']  / 'ntnu.js')
+    
     fetchMGData( cfg )
 
     cfg['ASSETS'] = {}
