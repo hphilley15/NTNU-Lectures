@@ -162,7 +162,7 @@ class JBDocument:
                 if it > 0:
                     s = s + ", "
                 if t:
-                    s = s + str(t)
+                    s = s + '"' + str(t) + '"'
                 else:
                     s = s + '""'
                 it = it + 1
