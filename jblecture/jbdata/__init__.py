@@ -92,7 +92,9 @@ class JBData:
         if (self.data) and (len(self.data) > 1024 * 1024):
             self.data = None
 
-    
+    def __call__(self):
+        return "add code to show image " + self.name
+        
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
