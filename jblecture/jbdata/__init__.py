@@ -119,6 +119,7 @@ class JBImage(JBData):
 
     def __call__(self):
         super(JBImage, self).__call__()
+        
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBVideo, self).__init__(name, url, data, localFile, suffix=".mp4")
