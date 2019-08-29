@@ -92,8 +92,11 @@ class JBData:
         if (self.data) and (len(self.data) > 1024 * 1024):
             self.data = None
 
+    def drep(self):
+        return '<a id="{0}" href="{1}"></a>'.format(self.name, self.url)
+
     def __call__(self):
-        return self.url
+        return self.drep()
 
 class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
@@ -117,8 +120,13 @@ class JBImage(JBData):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    #def __call__(self):
-    #    super(JBImage, self).__call__()
+    def drep(self):
+        if self.width > 0:
+            w = 'width="{0}"'.format(self.width)
+        if self.height > 0:
+            h = 'height="{0}"'.format(self.height)
+
+        return '<img id="{0}" {1} {2} src="{3}"></img>'.format(self.name, w, h, self.url)
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
