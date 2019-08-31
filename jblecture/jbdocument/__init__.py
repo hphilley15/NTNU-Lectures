@@ -156,16 +156,17 @@ class JBDocument:
                 s = s + ","
             s = s + "\n"
             ia = ia + 1
-            s = s + "    " + '"' + assets[a].name + '"' + ":" + " " + "["
-            it = 0 
-            for t in [ assets[a].name, assets[a].url, pathlib.Path( assets[a].localFile ).relative_to(rdir) ]:
-                if it > 0:
-                    s = s + ", "
-                if t:
-                    s = s + '"' + str(t) + '"'
-                else:
-                    s = s + '""'
-                it = it + 1
+            for id in a.ids:
+                s = s + "    " + '"' + id + '"' + ":" + " " + "["
+                it = 0 
+                for t in [ assets[a].name, assets[a].url, pathlib.Path( assets[a].localFile ).relative_to(rdir) ]:
+                    if it > 0:
+                        s = s + ", "
+                    if t:
+                        s = s + '"' + str(t) + '"'
+                    else:
+                        s = s + '""'
+                    it = it + 1
             s = s + "]"
         s = s + " \n};\n"
         return s
