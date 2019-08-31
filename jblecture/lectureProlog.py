@@ -111,3 +111,6 @@ from IPython.core.display import display, HTML
 doc = cfg['doc']
 GDrive = None
 
+// <img class="" src="{{ cfg['ASSETS']['logo'].__repr_html_b64__() }}" alt="{{cfg['ASSETS']['logo'].name}}" />
+    
+    

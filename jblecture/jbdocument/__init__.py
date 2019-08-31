@@ -153,11 +153,10 @@ class JBDocument:
         ia = 0
         for aname in assets:
             a = assets[ aname ]
-            if ia > 0:
-                s = s + ","
             s = s + "\n"
-            ia = ia + 1
             for id in a.ids:
+                if ia > 0:
+                    s = s + ","
                 s = s + "    " + '"' + id + '"' + ":" + " " + "["
                 it = 0 
                 for t in [ a.name, a.url, pathlib.Path( a.localFile ).relative_to(rdir) ]:
@@ -168,7 +167,8 @@ class JBDocument:
                     else:
                         s = s + '""'
                     it = it + 1
-            s = s + "]"
+                s = s + "]\n"
+                ia = ia + 1
         s = s + " \n};\n"
         return s
 
@@ -213,11 +213,11 @@ class JBDocument:
 
             currentIdx = self.findSlideIndex( s.right )
 
-    def createRenpySlideShow(self, startId = None ):
-        rdir = cfg['RENPY_GAME_DIR']
-        self.createSlideImages( rdir )
-        self.createBackgroundsFile( rdir )
-        self.createScriptFiles( rdir, startId )
+    # def createRenpySlideShow(self, startId = None ):
+    #     rdir = cfg['RENPY_GAME_DIR']
+    #     self.createSlideImages( rdir )
+    #     self.createBackgroundsFile( rdir )
+    #     self.createScriptFiles( rdir, startId )
 
 cfg = {}
 
