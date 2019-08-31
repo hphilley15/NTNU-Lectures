@@ -118,7 +118,7 @@ class JBData:
 
     @staticmethod
     def sGenerateId():
-        return "id-" + uuid.uuid4()
+        return "id-" + str( uuid.uuid4() )
 
     def generateId( self ):
         return JBData.sGenerateId()
