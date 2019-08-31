@@ -2,6 +2,7 @@ from urllib import request
 import pathlib
 import base64
 import youtube_dl
+import uuid
 
 cfg = {}
 
@@ -36,6 +37,8 @@ class JBData:
         self.name = name
         self.suffix = suffix
         self.data = None
+        self.ids = []
+
         if data:
             if not localFile:
                 localFile = self.getDefaultFileName()
@@ -92,13 +95,29 @@ class JBData:
         if (self.data) and (len(self.data) > 1024 * 1024):
             self.data = None
 
-    def drep(self):
-        return '<a id="{0}" href="{1}"></a>'.format(self.name, self.url)
+    @staticmethod
+    def createStyleString(style):
+        if style:
+            s = 'style="{}"'.format(style)
+        else:
+            s = ""
+        return s
+
+    def __repr_html__(self, style = None):
+        id = generateId()
+        if id not in self.ids:
+            self.ids.append( id )
+        s = createStyleString( style )
+        return '<a id="{0}" {2} href="{1}"></a>'.format(self.name, self.url, s)
 
     def __call__(self):
-        return self.drep()
+        return self.__repr_html__()
 
-class JBImage(JBData):
+    @staticmethod
+    def generateId():
+        return "id-" + uuid.uuid4()
+
+class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
         self.width = width
@@ -110,7 +129,8 @@ class JBImage(JBData):
 
     def __repr_html_url__(self, style=""):
 #        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
-        return '{src}'.format(src=self.url )
+
+        return '<img src="{src}"'.format(src=self.url )
 
     def __repr_html_b64__(self, style=""):
         return 'data:image/png;base64,{src}'.format(src=JBData.getBase64Data( self.localFile ) )
@@ -120,13 +140,35 @@ class JBImage(JBData):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def drep(self):
+    @staticmethod
+    def createWidthString( width ):
         if self.width > 0:
-            w = 'width="{0}"'.format(self.width)
-        if self.height > 0:
-            h = 'height="{0}"'.format(self.height)
+            w = "width={0}".format(width)
+        else:
+            w = ""
+        return w
 
-        return '<img id="{0}" {1} {2} src="{3}"></img>'.format(self.name, w, h, self.url)
+    def createWidthString( self ):
+        return createWidthString( self. width )        
+
+    @staticmethod
+    def createHeightString( height ):
+        if self.height > 0:
+            h = "width={0}".format(height)
+        else:
+            h = ""
+        return h
+    
+    def createHeightString( self ):
+        return createHeightString( self.height )
+
+    def __repr_html__(self, style=None):
+        id = generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        return '<img id="img-{0}" {1} {2} src="{3}"></img>\n'.format(id, w, h, self.url)
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
