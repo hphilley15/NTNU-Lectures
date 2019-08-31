@@ -151,7 +151,8 @@ class JBDocument:
     def createAssets( self, assets, rdir ):
         s = "var assets = {"
         ia = 0
-        for a in assets:
+        for aname in assets:
+            a = assets[ aname ]
             if ia > 0:
                 s = s + ","
             s = s + "\n"
