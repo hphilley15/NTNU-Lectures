@@ -175,7 +175,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<img id="img-{0}" {4} {1} {2} src="{3}"></img>\n'.format(id, w, h, self.url, cs )
+        return '<img id="img-{0}" {4} {1} {2} src="{3}"/>\n'.format(id, w, h, self.url, cs )
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
