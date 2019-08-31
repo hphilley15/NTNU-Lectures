@@ -148,7 +148,7 @@ class JBImage(JBData):
 
     @staticmethod
     def sCreateWidthString( width ):
-        if self.width > 0:
+        if width > 0:
             w = "width={0}".format(width)
         else:
             w = ""
