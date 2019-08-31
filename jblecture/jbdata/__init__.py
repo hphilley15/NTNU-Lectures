@@ -103,11 +103,14 @@ class JBData:
             s = ""
         return s
 
+    def createStyleString( self, typ, st ):
+        return JBData.createStyleString( typ, st )
+        
     def __repr_html__(self, cls=None, style = None):
-        id = generateId()
+        id = JBData.generateId()
         if id not in self.ids:
             self.ids.append( id )
-        s = createStyleString( "class", cls ) + " " + createStyleString( "style", style )
+        s = JBData.createStyleString( "class", cls ) + " " + JBData.createStyleString( "style", style )
         return '<a id="{0}" {2} href="{1}"></a>'.format(self.name, self.url, s )
 
     def __call__(self, cls=None, style = None ):
@@ -116,6 +119,9 @@ class JBData:
     @staticmethod
     def generateId():
         return "id-" + uuid.uuid4()
+
+    def generateId( self ):
+        return JBData.generateId()
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
@@ -149,26 +155,26 @@ class JBImage(JBData):
         return w
 
     def createWidthString( self ):
-        return createWidthString( self. width )        
+        return JBImage.createWidthString( self. width )        
 
     @staticmethod
     def createHeightString( height ):
-        if self.height > 0:
-            h = "width={0}".format(height)
+        if height > 0:
+            h = "height={0}".format(height)
         else:
             h = ""
         return h
     
     def createHeightString( self ):
-        return createHeightString( self.height )
+        return JBImage.createHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
-        id = generateId()
+        id = self.generateId()
         w = self.createWidthString()
         h = self.createHeightString()
         if id not in self.ids:
             self.ids.append( id )
-        cs = createStyleString( "class", cls ) + " " + createStyleString( "style", style )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
         return '<img id="img-{0}" {4} {1} {2} src="{3}"></img>\n'.format(id, w, h, self.url, cs )
 
 class JBVideo(JBData):
