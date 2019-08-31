@@ -96,7 +96,7 @@ class JBData:
             self.data = None
 
     @staticmethod
-    def createStyleString(typ, st):
+    def sCreateStyleString(typ, st):
         if st:
             s = typ + '="{}"'.format(st)
         else:
@@ -104,24 +104,24 @@ class JBData:
         return s
 
     def createStyleString( self, typ, st ):
-        return JBData.createStyleString( typ, st )
-        
+        return JBData.sCreateStyleString( typ, st )
+
     def __repr_html__(self, cls=None, style = None):
-        id = JBData.generateId()
+        id = self.generateId()
         if id not in self.ids:
             self.ids.append( id )
-        s = JBData.createStyleString( "class", cls ) + " " + JBData.createStyleString( "style", style )
+        s = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
         return '<a id="{0}" {2} href="{1}"></a>'.format(self.name, self.url, s )
 
     def __call__(self, cls=None, style = None ):
         return self.__repr_html__(cls, style)
 
     @staticmethod
-    def generateId():
+    def sGenerateId():
         return "id-" + uuid.uuid4()
 
     def generateId( self ):
-        return JBData.generateId()
+        return JBData.sGenerateId()
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
@@ -147,7 +147,7 @@ class JBImage(JBData):
         return str(  p.expanduser().resolve() )
 
     @staticmethod
-    def createWidthString( width ):
+    def sCreateWidthString( width ):
         if self.width > 0:
             w = "width={0}".format(width)
         else:
@@ -155,10 +155,10 @@ class JBImage(JBData):
         return w
 
     def createWidthString( self ):
-        return JBImage.createWidthString( self. width )        
+        return JBImage.sCreateWidthString( self. width )        
 
     @staticmethod
-    def createHeightString( height ):
+    def sCreateHeightString( height ):
         if height > 0:
             h = "height={0}".format(height)
         else:
@@ -166,7 +166,7 @@ class JBImage(JBData):
         return h
     
     def createHeightString( self ):
-        return JBImage.createHeightString( self.height )
+        return JBImage.sCreateHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
         id = self.generateId()
