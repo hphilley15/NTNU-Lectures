@@ -96,22 +96,22 @@ class JBData:
             self.data = None
 
     @staticmethod
-    def createStyleString(style):
-        if style:
-            s = 'style="{}"'.format(style)
+    def createStyleString(typ, st):
+        if st:
+            s = typ + '="{}"'.format(st)
         else:
             s = ""
         return s
 
-    def __repr_html__(self, style = None):
+    def __repr_html__(self, cls=None, style = None):
         id = generateId()
         if id not in self.ids:
             self.ids.append( id )
-        s = createStyleString( style )
-        return '<a id="{0}" {2} href="{1}"></a>'.format(self.name, self.url, s)
+        s = createStyleString( "class", cls ) + " " + createStyleString( "style", style )
+        return '<a id="{0}" {2} href="{1}"></a>'.format(self.name, self.url, s )
 
-    def __call__(self):
-        return self.__repr_html__()
+    def __call__(self, cls=None, style = None ):
+        return self.__repr_html__(cls, style)
 
     @staticmethod
     def generateId():
@@ -162,13 +162,14 @@ class JBImage(JBData):
     def createHeightString( self ):
         return createHeightString( self.height )
 
-    def __repr_html__(self, style=None):
+    def __repr_html__(self, cls = None, style=None):
         id = generateId()
         w = self.createWidthString()
         h = self.createHeightString()
         if id not in self.ids:
             self.ids.append( id )
-        return '<img id="img-{0}" {1} {2} src="{3}"></img>\n'.format(id, w, h, self.url)
+        cs = createStyleString( "class", cls ) + " " + createStyleString( "style", style )
+        return '<img id="img-{0}" {4} {1} {2} src="{3}"></img>\n'.format(id, w, h, self.url, cs )
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
