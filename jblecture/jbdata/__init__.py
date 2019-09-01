@@ -129,18 +129,26 @@ class JBImage(JBData):
         self.width = width
         self.height = height
 
-    def __repr_html_file__(self, style=""):
-        return '<img src="http://localhost:{port}/{src}" style="{style}" alt="{name}"/>'.format(src=self.localFile,
-                    port=HTTP_PORT, name=self.name, style=style)
+    def __repr_html_file__(self, cls = None, style=None):
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, port=, port=HTTP_PORT, src=self.localFile )
 
-    def __repr_html_url__(self, style=""):
-#        return '<img src="{src}" style="{style}" alt="{name}"/>'.format(src=self.url, name=self.name, style=style)
-
-        return '<img src="{src}"'.format(src=self.url )
+    def __repr_html_url__(self, cls=None, style=None):
+        return self.repr_html( cls, style)
 
     def __repr_html_b64__(self, style=""):
-        return 'data:image/png;base64,{src}'.format(src=JBData.getBase64Data( self.localFile ) )
-#            src=JBData.getBase64Data(self.localFile), name=self.name, style=style)
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, port=, port=HTTP_PORT, src=JBData.getBase64Data( self.localFile ) )
 
     def getDefaultFileName(self):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
@@ -175,7 +183,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<img id="img-{0}" {4} {1} {2} src="{3}"/>\n'.format(id, w, h, self.url, cs )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="{url}"/></span>\n'.format(id=id, width=w, height=h, url=self.url, style=cs )
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
