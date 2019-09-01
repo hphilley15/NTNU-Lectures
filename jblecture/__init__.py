@@ -47,6 +47,9 @@ defaults['MG_VIDEOS_DIR'] = defaults['MG_ASSETS_DIR'] / "video"
 defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
+
+defaults['HTTP_PORT'] = "8080"
+
 try:
     from google.colab import files
     defaults['GOOGLE_COLAB'] = True

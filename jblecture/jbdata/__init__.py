@@ -136,7 +136,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, port=, port=HTTP_PORT, src=self.localFile )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format( id=id, width=w, height=h, style=cs, port=cfg['HTTP_PORT'], src=self.localFile )
 
     def __repr_html_url__(self, cls=None, style=None):
         return self.repr_html( cls, style)
@@ -148,7 +148,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, port=, port=HTTP_PORT, src=JBData.getBase64Data( self.localFile ) )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, src=JBData.getBase64Data( self.localFile ) )
 
     def getDefaultFileName(self):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
@@ -195,13 +195,13 @@ class JBVideo(JBData):
         return """<video controls>
                     <source src="http://localhost:{port}/{src}" style="{style}">'
                     </video>
-                 """.format(src=self.localFile, port=HTTP_PORT, name=self.name, style=style)
+                 """.format(src=self.localFile, port=cfg['HTTP_PORT'], name=self.name, style=style)
 
     def __repr_html_file__(self, style=""):
         return """<video controls>
                     <source src="{src}" style="{style}">'
                     </video>
-                 """.format(src=self.localFile, port=HTTP_PORT, name=self.name, style=style)
+                 """.format(src=self.localFile, port=cfg['HTTP_PORT'], name=self.name, style=style)
 
     def readDataFromURL(self, url, localFile=None):
         print('Reading video from', url)
