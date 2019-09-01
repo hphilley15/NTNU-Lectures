@@ -153,10 +153,10 @@ class JBDocument:
         ia = 0
         for aname in assets:
             a = assets[ aname ]
-            s = s + "\n"
             for id in a.ids:
                 if ia > 0:
                     s = s + ","
+                s = s + "\n"
                 s = s + "    " + '"' + id + '"' + ":" + " " + "["
                 it = 0 
                 for t in [ a.name, a.url, pathlib.Path( a.localFile ).relative_to(rdir) ]:
@@ -167,7 +167,7 @@ class JBDocument:
                     else:
                         s = s + '""'
                     it = it + 1
-                s = s + "]\n"
+                s = s + "]"
                 ia = ia + 1
         s = s + " \n};\n"
         return s

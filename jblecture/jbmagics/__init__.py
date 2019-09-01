@@ -131,7 +131,7 @@ class JBMagics(Magics):
                     if (png is not None):
                         enc = base64.b64encode(png).decode('utf-8')
 
-                        return '<img src="data:image/png;base64,{0}"></img>'.format(enc)
+                        return '<img src="data:image/png;base64,{0}"/>'.format(enc)
         return None
 
     @cell_magic
