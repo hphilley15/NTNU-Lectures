@@ -34,7 +34,7 @@ class JBData:
         p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def __init__(self, name, url=None, data=None, localFile=None, atype = JBData.JBDATA, suffix=".dat"):
+    def __init__(self, name, url=None, data=None, localFile=None, atype = JBDATA, suffix=".dat"):
         self.url = url
         self.name = name
         self.suffix = suffix
