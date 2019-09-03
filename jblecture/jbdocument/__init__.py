@@ -175,7 +175,7 @@ class JBDocument:
                     inst = inst + ","
                 inst = inst + "\n"
                 inst = inst + "    " + '"' + id + '"' + ":" + " " 
-                inst = inst + f'assets["{a.name}"]
+                inst = inst + f'assets["{a.name}"]'
 
             ia = ia + 1
         s = s + " \n};\n"
