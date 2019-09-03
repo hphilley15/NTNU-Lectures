@@ -67,14 +67,14 @@ class JBVideo extends JBData {
     }    
 }
 
-function convertURLs( assets, mode ) {
+function convertURLs( assetInstances, mode ) {
     console.log("convertURLs " + mode );
-    for( id in assets ) {
+    for( id in assetInstances ) {
         console.log("Upadting id " + id);
         el = document.getElementById( id );
         if ( el != null ) {
             console.log("el " + el );
-            asset = assets[ id ];
+            asset = assetInstances[ id ];
             newContent = asset.updateAsset( id, mode );
             el.innerHTML = newContent;
         }

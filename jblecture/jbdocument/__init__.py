@@ -154,9 +154,10 @@ class JBDocument:
 
     def createAssets( self, assets, rdir ):
         s = "var assets = {"
-        inst = "var instances {"
+        inst = "var assetInstances = {"
 
         ia = 0
+        iinst = 0
         for aname in assets:
             a = assets[ aname ]
             if ia > 0:
@@ -171,12 +172,12 @@ class JBDocument:
                 a = s + f'new JBData( "{a.name}", "{a.url}", null, "{str(a.localFile)}" )'
 
             for id in a.ids:
-                if ia > 0:
+                if iinst > 0:
                     inst = inst + ","
                 inst = inst + "\n"
                 inst = inst + "    " + '"' + id + '"' + ":" + " " 
                 inst = inst + f'assets["{a.name}"]'
-
+                iinst = iinst + 1
             ia = ia + 1
         s = s + " \n};\n"
         inst = inst + "\n};\n"
