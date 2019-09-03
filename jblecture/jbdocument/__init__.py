@@ -157,7 +157,6 @@ class JBDocument:
                 s = s + ","
             s = s + "\n"
             if ( a.type == JBData.JBIMAGE ):
-                name, width, height, url=None, data=None, localFile=None
                 s = s + f"new JBImage( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"
             elif ( a.type == JBData.JBVIDEO ):
                 s = s + f"new JBVideo( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"  
