@@ -154,6 +154,8 @@ class JBDocument:
 
     def createAssets( self, assets, rdir ):
         s = "var assets = {"
+        inst = "var instances {"
+
         ia = 0
         for aname in assets:
             a = assets[ aname ]
@@ -167,24 +169,19 @@ class JBDocument:
                 s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{str(a.localFile)}" );'  
             else:
                 a = s + f'new JBData( "{a.name}", "{a.url}", null, "{str(a.localFile)}" )'
-            # for id in a.ids:
-            #     if ia > 0:
-            #         s = s + ","
-            #     s = s + "\n"
-            #     s = s + "    " + '"' + id + '"' + ":" + " " + "["
-            #     it = 0 
-            #     for t in [ a.name, a.url, pathlib.Path( a.localFile ).relative_to(rdir) ]:
-            #         if it > 0:
-            #             s = s + ", "
-            #         if t:
-            #             s = s + '"' + str(t) + '"'
-            #         else:
-            #             s = s + '""'
-            #         it = it + 1
-            #     s = s + "]"
-            #     ia = ia + 1
+
+            for id in a.ids:
+                if ia > 0:
+                    inst = inst + ","
+                inst = inst + "\n"
+                inst = inst + "    " + '"' + id + '"' + ":" + " " 
+                inst = inst + f'assets["{a.name}"]
+
+            ia = ia + 1
         s = s + " \n};\n"
-        return s
+        inst = inst + "\n};\n"
+
+        return s + inst
 
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
