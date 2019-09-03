@@ -162,11 +162,11 @@ class JBDocument:
             s = s + "\n"
             s = s + f'"{a.name}" : '
             if ( a.type == JBData.JBIMAGE ):
-                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", "{a.data}", "{str(a.localFile)}" );'
+                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{str(a.localFile)}" );'
             elif ( a.type == JBData.JBVIDEO ):
-                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", "{a.data}", "{str(a.localFile)}" );'  
+                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{str(a.localFile)}" );'  
             else:
-                a = s + f'new JBData( "{a.name}", "{a.url}", "{a.data}", "{str(a.localFile)}" )'
+                a = s + f'new JBData( "{a.name}", "{a.url}", null, "{str(a.localFile)}" )'
             # for id in a.ids:
             #     if ia > 0:
             #         s = s + ","
