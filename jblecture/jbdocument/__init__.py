@@ -153,22 +153,32 @@ class JBDocument:
         ia = 0
         for aname in assets:
             a = assets[ aname ]
-            for id in a.ids:
-                if ia > 0:
-                    s = s + ","
-                s = s + "\n"
-                s = s + "    " + '"' + id + '"' + ":" + " " + "["
-                it = 0 
-                for t in [ a.name, a.url, pathlib.Path( a.localFile ).relative_to(rdir) ]:
-                    if it > 0:
-                        s = s + ", "
-                    if t:
-                        s = s + '"' + str(t) + '"'
-                    else:
-                        s = s + '""'
-                    it = it + 1
-                s = s + "]"
-                ia = ia + 1
+            if ia > 0:
+                s = s + ","
+            s = s + "\n"
+            if ( a.type == JBData.JBIMAGE ):
+                name, width, height, url=None, data=None, localFile=None
+                s = s + f"new JBImage( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"
+            elif ( a.type == JBData.JBVIDEO ):
+                s = s + f"new JBVideo( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"  
+            else:
+                a = s + f"new JBData( {a.name}, {a.url}, {a.data}, {a.localFile} )"
+            # for id in a.ids:
+            #     if ia > 0:
+            #         s = s + ","
+            #     s = s + "\n"
+            #     s = s + "    " + '"' + id + '"' + ":" + " " + "["
+            #     it = 0 
+            #     for t in [ a.name, a.url, pathlib.Path( a.localFile ).relative_to(rdir) ]:
+            #         if it > 0:
+            #             s = s + ", "
+            #         if t:
+            #             s = s + '"' + str(t) + '"'
+            #         else:
+            #             s = s + '""'
+            #         it = it + 1
+            #     s = s + "]"
+            #     ia = ia + 1
         s = s + " \n};\n"
         return s
 

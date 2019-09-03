@@ -11,6 +11,8 @@ class JBData:
     Class that encapsulates an image and its various representations.
     """
 
+    JBDATA, JBIMAGE, JBVIDEO = 0, 1, 2
+
     @staticmethod
     def sReadDataFromURL(url):
         data = request.urlopen(url).read()
@@ -32,12 +34,13 @@ class JBData:
         p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def __init__(self, name, url=None, data=None, localFile=None, suffix=".dat"):
+    def __init__(self, name, url=None, data=None, localFile=None, type = JBDATA, suffix=".dat"):
         self.url = url
         self.name = name
         self.suffix = suffix
         self.data = None
         self.ids = []
+        self.type = JBDATA
 
         if data:
             if not localFile:
@@ -125,7 +128,7 @@ class JBData:
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBImage, self).__init__(name, url, data, localFile, suffix=".png")
+        super(JBImage, self).__init__(name, url, data, localFile, type=JBData.JBIMAGE, suffix=".png")
         self.width = width
         self.height = height
 
@@ -187,7 +190,8 @@ class JBImage(JBData):
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, suffix=".mp4")
+        super(JBVideo, self).__init__(name, url, data, localFile, type=JBData.JBVIDEO, suffix=".mp4")
+        self.type = JBVIDEO
         self.width = width
         self.height = height
 
