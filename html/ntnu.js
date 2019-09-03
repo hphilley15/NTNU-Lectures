@@ -1,11 +1,12 @@
+var atype = {
+    JBDATA : 0,
+    JBIMAGE : 1,
+    JBVIDEO: 2,    
+};
+
 class JBData {
-    typeEnum = {
-        JBDATA : 0,
-        JBIMAGE : 1,
-        JBVIDEO: 2,    
-    };
-    constructor( name, url=None, data=None, localFile=None, type = typeEnum.JBDATA, suffix=".dat" ) {
-        this.type = typeEnum.JBDATA;
+    constructor( name, url=None, data=None, localFile=None, mytype = JBData.atype.JBDATA, suffix=".dat" ) {
+        this.mytype = mytype;
         this.name = name;
         this.url = url;
         this.data = data;
@@ -27,16 +28,18 @@ class JBData {
     }    
 }
 
+JBData.atype = atype;
+
 class JBImage extends JBData {
     constructor( name, width, height, url=None, data=None, localFile=None ) {
-        super( name, url, data, localFile, JBata.typeEnum.JBIMAGE, "png");
+        super( name, url, data, localFile, JBData.atype.JBIMAGE, "png");
         this.width = width;
         this.height = height;
         console.log("JBImage(" + name + "," + url + "," + localFile + ")" );
     }
 
     updateAsset( id, mode ) {
-        newContent = "";
+        var newContent = "";
         if ( mode == "local" ) {
             newContent = "<img id=\"img-" + id + "\" src=\"" + this.localFile + "\"/>";
         } else if ( mode == "url" ) {
@@ -49,14 +52,14 @@ class JBImage extends JBData {
 
 class JBVideo extends JBData {
     constructor( name, width, height, url=None, data=None, localFile=None ) {
-        super( name, url, data, localFile, JBata.typeEnum.JBVIDEO, "mp4");
+        super( name, url, data, localFile, JBata.atype.JBVIDEO, "mp4");
         this.width = width;
         this.height = height;
         console.log("JBVideo(" + name + "," + url + "," + localFile + ")" );
     }
 
     updateAsset( id, mode ) {
-        newContent = "";
+        var newContent = "";
         if ( mode == "local" ) {
             newContent = "<img id=\"img-" + id + "\" src=\"" + this.localFile + "\"/>";
         } else if ( mode == "url" ) {
@@ -71,11 +74,11 @@ function convertURLs( assetInstances, mode ) {
     console.log("convertURLs " + mode );
     for( id in assetInstances ) {
         console.log("Upadting id " + id);
-        el = document.getElementById( id );
+        var el = document.getElementById( id );
         if ( el != null ) {
             console.log("el " + el );
-            asset = assetInstances[ id ];
-            newContent = asset.updateAsset( id, mode );
+            var asset = assetInstances[ id ];
+            var newContent = asset.updateAsset( id, mode );
             el.innerHTML = newContent;
         }
     }
