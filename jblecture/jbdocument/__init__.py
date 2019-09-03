@@ -160,6 +160,7 @@ class JBDocument:
             if ia > 0:
                 s = s + ","
             s = s + "\n"
+            s = s + f'"{a.name}" : '
             if ( a.type == JBData.JBIMAGE ):
                 s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", "{a.data}", "{str(a.localFile)}" );'
             elif ( a.type == JBData.JBVIDEO ):
