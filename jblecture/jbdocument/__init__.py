@@ -4,6 +4,7 @@ import re
 import pathlib
 
 from ..jbslide import JBSlide
+from ..jbdata import JBdata, JBImage, JBVideo
 
 class JBDocument:
     def __init__( self ):
