@@ -128,7 +128,7 @@ class JBData:
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBImage, self).__init__(name, url, data, localFile, type=JBData.JBIMAGE, suffix=".png")
+        super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=".png")
         self.width = width
         self.height = height
 
@@ -190,7 +190,7 @@ class JBImage(JBData):
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, type=JBData.JBVIDEO, suffix=".mp4")
+        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=".mp4")
         self.type = JBVIDEO
         self.width = width
         self.height = height
