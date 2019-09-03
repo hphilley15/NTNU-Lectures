@@ -146,6 +146,9 @@ class JBDocument:
             startId = self.slides[0].id
         slides = self.createSlides( startId )
         assets = self.createAssets( cfg['ASSETS'], cfg['REVEAL_DIR'] )
+        print("*** Assets ***")
+        print(assets)
+        print("*** Assets ***")
         presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'slides': slides, 'assets': assets } )
         return presentation
 
@@ -158,11 +161,11 @@ class JBDocument:
                 s = s + ","
             s = s + "\n"
             if ( a.type == JBData.JBIMAGE ):
-                s = s + f"new JBImage( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"
+                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", "{a.data}", "{str(a.localFile)}" );'
             elif ( a.type == JBData.JBVIDEO ):
-                s = s + f"new JBVideo( {a.name}, {a.width}, {a.height}, {a.url}, {a.data}, {a.localFile} )"  
+                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", "{a.data}", "{str(a.localFile)}" );'  
             else:
-                a = s + f"new JBData( {a.name}, {a.url}, {a.data}, {a.localFile} )"
+                a = s + f'new JBData( "{a.name}", "{a.url}", "{a.data}", "{str(a.localFile)}" )'
             # for id in a.ids:
             #     if ia > 0:
             #         s = s + ","
