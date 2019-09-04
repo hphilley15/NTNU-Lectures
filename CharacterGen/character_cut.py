@@ -6,12 +6,12 @@ import argparse
 import numpy as np
 import pathlib
 
-def cropImage( fname ):
+
+def trimImage( fname ):
     file = pathlib.Path( fname )
 
     if args.verbose > 0:
         print("Auto cropping image", file)
-    im = np.array( Image.open(file) )
     height, width, depth = im.shape
     if depth == 4:
         top = 0
@@ -40,9 +40,17 @@ def cropImage( fname ):
                 break
         if args.verbose:
             print('ROI:', top, left, bottom, right )
-        cropped = Image.fromarray( im[ top:bottom, left:right ] )
+        cropped = cropImage( img, top, left, bottom, right )
         cropped.save( "/tmp/test/{0}-{1}-{2}.png".format(top, left, file.stem ) )
-        
+
+def cropImage( img, top, left, bottom, right ):
+    file = pathlib.Path( fname )
+    im = np.array( Image.open(file) )
+
+    if args.verbose > 0:
+        print("Cropping image", file)
+    cropped = Image.fromarray( im[ top:bottom, left:right ] )
+    return cropped    
     
 args = None
 
@@ -51,7 +59,7 @@ def main( argv = None ):
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser( description="Automatically crop images")
     parser.add_argument( 'images', nargs='+', help='images' )
-    parser.add_argument( '-c', '--command', default=cropImage, nargs=1, help='command')    
+    parser.add_argument( '-c', '--command', default=trimImage, nargs=1, help='command')    
     parser.add_argument( '-v', '--verbose', default=0, action='count', help='verbose output')
     global args    
     args = parser.parse_args( argv )
