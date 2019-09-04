@@ -218,7 +218,7 @@ class JBVideo(JBData):
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
         return '''<span id="{id}" {style}>
-            <iframe id="vid-{id}" {width} {height} src="{ self.url }" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="vid-{id}" {width} {height} src="{src}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </span>\n'''.format(id=id, width=w, height=h, src=self.url, style=cs )
 
     def __repr_html_localhost_(self, cls = None, style=None):
