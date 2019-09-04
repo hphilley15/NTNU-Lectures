@@ -52,7 +52,7 @@ class JBImage extends JBData {
 
 class JBVideo extends JBData {
     constructor( name, width, height, url=None, data=None, localFile=None ) {
-        super( name, url, data, localFile, JBata.atype.JBVIDEO, "mp4");
+        super( name, url, data, localFile, JBData.atype.JBVIDEO, "mp4");
         this.width = width;
         this.height = height;
         console.log("JBVideo(" + name + "," + url + "," + localFile + ")" );
