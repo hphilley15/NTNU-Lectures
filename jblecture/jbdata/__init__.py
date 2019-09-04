@@ -217,6 +217,29 @@ class JBVideo(JBData):
         p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
+    def __repr_html__(self, cls = None, style=None):
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        return '''<span id="{id}" {style}>
+            <iframe id="vid-{id}" {width} {height} src="{{ self.url }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </span>\n'''.format(id=id, width=w, height=h, src=self.url, style=cs )
+
+    def __repr_html__(self, cls = None, style=None):
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        return '''<span id="{id}" {style}>
+           <video id="vid-{id}" controls>
+           <source src="{src}"/>
+           </span>\n'''.format(id=id, width=w, height=h, src=self.url, style=cs )
+
 def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg

@@ -61,9 +61,9 @@ class JBVideo extends JBData {
     updateAsset( id, mode ) {
         var newContent = "";
         if ( mode == "local" ) {
-            newContent = "<img id=\"img-" + id + "\" src=\"" + this.localFile + "\"/>";
+            newContent = "<video id=\"vid-" + id + "\" controls> <source src=\"" + this.localFile + "\"/></video>";
         } else if ( mode == "url" ) {
-            newContent = "<img id=\"img-" + id + "\" src=\"" + this.url + "\"/>";
+            newContent = "<iframe id=\"vid-" + id + "\" src=\"" + this.url + "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>/>";
         }
         console.log("JBVideo.updateAsset(" + id + "," + "," + mode + ") =>" + newContent );
         return newContent;
