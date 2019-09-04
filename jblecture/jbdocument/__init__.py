@@ -164,12 +164,12 @@ class JBDocument:
                 s = s + ","
             s = s + "\n"
             s = s + f'"{a.name}" : '
+            rpath = str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) )
+
             if ( a.type == JBData.JBIMAGE ):
-                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'
+                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }" )'
             elif ( a.type == JBData.JBVIDEO ):
-                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'  
-            else:
-                a = s + f'new JBData( "{a.name}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'
+                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }" )'
 
             for id in a.ids:
                 if iinst > 0:
