@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+jblecture/reveal2mg/renpy.js

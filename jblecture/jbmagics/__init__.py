@@ -131,7 +131,7 @@ class JBMagics(Magics):
                     if (png is not None):
                         enc = base64.b64encode(png).decode('utf-8')
 
-                        return '<img src="data:image/png;base64,{0}"></img>'.format(enc)
+                        return '<img src="data:image/png;base64,{0}"/>'.format(enc)
         return None
 
     @cell_magic
@@ -248,7 +248,7 @@ class JBMagics(Magics):
                 # print("Adding output", io.stdout)
                 h = '<div class="jb-output jb-render code" style="text-align:center">' + '\n'
                 h = h + '<div class="jb-stdout code" style="display:inline-block; width:90%">' + '\n'
-                h = h + '<pres {s}>\n'.format(s=mystyle)
+                h = h + '<pre {s}>\n'.format(s=mystyle)
                 h = h + io.stdout
                 h = h + '</pre>\n'
                 h = h + '</div>\n'
@@ -268,13 +268,12 @@ class JBMagics(Magics):
         htmlNoStyle=html
         if ( html.find("<style>") >= 0 ) and  ( html.find("</style>") >= 0 ):
             htmlNoStyle = html[:html.find("<style>")] + html[html.find("</style>") + len("</style>"):]
-        # print('*** HTML ***', html)
+        #print('*** HTML ***', htmlNoStyle)
 
         if args.output:
             self.shell.user_ns[args.output] = html
 
-        slide = self.doc.addSlide(args.id, htmlNoStyle, args.background, args.header, 
-                                  args.footer)
+        slide = self.doc.addSlide(args.id, htmlNoStyle, args.background, args.header, args.footer)
 
         # print(t)
         display(HTML('<style>\n' + self.doc.createLocalTheme() + '\n' + '</style>' + '\n' + slide.html))

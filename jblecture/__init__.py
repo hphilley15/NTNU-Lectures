@@ -19,9 +19,14 @@ defaults['TITLE'] = 'TempTitle'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
+defaults['GDRIVE_ROOT'] = '/gDrive/My Drive'
 defaults['MODULE_ROOT'] = defaults['ORIG_ROOT'] / 'NTNU-Lectures'
 
 defaults['REVEAL_DIR'] = defaults['ROOT_DIR'] / "reveal.js" 
+
+defaults['REVEAL_CSS_DIR'] = defaults['REVEAL_DIR'] / "css"
+defaults['REVEAL_JS_DIR'] = defaults['REVEAL_DIR'] / "js"
+defaults['REVEAL_THEME_DIR'] = defaults['REVEAL_CSS_DIR'] / "theme"
 defaults['REVEAL_ASSETS_DIR'] = defaults['REVEAL_DIR'] / "assets"
 defaults['REVEAL_IMAGES_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "images"
 defaults['REVEAL_VIDEOS_DIR'] = defaults['REVEAL_ASSETS_DIR'] / "videos"
@@ -42,8 +47,12 @@ defaults['MG_VIDEOS_DIR'] = defaults['MG_ASSETS_DIR'] / "video"
 defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
+
+defaults['HTTP_PORT'] = "8080"
+
 try:
     from google.colab import files
+    defaults['GOOGLE_COLAB'] = True
 except ImportError:
     defaults['GOOGLE_COLAB'] = False
 
@@ -57,14 +66,15 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>{{title}}</title>
+        <title>{{ cfg['TITLE'] }}</title>
 
         <link rel="stylesheet" href="css/reveal.css">
-        <link rel="stylesheet" href="css/theme/{{ REVEAL_THEME }}.css">
+        <link rel="stylesheet" href="css/theme/{{ cfg['REVEAL_THEME'] }}.css">
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
-
+        <script src="http://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
+		
         <!-- Printing and PDF exports -->
         <script>
             var link = document.createElement( 'link' );
@@ -73,6 +83,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
             link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
+        <script src="js/ntnu.js"></script>
     </head>
     <body>
         <div class="reveal">
@@ -97,11 +108,17 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
                 ]
             });
         </script>
+
+        <script>
+            {{assets}}
+            convertURLs(assets, "Local");
+        </script>
     </body>
 </html>
 """
+
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
-<section id="{{id}}">
+<section id="{{id}}" data-state="{{id}}">
 
 {{slideHTML}}
 
@@ -218,7 +235,7 @@ def createEnvironment( params = {} ):
 
     node = platform.node()
 
-    for p in [ "weasyprint", "pygments", "youtube-dl", "jinja2", "PyDrive" ]:
+    for p in [ "pygments", "youtube-dl", "jinja2", "PyDrive", "pytexturepacker", "patch" ]:
         try:
             importlib.import_module( p )
         except ModuleNotFoundError:
@@ -239,15 +256,16 @@ def createEnvironment( params = {} ):
         if ( o ):    
             print( 'npm install:' + o.decode('utf-8') )
 
-    with jbcd.JBcd( cfg['REVEAL_DIR']  ):
-        print("Executing npm install decktape")
-        o = None
-        try:
-            o = subprocess.check_output("npm install decktape", shell = True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):    
-            print( 'npm install decktape:' + o.decode('utf-8') )
+    for pkg in [ 'decktape', 'scenejs' ]:            
+        with jbcd.JBcd( cfg['REVEAL_DIR']  ):
+            print( f"Executing npm install {pkg}" )
+            o = None
+            try:
+                o = subprocess.check_output( f"npm install {pkg}", shell = True)
+            except subprocess.CalledProcessError:
+                pass
+            if ( o ):    
+                print( f'npm install {pkg}:' + o.decode('utf-8') )
 
     for d in [ cfg['REVEAL_IMAGES_DIR'], cfg['REVEAL_VIDEOS_DIR'], cfg['REVEAL_SOUNDS_DIR'] ]:
         d.mkdir( parents = True, exist_ok=True )
@@ -255,18 +273,27 @@ def createEnvironment( params = {} ):
     fetchRenpyData( cfg )
 
     shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
-        cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme'  )
+        cfg['REVEAL_THEME_DIR'] / 'ntnuerc.css'  )
+    shutil.copy2( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'fira.css' , 
+        cfg['REVEAL_THEME_DIR'] / 'fira.css'  )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
         cfg['REVEAL_IMAGES_DIR'] / 'robbi.png' )
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
         cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
-
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
+        cfg['REVEAL_IMAGES_DIR']  / 'FIRA-logo-1.png')
+    
+    # Copy html, js, and css artefacts
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
+        cfg['REVEAL_JS_DIR']  / 'ntnu.js')
+    
     fetchMGData( cfg )
 
     cfg['ASSETS'] = {}
 
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
+    cfg['ASSETS']['fira-logo-1'] =  jbdata.JBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1.png" ) )
 
     ratio = 1.0
     cssStr = """
@@ -279,9 +306,7 @@ def createEnvironment( params = {} ):
     return cfg
 
 def createDocument( cfg ):
-    doc = jbdocument.JBDocument( cfg['TITLE'], theme = cfg['REVEAL_THEME'],
-        background = cfg['REVEAL_SLIDE_BACKGROUND'],
-        footer = cfg['REVEAL_SLIDE_FOOTER'], header=cfg['REVEAL_SLIDE_HEADER'] )
+    doc = jbdocument.JBDocument()
     return doc
 
 def zipDirectory( archive, dir, root = '.' ):
@@ -343,7 +368,7 @@ def load_ipython_extension(ipython):
     global cfg
     cfg = createEnvironment( {} )
     magics = jbmagics.JBMagics( ipython, cfg['doc'] )
-    cfg['doc'].user_ns = magics.shell.user_ns
+    cfg['user_ns'] = magics.shell.user_ns
     ipython.register_magics(magics)
 
 # Functions that should be exported

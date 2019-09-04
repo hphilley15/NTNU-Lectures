@@ -6,35 +6,41 @@ import argparse
 import numpy as np
 import pathlib
 
-
-def trimImage( fname ):
-    file = pathlib.Path( fname )
+def loadImage( fname ):
+    file = pathlib.Path( str(fname) )
 
     if args.verbose > 0:
-        print("Auto cropping image", file)
-    height, width, depth = im.shape
+        print("Loading image", file)
+    im = np.array( Image.open(file) )
+    return im
+
+def saveImage( img, fname ):
+    img.save( fname )
+        
+def trimImage( img ):
+    height, width, depth = img.shape
     if depth == 4:
         top = 0
         while( top < height ):
-            if sum( im[top,:,3] ) == 0:
+            if sum( img[top,:,3] ) == 0:
                 top = top + 1
             else:
                 break
         bottom = height
         while( bottom > 0 ):
-            if sum( im[bottom-1,:,3] ) == 0:
+            if sum( img[bottom-1,:,3] ) == 0:
                 bottom = bottom - 1
             else:
                 break
         left = 0
         while( left < width ):
-            if sum( im[:,left,3] ) == 0:
+            if sum( img[:,left,3] ) == 0:
                 left = left + 1
             else:
                 break
         right = width
         while( right > 0 ):
-            if sum( im[:,right-1,3] ) == 0:
+            if sum( img[:,right-1,3] ) == 0:
                 right = right - 1
             else:
                 break
@@ -49,10 +55,16 @@ def cropImage( img, top, left, bottom, right ):
 
     if args.verbose > 0:
         print("Cropping image", file)
-    cropped = Image.fromarray( im[ top:bottom, left:right ] )
-    return cropped    
+   cropped = Image.fromarray( img[ top:bottom, left:right ] )
+   return cropped
     
 args = None
+
+def trim( fname ):
+    file = pathlib.Path( fname )
+    img = loadImage( file )
+    trimmed, top, left, bottom, right = trimImage( img )
+    saveImage( trimmed, f"{file.stem}-{top}-{left}.png" )
 
 def main( argv = None ):
     if not argv:
@@ -64,7 +76,7 @@ def main( argv = None ):
     global args    
     args = parser.parse_args( argv )
     for f in args.images:
-        args.command( f )
+        eval( args.command + "(" + f + ")" )
 
 if __name__ == "__main__":
     main()

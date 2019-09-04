@@ -76,7 +76,10 @@ def gDriveUpload( dir, file ):
     uploaded.Upload()
     print('Uploaded file with ID {}'.format(uploaded.get('id')))
 
-
+def gDriveMount(dir):
+    from google.colab import drive
+    drive.mount(dir)
+    
 d = str( pathlib.Path( pathlib.Path('.') / 'NTNU-Lectures' ).resolve() )
 if d not in sys.path:    
     sys.path.append(  d )
@@ -108,3 +111,6 @@ from IPython.core.display import display, HTML
 doc = cfg['doc']
 GDrive = None
 
+// <img class="" src="{{ cfg['ASSETS']['logo'].__repr_html_b64__() }}" alt="{{cfg['ASSETS']['logo'].name}}" />
+    
+    

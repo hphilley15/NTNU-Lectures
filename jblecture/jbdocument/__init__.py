@@ -1,12 +1,13 @@
-import weasyprint as wp
+
 from jinja2 import Template
 import re
 import pathlib
 
 from ..jbslide import JBSlide
+from ..jbdata import JBData, JBImage, JBVideo
 
 class JBDocument:
-    def __init__(self, title = '', theme='', background = '', footer = '', header = '' ):
+    def __init__( self ):
         self.slides = []
         self.renpy = []
       
@@ -15,37 +16,25 @@ class JBDocument:
         
         self.slideCount = 1
         self.slideFragmentCount = 1
+
+        # self.user_ns = {}
         
-        self.user_ns = {}
-        
-        self.setTitle( title )
-        self.setTheme( theme )
-        self.setFooter( footer )
-        self.setHeader( header )
-        self.setBackground( background )
+        # self.setTheme( theme )
+        # self.setFooter( footer )
+        # self.setHeader( header )
+        # self.setBackground( background )
 
-    def setTitle(self, title ):
-        self.title = title
+    # def setFooter(self, footer ):
+    #     self.footer = footer
 
-    def setFooter(self, footer ):
-        self.footer = footer
+    # def setHeader(self, header):
+    #     self.header = header
 
-    def setHeader(self, header):
-        self.header = header
-
-    def setBackground( self, bg ):
-        self.background = bg
-
-    def setTheme(self, theme ):
-        if (theme ):
-            self.theme = theme
-            self.cssSlides = wp.CSS( string = self.createLocalTheme() )
-        else:
-            self.theme = ''
-            self.cssSlides = ''
+    # def setBackground( self, bg ):
+    #     self.background = bg
 
     def createLocalTheme( self ):
-        return self.makeRevealThemeLocal( self.theme )
+        return self.makeRevealThemeLocal( cfg['REVEAL_THEME'] )
             
     def makeRevealThemeLocal(self, revealTheme):
         """removes .reveal, .reveal .slides, and .reveal .slides section from theme css"""
@@ -71,8 +60,7 @@ class JBDocument:
         return current 
       
     def instTemplate( self, text, vars ):
-        d = { **self.user_ns, **vars }
-        d['cfg'] = cfg
+        d = { ** cfg['user_ns'], **vars }
         return JBDocument.sInstTemplate( text, d )
         
     def findSlideIndex( self, id ):
@@ -84,20 +72,25 @@ class JBDocument:
         #print('returning', ind )
         return ind
 
-    def addSlide( self, id, slideHTML, background = '', header = '', footer = ''):
+    def addSlide( self, id, slideHTML, background = None, header = None, footer = None ):
         #html = wp.HTML( string = slideHTML )
         #doc = html.render( stylesheets = [ self.cssSlides ] )
         #png, width, height = doc.write_png( target=None )
         
-        if ( not background ):
+        if ( background ):
             background = self.instTemplate( self.background, {} )
-        
-        if ( not header ):
+        else:
+            background = cfg['REVEAL_SLIDE_BACKGROUND']
+        if ( header ):
             header = self.instTemplate( self.header, {} ) 
-            
-        if ( not footer ):
+        else:
+            header = cfg['REVEAL_SLIDE_HEADER']
+
+        if ( footer ):
             footer = self.instTemplate( self.footer, {} )
-            
+        else:
+            footer = cfg['REVEAL_SLIDE_FOOTER']
+
         self.slideCount = self.slideCount + 1
         self.slideFragmentCount = 1
         
@@ -113,13 +106,17 @@ class JBDocument:
         if (  oind >= 0 ) and ( oind < len(self.slides) ):
             del self.slides[oind]
         
-        #print("footer", footer )
-        sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
+        htmltxt = '<!-- Header -->\n' + header + '<!-- Background -->\n' + background + '<!-- Slide -->\n' + slideHTML + '<!-- Footer -->\n' + footer + '<!-- End -->\n'
+        htmltxt = self.instTemplate( htmltxt, {} )
+        #sl = JBSlide( id, header + '\n' + background + '\n' + slideHTML + '\n' + footer, renpy = '', left='', right='', up='', down='' )
+        sl = JBSlide( id, htmltxt, renpy = '', left='', right='', up='', down='' )
         
         if ( self.current != '' ):
-            leftS = self.slides[ self.findSlideIndex( self.current ) ]
-            leftS.right = sl.id
-            sl.left = self.current
+            c = self.findSlideIndex( self.current )
+            if ( c >= 0 ) and ( c < len(self.slides) ):
+                leftS = self.slides[ c ]
+                leftS.right = sl.id
+                sl.left = self.current
         
         self.current = id
         self.slides.append( sl )
@@ -148,9 +145,45 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         slides = self.createSlides( startId )
-        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'title': self.title, 'slides': slides } )
+        assets = self.createAssets( cfg['ASSETS'], cfg['REVEAL_DIR'] )
+        print("*** Assets ***")
+        print(assets)
+        print("*** Assets ***")
+        presentation = self.instTemplate( cfg['REVEAL_PRESENTATION_TEMPLATE'], { 'slides': slides, 'assets': assets } )
         return presentation
-    
+
+    def createAssets( self, assets, rdir ):
+        s = "var assets = {"
+        inst = "var assetInstances = {"
+
+        ia = 0
+        iinst = 0
+        for aname in assets:
+            a = assets[ aname ]
+            if ia > 0:
+                s = s + ","
+            s = s + "\n"
+            s = s + f'"{a.name}" : '
+            if ( a.type == JBData.JBIMAGE ):
+                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'
+            elif ( a.type == JBData.JBVIDEO ):
+                s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'  
+            else:
+                a = s + f'new JBData( "{a.name}", "{a.url}", null, "{ str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) ) }" )'
+
+            for id in a.ids:
+                if iinst > 0:
+                    inst = inst + ","
+                inst = inst + "\n"
+                inst = inst + "    " + '"' + id + '"' + ":" + " " 
+                inst = inst + f'assets["{a.name}"]'
+                iinst = iinst + 1
+            ia = ia + 1
+        s = s + " \n};\n"
+        inst = inst + "\n};\n"
+
+        return s + inst
+
     def createRevealDownload( self, dir, fname = 'index.html' ):
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
@@ -173,7 +206,7 @@ class JBDocument:
         if ( not startId ):
             startId = self.slides[0].id
         
-        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': self.title, 'startId': startId } )
+        rpyScript = self.instTemplate( cfg['RenpyInitTemplate'], { 'title': cfg['TITLE'], 'startId': startId } )
         sp = pathlib.Path( rdir ) / "start.rpy"
         with sp.open( "w" ) as f:
             f.write( rpyScript )
@@ -192,11 +225,11 @@ class JBDocument:
 
             currentIdx = self.findSlideIndex( s.right )
 
-    def createRenpySlideShow(self, startId = None ):
-        rdir = cfg['RENPY_GAME_DIR']
-        self.createSlideImages( rdir )
-        self.createBackgroundsFile( rdir )
-        self.createScriptFiles( rdir, startId )
+    # def createRenpySlideShow(self, startId = None ):
+    #     rdir = cfg['RENPY_GAME_DIR']
+    #     self.createSlideImages( rdir )
+    #     self.createBackgroundsFile( rdir )
+    #     self.createScriptFiles( rdir, startId )
 
 cfg = {}
 
