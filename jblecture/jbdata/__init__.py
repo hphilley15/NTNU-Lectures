@@ -233,6 +233,13 @@ class JBVideo(JBData):
            <source src="{src}"/>
            </span>\n'''.format(id=id, width=w, height=h, src=self.url, style=cs )
 
+    def createHeightString( self ):
+        return JBImage.sCreateHeightString( self.height )
+    
+    def createWidthString( self ):
+        return JBImage.sCreateWidthString( self.width )
+
+
 def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg
