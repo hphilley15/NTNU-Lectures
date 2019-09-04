@@ -191,15 +191,8 @@ class JBImage(JBData):
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
         super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=".mp4")
-        self.type = JBVIDEO
         self.width = width
         self.height = height
-
-    def __repr_html_localhost__(self, style=""):
-        return """<video controls>
-                    <source src="http://localhost:{port}/{src}" style="{style}">'
-                    </video>
-                 """.format(src=self.localFile, port=cfg['HTTP_PORT'], name=self.name, style=style)
 
     def __repr_html_file__(self, style=""):
         return """<video controls>
@@ -228,7 +221,7 @@ class JBVideo(JBData):
             <iframe id="vid-{id}" {width} {height} src="{{ self.url }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </span>\n'''.format(id=id, width=w, height=h, src=self.url, style=cs )
 
-    def __repr_html__(self, cls = None, style=None):
+    def __repr_html_localhost_(self, cls = None, style=None):
         id = self.generateId()
         w = self.createWidthString()
         h = self.createHeightString()
