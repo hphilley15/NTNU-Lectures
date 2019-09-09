@@ -186,7 +186,7 @@ class JBImage(JBData):
         return JBImage.sCreateHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
-        return self.__repr_html_url( cls, style )
+        return self.__repr_html_url__( cls, style )
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
