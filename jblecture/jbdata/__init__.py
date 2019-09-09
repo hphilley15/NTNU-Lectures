@@ -144,7 +144,7 @@ class JBImage(JBData):
     def __repr_html_url__(self, cls=None, style=None):
         return self.repr_html( cls, style)
 
-    def __repr_html_b64__(self, style=""):
+    def __repr_html_b64__(self, cls=None, style=None):
         id = self.generateId()
         w = self.createWidthString()
         h = self.createHeightString()
