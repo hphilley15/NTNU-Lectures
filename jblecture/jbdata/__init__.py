@@ -142,7 +142,13 @@ class JBImage(JBData):
         return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format( id=id, width=w, height=h, style=cs, port=cfg['HTTP_PORT'], src=self.localFile )
 
     def __repr_html_url__(self, cls=None, style=None):
-        return self.repr_html( cls, style)
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="{url}"/></span>\n'.format(id=id, width=w, height=h, url=self.url, style=cs )        
 
     def __repr_html_b64__(self, cls=None, style=None):
         id = self.generateId()
@@ -180,13 +186,7 @@ class JBImage(JBData):
         return JBImage.sCreateHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
-        id = self.generateId()
-        w = self.createWidthString()
-        h = self.createHeightString()
-        if id not in self.ids:
-            self.ids.append( id )
-        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="{url}"/></span>\n'.format(id=id, width=w, height=h, url=self.url, style=cs )
+        return self.__repr_html_url( cls, style )
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
