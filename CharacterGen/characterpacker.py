@@ -4,7 +4,7 @@ from plistlib import load
 import re
 
 def packCharacters( src, dest ):
-    packer = Packer.create(max_width=2048, max_height=2048, shape_padding=2, trim_mode=1, reduce_border_artifacts=True, bg_color=0xffffff00)
+    packer = Packer.create(max_width=2048, max_height=2048, shape_padding=4, trim_mode=1, reduce_border_artifacts=True, bg_color=0xffffff00)
     packer.pack( src, dest )
 
 def nameToFields( fname ):
@@ -23,7 +23,7 @@ def nameToFields( fname ):
         if m.group('obj'):
             obj = m.group('obj').lower()
         else:
-            obj = "OBJEROR"
+            obj = "OBJERROR"
 
         if m.group('tags'):
             sp = re.compile(r'\W+')
@@ -82,16 +82,17 @@ def appendToCSS( pFile, rdir ):
             fileName = rdir + "/" + md['textureFileName']
             if frames[f]['rotated']:
                 rot = " rotate(-90deg)"
+                width,height = height,width
             else:
                 rot = ""
 
             cssRec = f"""
 #{id} {{
-width: {width}px;
-height: {height}px;
-position: absolute;
-background: url("{fileName}") -{px}px -{py}px;
-transform: translate({sx}px, {sy}px){rot};
+  width: {width}px;
+  height: {height}px;
+  position: absolute;
+  background: url("{fileName}") -{px}px -{py}px;
+  transform: translate({sx}px, {sy}px){rot};
 }}
 """
             print(cssRec)
