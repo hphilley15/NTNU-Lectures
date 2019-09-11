@@ -111,7 +111,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 
         <script>
             {{assets}}
-            convertURLs(assets, "Local");
+            convertURLs(assetInstances, "local");
         </script>
     </body>
 </html>

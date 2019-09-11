@@ -73,7 +73,7 @@ class JBVideo extends JBData {
 function convertURLs( assetInstances, mode ) {
     console.log("convertURLs " + mode );
     for( id in assetInstances ) {
-        console.log("Upadting id " + id);
+        console.log("Updating id " + id);
         var el = document.getElementById( id );
         if ( el != null ) {
             console.log("el " + el );
