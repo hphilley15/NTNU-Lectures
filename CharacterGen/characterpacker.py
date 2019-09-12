@@ -2,6 +2,7 @@ import sys
 from PyTexturePacker import Packer
 from plistlib import load 
 import re
+import shutil
 
 def packCharacters( src, dest ):
     packer = Packer.create(max_width=2048, max_height=2048, shape_padding=4, trim_mode=1, reduce_border_artifacts=True, bg_color=0xffffff00)
@@ -37,7 +38,19 @@ def nameToFields( fname ):
         result = None
     return result
 
-def appendToCSS( pFile, rdir ):
+def addFrame( root, frame ):
+    obj = frame[1]
+    print("Adding frame of type", obj )
+    print("KinChain", root )
+    robj, frames, children = root
+    if obj == robj:
+        frames.append( frame )
+    else:
+        for c in children:
+            addFrame( c, frame )
+    return root
+
+def appendToCSS( kinChain, pFile, rdir ):
     with open(pFile, "rb") as f:
         pd = load( f )
 
@@ -46,8 +59,6 @@ def appendToCSS( pFile, rdir ):
 
     #res = nameToFields('jacky-leftarm-up-down.jpeg')
     #res = nameToFields(' ProfJB_Head.png')
-    css = ""
-    html = ""
 
     for f in frames:
         print("Frame", f )
@@ -60,7 +71,7 @@ def appendToCSS( pFile, rdir ):
             id = id + "_" + t
         print('id', id)
         print(frames[f])
-        coords = re.compile(r' *{ *{ *(?P<px>[0-9.]+) *, *(?P<py>[0-9.]+) *} *, *{ *(?P<width>[0-9.]+) *, *(?P<height>[0-9.]+) *} *}')
+        coords = re.compile(r' *{ *{ *-? *(?P<px>[0-9.]+) *, *-? *(?P<py>[0-9.]+) *} *, *{ *(?P<width>[0-9.]+) *, *(?P<height>[0-9.]+) *} *}')
         m = coords.match(frames[f]['frame'] )
         if m:
             px = int( m.group('px') )
@@ -70,7 +81,7 @@ def appendToCSS( pFile, rdir ):
             print('texture', px, py, width, height )
 
 
-        srect = re.compile(r' *{ *{ *(?P<sx>[0-9.]+) *, *(?P<sy>[0-9.]+) *} *, *{ *(?P<width>[0-9.]+) *, *(?P<height>[0-9.]+) *} *}')
+        srect = re.compile(r' *{ *{ *-? *(?P<sx>[0-9.]+) *, *-? *(?P<sy>[0-9.]+) *} *, *{ *(?P<width>[0-9.]+) *, *(?P<height>[0-9.]+) *} *}')
         m = srect.match(frames[f]['sourceColorRect'] )
         if m:
             sx = int( m.group('sx') )
@@ -80,59 +91,92 @@ def appendToCSS( pFile, rdir ):
             print('source rect', sx, sy, swidth, sheight )
 
             fileName = rdir + "/" + md['textureFileName']
-            if frames[f]['rotated']:
-                rot = " rotate(-90deg)"
-                width,height = height,width
-            else:
-                rot = ""
+            addFrame( kinChain, (res[0], res[1], res[2], id, width, height, frames[f]['rotated'], px, py, sx, sy, swidth, sheight, fileName ) )
+    return kinChain
 
-            cssRec = f"""
+def createHTMLSource( root, cx=0, cy=0 ):
+    obj, frames, children = root
+
+    cssC = ""
+    htmlC = ""
+    jssC = ""
+
+    css = ""
+    html = ""
+    js = ""
+
+    for f in frames:
+        name, obj, tags, id, width, height, rotated, px, py, sx, sy, swidth, sheight, fileName = f
+        if rotated:
+            rot = " rotate(-90deg)"
+            width,height = height,width
+        else:
+            rot = ""
+
+        cssRec = f"""
 #{id} {{
-  width: {width}px;
-  height: {height}px;
-  position: absolute;
-  background: url("{fileName}") -{px}px -{py}px;
-  transform: translate({sx}px, {sy}px){rot};
+    width: {width}px;
+    height: {height}px;
+    position: absolute;
+    background: url("{fileName}") -{px}px -{py}px;
+    transform: translate( {sx - cx}px, {sy - cy}px){rot};
 }}
 """
-            print(cssRec)
-            css = css + cssRec
+        css = css + cssRec
 
-            ctags = " ".join(res[2])
-            htmlRec = f"""
-<div id="{id}" class="{ctags}" style="visibility:hidden"></div>
+        ctags = " ".join(tags)
+        htmlRec = f"""
+<div id="{id}" class="{ctags}" style="visibility:hidden">
 """
-            html = html + htmlRec
-    return css, html, None
-    
+        html = html + htmlRec
+
+        for c in children:
+            cssC, htmlC, jssC = createHTMLSource( c, sx, sy )
+            css = css + cssC
+            html = html + htmlC
+            js = js + jssC
+
+        html = html + "\n</div>\n"
+    return css, html, js
+
 def main( argv = None ):
     if argv is None:
         argv = sys.argv[1:]
-    #packCharacters( argv[0], argv[1] )
-    css = ""
-    html = ""
+    # packCharacters( argv[0], argv[1] )
 
-    cs, ht, js = appendToCSS("prof_jb_0.plist", "../assets")
-    css = css + cs
-    html = html + ht
-    cs, ht, js = appendToCSS("prof_jb_1.plist", "../assets")
-    css = css + cs
-    html = html + ht
-    #css = css + appendToCSS("prof_jb_2.plist", "../assets")
 
+    profJBKinChains = [ "trunk", [ ], 
+                [ 
+                    [ "head", [ ],
+                        [   
+                            [ "eyes" , [ ], [ ] ], 
+                            [ "mouth", [ ], [ ] ], 
+                        ],
+                    ],
+                    [ "leftarm", [ ], 
+                        [ 
+                            [ "leftelbow", [ ], [ ] ],
+                            [ "leftwrist", [ ], [ ] ] 
+                        ] 
+                    ], 
+                    [ "rightarm", [ ], 
+                        [ 
+                            [ "rightelbow", [ ], [ ] ],
+                            [ "rightwrist", [ ], [ ] ] 
+                        ] 
+                    ],
+                ]
+    ] 
+    
+    profJBKinChains = appendToCSS(profJBKinChains, "prof_jb_0.plist", "../assets")
+    profJBkinChains = appendToCSS(profJBKinChains, "prof_jb_1.plist", "../assets")
+    print(profJBKinChains)
+    css, html, js = createHTMLSource( profJBKinChains )
     with open('prof_jb.css','w') as f:
         f.write(css)
 
     with open('prof_jb.html','w') as f:
         f.write(html)
-
-kinChains = [ "trunk", 
-                [ "head", 
-                    [ "eyes", "mouth" ], 
-                    [ "leftarm", [ ] ], 
-                    [ "rightarm", [ ] ] ,
-                ] 
-            ]
 
 if __name__ == "__main__":
     main( [ '../../Lecture-VN/Resources/ProfJB/', "prof_jb_%d"] )
