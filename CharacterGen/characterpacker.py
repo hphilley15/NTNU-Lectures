@@ -126,5 +126,13 @@ def main( argv = None ):
     with open('prof_jb.html','w') as f:
         f.write(html)
 
+kinChains = [ "trunk", 
+                [ "head", 
+                    [ "eyes", "mouth" ], 
+                    [ "leftarm", [ ] ], 
+                    [ "rightarm", [ ] ] ,
+                ] 
+            ]
+
 if __name__ == "__main__":
     main( [ '../../Lecture-VN/Resources/ProfJB/', "prof_jb_%d"] )
