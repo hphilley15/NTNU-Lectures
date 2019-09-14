@@ -42,7 +42,8 @@ def addFrame( root, frame ):
     obj = frame[1]
     print("Adding frame of type", obj )
     print("KinChain", root )
-    robj, frames, children = root
+    robj, frames, prop, children = root
+    print("addFrame", robj, frames, prop, children )
     if obj == robj:
         frames.append( frame )
     else:
@@ -95,7 +96,7 @@ def appendToCSS( kinChain, pFile, rdir ):
     return kinChain
 
 def createHTMLSource( root, cx=0, cy=0 ):
-    obj, frames, children = root
+    obj, frames, prop, children = root
 
     cssC = ""
     htmlC = ""
@@ -113,20 +114,28 @@ def createHTMLSource( root, cx=0, cy=0 ):
         else:
             rot = ""
 
+        ps = "\n".join(prop)
+        
         cssRec = f"""
 #{id} {{
-    width: {width}px;
-    height: {height}px;
+    width: {width - 2}px;
+    height: {height - 2}px;
     position: absolute;
-    background: url("{fileName}") -{px}px -{py}px;
+    background: url("{fileName}") -{px + 1}px -{py + 1}px;
     transform: translate( {sx - cx}px, {sy - cy}px){rot};
+    {ps}
+}}
+
+#bone-{id} {{
+    transform-origin: 50% 50%;
 }}
 """
         css = css + cssRec
 
         ctags = " ".join(tags)
         htmlRec = f"""
-<div id="{id}" class="{ctags}" style="visibility:hidden">
+<div id="bone-{id}" class="bone-{id}-class">
+  <div id="{id}" class="{ctags}" style="visibility:hidden">
 """
         html = html + htmlRec
 
@@ -136,37 +145,39 @@ def createHTMLSource( root, cx=0, cy=0 ):
             html = html + htmlC
             js = js + jssC
 
-        html = html + "\n</div>\n"
+        html = html + """
+  </div>
+</div>
+"""
     return css, html, js
 
 def main( argv = None ):
     if argv is None:
         argv = sys.argv[1:]
-    # packCharacters( argv[0], argv[1] )
+    #packCharacters( argv[0], argv[1] )
 
-
-    profJBKinChains = [ "trunk", [ ], 
-                [ 
-                    [ "head", [ ],
-                        [   
-                            [ "eyes" , [ ], [ ] ], 
-                            [ "mouth", [ ], [ ] ], 
-                        ],
-                    ],
-                    [ "leftarm", [ ], 
-                        [ 
-                            [ "leftelbow", [ ], [ ] ],
-                            [ "leftwrist", [ ], [ ] ] 
-                        ] 
-                    ], 
-                    [ "rightarm", [ ], 
-                        [ 
-                            [ "rightelbow", [ ], [ ] ],
-                            [ "rightwrist", [ ], [ ] ] 
-                        ] 
-                    ],
-                ]
-    ] 
+    profJBKinChains = [ "trunk", [ ], [ "z-index:10;"],
+    [ 
+        [ "head", [ ], [ "z-index:5;"],
+            [   
+                [ "eyes", [ ], [  "z-index:5;" ], [ ] ], 
+                [ "mouth", [ ], [  "z-index:5;" ], [ ] ], 
+            ],
+        ],
+        [ "leftarm", [ ], [  "z-index:5;" ], 
+            [ 
+                [ "leftelbow", [ ], [ ], [ ] ],
+                [ "leftwrist", [ ], [ ], [ ] ] 
+            ] 
+        ], 
+        [ "rightarm", [ ], [  "z-index:5;" ],
+            [ 
+                [ "rightelbow", [ ], [ ], [ ] ],
+                [ "rightwrist", [ ], [ ], [ ] ] 
+            ] 
+        ],
+    ]
+] 
     
     profJBKinChains = appendToCSS(profJBKinChains, "prof_jb_0.plist", "../assets")
     profJBkinChains = appendToCSS(profJBKinChains, "prof_jb_1.plist", "../assets")

@@ -20,11 +20,11 @@
 		<key>ProfJB_Eyes-Mad.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{1057,1932},{140,89}}</string>
+			<string>{{1879,1902},{140,89}}</string>
 			<key>offset</key>
 			<string>{3,407}</string>
 			<key>rotated</key>
-			<false/>
+			<true/>
 			<key>sourceColorRect</key>
 			<string>{{957,451},{140,89}}</string>
 			<key>sourceSize</key>
@@ -72,7 +72,7 @@
 		<key>ProfJB_Eyes-Skeptical.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{1201,1932},{125,99}}</string>
+			<string>{{1198,1932},{125,99}}</string>
 			<key>offset</key>
 			<string>{5,412}</string>
 			<key>rotated</key>
@@ -85,13 +85,13 @@
 		<key>ProfJB_Head.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{1746,1449},{260,413}}</string>
+			<string>{{1746,1449},{260,449}}</string>
 			<key>offset</key>
-			<string>{3,348}</string>
+			<string>{3,330}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{897,348},{260,413}}</string>
+			<string>{{897,348},{260,449}}</string>
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
@@ -147,16 +147,16 @@
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
-		<key>ProfJB_Mouth-Frown.png</key>
+		<key>ProfJB_Mouth-Angry.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{1900,1866},{140,154}}</string>
+			<string>{{1746,1902},{129,142}}</string>
 			<key>offset</key>
-			<string>{1,237}</string>
+			<string>{-1,252}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{955,588},{140,154}}</string>
+			<string>{{958,579},{129,142}}</string>
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
@@ -173,19 +173,6 @@
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
-		<key>ProfJB_Mouth-Shut.png</key>
-		<dict>
-			<key>frame</key>
-			<string>{{1746,1866},{156,150}}</string>
-			<key>offset</key>
-			<string>{0,239}</string>
-			<key>rotated</key>
-			<true/>
-			<key>sourceColorRect</key>
-			<string>{{946,588},{156,150}}</string>
-			<key>sourceSize</key>
-			<string>{2048,1805}</string>
-		</dict>
 		<key>ProfJB_Mouth-Smile.png</key>
 		<dict>
 			<key>frame</key>
@@ -196,6 +183,19 @@
 			<false/>
 			<key>sourceColorRect</key>
 			<string>{{946,588},{156,160}}</string>
+			<key>sourceSize</key>
+			<string>{2048,1805}</string>
+		</dict>
+		<key>ProfJB_Mouth-Tilted.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1057,1932},{109,137}}</string>
+			<key>offset</key>
+			<string>{0,249}</string>
+			<key>rotated</key>
+			<true/>
+			<key>sourceColorRect</key>
+			<string>{{969,585},{109,137}}</string>
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>

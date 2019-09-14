@@ -4,29 +4,29 @@
 <dict>
 	<key>frames</key>
 	<dict>
-		<key>ProfJB_Mouth-Angry.png</key>
+		<key>ProfJB_Mouth-Frown.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{-1,220},{129,142}}</string>
+			<string>{{153,220},{140,154}}</string>
 			<key>offset</key>
-			<string>{-1,252}</string>
+			<string>{1,237}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
-			<string>{{958,579},{129,142}}</string>
+			<string>{{955,588},{140,154}}</string>
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
-		<key>ProfJB_Mouth-Tilted.png</key>
+		<key>ProfJB_Mouth-Shut.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{-1,366},{109,137}}</string>
+			<string>{{-1,220},{156,150}}</string>
 			<key>offset</key>
-			<string>{0,249}</string>
+			<string>{0,239}</string>
 			<key>rotated</key>
-			<false/>
+			<true/>
 			<key>sourceColorRect</key>
-			<string>{{969,585},{109,137}}</string>
+			<string>{{946,588},{156,150}}</string>
 			<key>sourceSize</key>
 			<string>{2048,1805}</string>
 		</dict>
