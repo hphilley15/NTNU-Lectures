@@ -98,10 +98,6 @@ def appendToCSS( kinChain, pFile, rdir ):
 def createHTMLSource( root, cx=0, cy=0 ):
     obj, frames, prop, children = root
 
-    cssC = ""
-    htmlC = ""
-    jssC = ""
-
     css = ""
     html = ""
     js = ""
@@ -128,6 +124,7 @@ def createHTMLSource( root, cx=0, cy=0 ):
 
 #bone-{id} {{
     transform-origin: 50% 50%;
+    position: absolute;
 }}
 """
         css = css + cssRec
@@ -140,11 +137,10 @@ def createHTMLSource( root, cx=0, cy=0 ):
         html = html + htmlRec
 
         for c in children:
-            cssC, htmlC, jssC = createHTMLSource( c, sx, sy )
+            cssC, htmlC, jsC = createHTMLSource( c, sx, sy )
             css = css + cssC
             html = html + htmlC
-            js = js + jssC
-
+            js = js + jsC
         html = html + """
   </div>
 </div>
