@@ -3,6 +3,7 @@ from PyTexturePacker import Packer
 from plistlib import load 
 import re
 import shutil
+import pprint
 
 def packCharacters( src, dest ):
     packer = Packer.create(max_width=2048, max_height=2048, shape_padding=4, trim_mode=1, reduce_border_artifacts=True, bg_color=0xffffff00)
@@ -95,13 +96,12 @@ def appendToCSS( kinChain, pFile, rdir ):
             addFrame( kinChain, (res[0], res[1], res[2], id, width, height, frames[f]['rotated'], px, py, sx, sy, swidth, sheight, fileName ) )
     return kinChain
 
-def createHTMLSource( root, cx=0, cy=0 ):
+def createHTMLSource( kinRoot, cx=0, cy=0 ):
     obj, frames, prop, children = root
 
     css = ""
-    html = ""
     js = ""
-
+    htmlRoot = [ f"{obj}", [ f"cls-{obj}" ], [] ]
     for f in frames:
         name, obj, tags, id, width, height, rotated, px, py, sx, sy, swidth, sheight, fileName = f
         if rotated:
@@ -129,23 +129,46 @@ def createHTMLSource( root, cx=0, cy=0 ):
 """
         css = css + cssRec
 
-        ctags = " ".join(tags)
-        htmlRec = f"""
-<div id="bone-{id}" class="bone-{id}-class">
-  <div id="{id}" class="{ctags}" style="visibility:hidden">
+        ctags = ",".join(tags)
+        if ctags == "":
+            ctags = "default"
+
+        htmlOption = [ [ f"bone-{id}", [ f"cls-bone-{id}" ] ], 
+                     [ f"{id}", [ f"cls-{id}", f"{ctags}" ] ] ]
+        htmlRoot[2].append( htmlOption )
+
+        jsRec = f"""
+function create_{id} (node) {{
+    node.append
+}}        
 """
-        html = html + htmlRec
 
         for c in children:
-            cssC, htmlC, jsC = createHTMLSource( c, sx, sy )
+            cssC, htmlNode, jsC = createHTMLSource( c, sx, sy )
             css = css + cssC
-            html = html + htmlC
+            html = htmlRoot[3].append(htmlNode)
             js = js + jsC
-        html = html + """
-  </div>
-</div>
-"""
-    return css, html, js
+
+    return css, htmlRoot, js
+
+# function createAnimation( container, character, mode, anim )
+#
+
+def createJSTree( name, htmlTree ):
+    objName, cls, clsOptions, children = htmlTree
+    js = ""
+
+    for f in clsOptions:
+        id, tags = f[-1]
+        print('***', id, tags )
+        js = js + """
+    {id}["{tags}"] = {{}};    
+        """.format( id=id, tags=tags )
+
+    for c in children:
+        js = js + createJSTree(name, c)
+
+    return js
 
 def main( argv = None ):
     if argv is None:
@@ -177,13 +200,18 @@ def main( argv = None ):
     
     profJBKinChains = appendToCSS(profJBKinChains, "prof_jb_0.plist", "../assets")
     profJBkinChains = appendToCSS(profJBKinChains, "prof_jb_1.plist", "../assets")
-    print(profJBKinChains)
-    css, html, js = createHTMLSource( profJBKinChains )
+    
+    css, htmlTree, js = createHTMLSource( profJBKinChains )
+
     with open('prof_jb.css','w') as f:
         f.write(css)
 
     with open('prof_jb.html','w') as f:
-        f.write(html)
+        f.write(pprint.pformat(htmlTree))
+
+    jsTree = createJSTree( "prof_jb", htmlTree )
+    with open('prof_jb_test.js','w') as f:
+        f.write( jsTree )
 
 if __name__ == "__main__":
     main( [ '../../Lecture-VN/Resources/ProfJB/', "prof_jb_%d"] )
