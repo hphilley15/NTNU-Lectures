@@ -83,3 +83,46 @@ function convertURLs( assetInstances, mode ) {
         }
     }
 }
+
+function clearNode( node ) {
+    while( node.firstChild ) {
+        node.removeChild( node.firstChild );
+    }
+}
+
+function checkMode( tags, mode ) {
+    var el = -1;
+    for(var i = 0; i < tags.length && el == -1; i++ ) {
+        if ( mode.includes( tags[i] ) {
+            el = i;
+        }
+    }
+    if ( ( el < 0 ) || ( el >= tags.length ) ) {
+        for(var i = 0; i < tags.length && el == -1; i++ ) {
+            if ( tags[i] == "default" ) {
+                el = i;
+            }
+        }    
+    }
+    if ( ( el < 0 ) || ( el >= tags.length ) ) {
+        el = 0;
+    }
+    return el;
+}
+
+function createCharacter( container, character, mode, anim ) {
+    var id = character.id;
+    var tags = character.tags;
+    var children = character.children;
+
+    clearNode( container );
+    n = document.createElement( "div" );
+    n.id = id;
+    if ( checkMode( tags, mode ) >= 0 ) {
+        for( var ci = 0; ci < children.length; ci++ ) {
+            var cid = children[i].id;
+            var ctags = children[i].ctags;
+            
+        }
+    } 
+}
