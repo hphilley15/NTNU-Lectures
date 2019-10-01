@@ -235,7 +235,7 @@ def createEnvironment( params = {} ):
 
     node = platform.node()
 
-    for p in [ "pygments", "youtube-dl", "jinja2", "PyDrive", "pytexturepacker", "patch" ]:
+    for p in [ "pygments", "youtube-dl", "jinja2", "PyDrive", "papermil", "pytexturepacker", "patch" ]:
         try:
             importlib.import_module( p )
         except ModuleNotFoundError:
