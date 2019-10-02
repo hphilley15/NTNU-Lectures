@@ -189,7 +189,7 @@ class JBDocument:
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
             f.write( html )
-        npmInstall( dir )
+        self.npmInstall( dir )
 
     def npmInstall( self, dir ):
         with JBcd( dir ):
