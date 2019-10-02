@@ -2,6 +2,7 @@
 from jinja2 import Template
 import re
 import pathlib
+import subprocess
 
 from ..jbslide import JBSlide
 from ..jbdata import JBData, JBImage, JBVideo
