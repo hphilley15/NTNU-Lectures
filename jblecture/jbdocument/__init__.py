@@ -5,6 +5,7 @@ import pathlib
 
 from ..jbslide import JBSlide
 from ..jbdata import JBData, JBImage, JBVideo
+from ..jbcd install JBcd
 
 class JBDocument:
     def __init__( self ):
@@ -188,6 +189,18 @@ class JBDocument:
         html = self.createRevealSlideShow()
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
             f.write( html )
+        npmInstall( dir )
+        
+    def npmInstall( self, dir ):
+        with JBcd( dir ):
+            print("Executing npm install")
+            o = None
+            try:
+                o = subprocess.check_output("npm install", shell = True)
+            except subprocess.CalledProcessError:
+                pass
+            if ( o ):    
+                print( 'npm install:' + o.decode('utf-8') )
     
     def createSlideImages(self, rdir ):
         for s in self.slides:
