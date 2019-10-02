@@ -5,7 +5,7 @@ import pathlib
 
 from ..jbslide import JBSlide
 from ..jbdata import JBData, JBImage, JBVideo
-from ..jbcd install JBcd
+from ..jbcd import JBcd
 
 class JBDocument:
     def __init__( self ):
@@ -190,7 +190,7 @@ class JBDocument:
         with open( pathlib.Path( dir ).joinpath( fname ), "w" ) as f:
             f.write( html )
         npmInstall( dir )
-        
+
     def npmInstall( self, dir ):
         with JBcd( dir ):
             print("Executing npm install")
