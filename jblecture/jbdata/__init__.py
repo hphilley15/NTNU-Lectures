@@ -190,7 +190,7 @@ class JBImage(JBData):
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=".mp4")
+        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=".webm")
         self.width = width
         self.height = height
 
@@ -200,11 +200,12 @@ class JBVideo(JBData):
                     </video>
                  """.format(src=self.localFile, port=cfg['HTTP_PORT'], name=self.name, style=style)
 
-    def readDataFromURL(self, url, localFile=None):
+    def readDataFromURL( self, url, localFile ):
         print('Reading video from', url)
-        ydl_opts = {'outtmpl': str(localFile)}
+        ydl_opts = {'outtmpl': unicode(localFile) }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
+        self.localFile = unicode( localFile )
 
     def getDefaultFileName(self):
         p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
