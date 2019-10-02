@@ -93,7 +93,7 @@ function clearNode( node ) {
 function checkMode( tags, mode ) {
     var el = -1;
     for(var i = 0; i < tags.length && el == -1; i++ ) {
-        if ( mode.includes( tags[i] ) {
+        if ( mode.includes( tags[i] ) ) {
             el = i;
         }
     }
