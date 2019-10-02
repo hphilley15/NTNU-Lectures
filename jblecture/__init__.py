@@ -111,7 +111,7 @@ defaults['REVEAL_PRESENTATION_TEMPLATE'] = """
 
         <script>
             {{assets}}
-            convertURLs(assetInstances, "local");
+            convertURLs(assetInstances, "localhost");
         </script>
     </body>
 </html>
@@ -246,16 +246,6 @@ def createEnvironment( params = {} ):
     cfg = loadModules( cfg )
 
     updateGit( cfg, "https://github.com/hakimel/reveal.js.git", "reveal.js", "", cfg['ROOT_DIR'] )
-
-    with jbcd.JBcd( cfg['REVEAL_DIR'] ):
-        print("Executing npm install")
-        o = None
-        try:
-            o = subprocess.check_output("npm install", shell = True)
-        except subprocess.CalledProcessError:
-            pass
-        if ( o ):    
-            print( 'npm install:' + o.decode('utf-8') )
 
     for pkg in [ 'decktape', 'scenejs' ]:            
         with jbcd.JBcd( cfg['REVEAL_DIR']  ):

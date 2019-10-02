@@ -22,6 +22,8 @@ class JBData {
             newContent = "<a id=\"dat-" + id + "\" href=\"file://" + this.localFile + "\">" + this.name + "</a>";
         } else if ( mode == "url" ) {
             newContent = "<a id=\"img-" + id + "\" href=\"" + this.url + "\">" + this.name + "</a>";
+        } else if ( mode == "localhost" ) {
+            newContent = "<a id=\"img-" + id + "\" href=\"" + "http://localhost:8000/" + this.localFile + "\">" + this.name + "</a>";
         }
         console.log("JBData.updateAsset(" + id + "," + "," + mode + ") =>" + newContent );
         return newContent;
@@ -44,6 +46,8 @@ class JBImage extends JBData {
             newContent = "<img id=\"img-" + id + "\" src=\"" + this.localFile + "\"/>";
         } else if ( mode == "url" ) {
             newContent = "<img id=\"img-" + id + "\" src=\"" + this.url + "\"/>";
+        } else if ( mode == "localhost" ) {
+            newContent = "<img id=\"img-" + id + "\" src=\"" + "http://localhost:8000/" + this.localFile + "\"/>";
         }
         console.log("JBImage.updateAsset(" + id + "," + "," + mode + ") =>" + newContent );
         return newContent;
@@ -64,6 +68,8 @@ class JBVideo extends JBData {
             newContent = "<video id=\"vid-" + id + "\" controls> <source src=\"" + this.localFile + "\"/></video>";
         } else if ( mode == "url" ) {
             newContent = "<iframe id=\"vid-" + id + "\" src=\"" + this.url + "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>/>";
+        } else if ( mode == "localhost" ) {
+            newContent = "<video id=\"vid-" + id + "\" controls> <source src=\"" + "http://localhost:8000/" + this.localFile + "\"/></video>";
         }
         console.log("JBVideo.updateAsset(" + id + "," + "," + mode + ") =>" + newContent );
         return newContent;
