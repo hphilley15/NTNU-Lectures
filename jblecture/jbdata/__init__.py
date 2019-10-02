@@ -202,10 +202,10 @@ class JBVideo(JBData):
 
     def readDataFromURL( self, url, localFile ):
         print('Reading video from', url)
-        ydl_opts = {'outtmpl': unicode(localFile) }
+        ydl_opts = {'outtmpl': localFile }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        self.localFile = unicode( localFile )
+        self.localFile = localFile
 
     def getDefaultFileName(self):
         p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
