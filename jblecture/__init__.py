@@ -133,11 +133,11 @@ defaults['REVEAL_SLIDE_TEMPLATE'] = """
 
 defaults['REVEAL_SLIDE_FOOTER'] = """
 <div class="jb-footer-left">
-    {{ logo(cls="jb-footer-left-img plain", style="") }}
+    {{ cfg['ASSETS']['logo'](cls="jb-footer-left-img plain", style="") }}
     <!-- {{ pairLogo(cls="jb-footer-left-img plain") }} -->
 </div>
 <div class="jb-footer-right">
-    {{ robbi(cls="jb-footer-right-img plain") }}
+    {{ cfg['ASSETS']['robbi'](cls="jb-footer-right-img plain") }}
 </div>
 """
 
