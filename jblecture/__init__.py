@@ -367,13 +367,13 @@ def load_ipython_extension(ipython):
     ipython.register_magics(magics)
 
 # Functions that should be exported
-def addJBImage( name, width, height, url=None, data=None, localFile=None ):
-    img = jbdata.JBImage( name, width, height, url, data, localFile )
+def addJBImage( name, width, height, url=None, data=None, localFile=None, suffix=None ):
+    img = jbdata.JBImage( name, width, height, url, data, localFile, suffix )
     cfg['ASSETS'][img.name] = img
     return img
 
-def addJBVideo( name, width, height, url=None, data=None, localFile=None ):
-    vid = jbdata.JBVideo( name, width, height, url, data, localFile )
+def addJBVideo( name, width, height, url=None, data=None, localFile=None, suffix=None ):
+    vid = jbdata.JBVideo( name, width, height, url, data, localFile, suffix )
     cfg['ASSETS'][vid.name] = vid
     return vid
 

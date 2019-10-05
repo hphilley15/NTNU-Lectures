@@ -206,8 +206,8 @@ class JBImage(JBData):
         return s
 
 class JBVideo(JBData):
-    def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix="webm")
+    def __init__(self, name, width, height, url=None, data=None, localFile=None, suffix="webm"):
+        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=suffix)
         self.width = width
         self.height = height
 
