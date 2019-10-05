@@ -174,7 +174,7 @@ class JBDocument:
                 elif a.type == JBData.JBIMAGE_SVG:
                     suffix = "svg"
                 else:
-                    throw Exception("Unknown JBImage Type")
+                    raise Exception("Unknown JBImage Type")
 
                 s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }", "{suffix}" )'
             elif ( a.type == JBData.JBVIDEO ):

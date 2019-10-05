@@ -133,7 +133,7 @@ class JBImage(JBData):
         elif suffix == ".svg":
             t = JBData.JBIMAGE_SVG
         else:
-            throw Exception("Unknown JBImage data type", suffix )
+            raise Exception("Unknown JBImage data type", suffix )
         super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=suffix)
         self.width = width
         self.height = height
