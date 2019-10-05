@@ -136,12 +136,12 @@ class JBImage(JBData):
         if ( localFile and localFile[-4:] == "." + suffix ):
             localFile = localFile[0:-4]
         if suffix == 'png':
-            t = JBData.JBIMAGE_PNG
+            atype = JBData.JBIMAGE_PNG
         elif suffix == "svg":
-            t = JBData.JBIMAGE_SVG
+            atype = JBData.JBIMAGE_SVG
         else:
             raise Exception("Unknown JBImage data type: " + suffix )
-        super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=suffix)
+        super(JBImage, self).__init__(name, url, data, localFile, atype=atype, suffix=suffix)
         self.width = width
         self.height = height
 
