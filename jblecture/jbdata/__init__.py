@@ -11,7 +11,7 @@ class JBData:
     Class that encapsulates an image and its various representations.
     """
 
-    JBDATA, JBIMAGE, JBVIDEO = 0, 1, 2
+    JBDATA, JBIMAGE_PNG, JBIMAGE_SVG, JBVIDEO = 0, 10, 11, 30
 
     @staticmethod
     def sReadDataFromURL(url):
@@ -127,8 +127,14 @@ class JBData:
         return JBData.sGenerateId()
 
 class JBImage(JBData): 
-    def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=".png")
+    def __init__(self, name, width, height, url=None, data=None, localFile=None, suffix="png"):
+        if !suffix or suffix == '.png':
+            t = JBData.JBIMAGE_PNG
+        elif suffix = ".svg":
+            t = JBData.JBIMAGE_SVG
+        else:
+            throw new Exception("Unknown JBImage data type", suffix )
+        super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=suffix)
         self.width = width
         self.height = height
 

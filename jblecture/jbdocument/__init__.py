@@ -168,8 +168,15 @@ class JBDocument:
             s = s + f'"{a.name}" : '
             rpath = str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) )
 
-            if ( a.type == JBData.JBIMAGE ):
-                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }" )'
+            if ( a.type == JBData.JBIMAGE_PNG ) or ( a.type == JBData.JBIMAGE_SVG ):
+                if a.type == JBData.JBIMAGE_PNG:
+                    suffix = ".png"
+                elif a.type == JBData.JBIMAGE_SVG:
+                    suffix = ".svg"
+                else:
+                    throw new Exception("Unknown JBImage Type")
+
+                s = s + f'new JBImage( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }", "{suffix}" )'
             elif ( a.type == JBData.JBVIDEO ):
                 s = s + f'new JBVideo( "{a.name}", "{a.width}", "{a.height}", "{a.url}", null, "{ rpath }" )'
 

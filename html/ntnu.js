@@ -1,7 +1,8 @@
 var atype = {
     JBDATA : 0,
-    JBIMAGE : 1,
-    JBVIDEO: 2,    
+    JBIMAGE_PNG : 10,
+    JBIMAGE_SVG : 11,
+    JBVIDEO: 30,    
 };
 
 class JBData {

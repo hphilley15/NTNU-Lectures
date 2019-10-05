@@ -88,7 +88,7 @@ jblecture = reload(jblecture)
 node = platform.node()
 
 if node == 'NTNU-ERC':
-    GIT_CMD = 'D:\PortableApps\GitPortable\bin\git.exe'
+    GIT_CMD = 'D:/PortableApps/GitPortable/bin/git.exe'
 else:
     GIT_CMD = 'git'
 
