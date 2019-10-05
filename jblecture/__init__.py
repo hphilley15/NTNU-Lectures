@@ -480,5 +480,5 @@ def createSVGImageFromFigure( fig ):
     figfile = BytesIO()
     fig.savefig(figfile, dpi=300, bbox_inches='tight', format="svg" )
     figfile.seek(0)  # rewind to beginning of file
-    image = figfile.getvalue()
+    image = figfile.getvalue().decode('utf-8')
     return image    

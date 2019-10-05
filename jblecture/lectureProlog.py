@@ -76,10 +76,7 @@ def gDriveUpload( dir, file ):
     uploaded.Upload()
     print('Uploaded file with ID {}'.format(uploaded.get('id')))
 
-def gDriveMount(dir):
-    from google.colab import drive
-    drive.mount(dir)
-    
+
 d = str( pathlib.Path( pathlib.Path('.') / 'NTNU-Lectures' ).resolve() )
 if d not in sys.path:    
     sys.path.append(  d )
@@ -102,7 +99,7 @@ jblecture.load_ipython_extension( get_ipython() )
 from jblecture import addJBImage, addJBVideo, addJBData
 from jblecture import createTable
 from jblecture import instTemplate
-from jblecture import _a
+from jblecture import _a, createBase64ImageFromFigure, createSVGImageFromFigure
 from jblecture import cfg
 from jblecture import downloadDir, zipDirectory
 
@@ -110,6 +107,3 @@ from IPython.core.display import display, HTML
 
 doc = cfg['doc']
 GDrive = None
-
-   
-    
