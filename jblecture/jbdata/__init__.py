@@ -129,12 +129,12 @@ class JBImage(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None, suffix=None):
         if ( not suffix ):
             if ( localFile ):
-                if localFile[:-4:] == ".png":
+                if str(localFile)[:-4:] == ".png":
                     suffix = "png"
-                elif localFile[-4:] == ".svg":
+                elif str(localFile)[-4:] == ".svg":
                     suffix = "svg"
-        if ( localFile and localFile[-4:] == "." + suffix ):
-            localFile = localFile[0:-4]
+        if ( localFile and str(localFile)[-4:] == "." + suffix ):
+            localFile = str(localFile)[0:-4]
         if suffix == 'png':
             atype = JBData.JBIMAGE_PNG
         elif suffix == "svg":
