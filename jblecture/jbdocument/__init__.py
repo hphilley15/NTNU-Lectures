@@ -170,9 +170,9 @@ class JBDocument:
 
             if ( a.type == JBData.JBIMAGE_PNG ) or ( a.type == JBData.JBIMAGE_SVG ):
                 if a.type == JBData.JBIMAGE_PNG:
-                    suffix = ".png"
+                    suffix = "png"
                 elif a.type == JBData.JBIMAGE_SVG:
-                    suffix = ".svg"
+                    suffix = "svg"
                 else:
                     throw new Exception("Unknown JBImage Type")
 
