@@ -31,10 +31,10 @@ class JBData:
             f.write(data)
 
     def getDefaultFileName(self):
-        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}{suffix}".format(name=self.name, suffix=self.suffix)
+        p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def __init__(self, name, url=None, data=None, localFile=None, atype = JBDATA, suffix=".dat"):
+    def __init__(self, name, url=None, data=None, localFile=None, atype = JBDATA, suffix="dat"):
         self.url = url
         self.name = name
         self.suffix = suffix
@@ -128,7 +128,7 @@ class JBData:
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None, suffix="png"):
-        if !suffix or suffix == '.png':
+        if (not suffix) or (suffix == '.png'):
             t = JBData.JBIMAGE_PNG
         elif suffix = ".svg":
             t = JBData.JBIMAGE_SVG
@@ -166,7 +166,7 @@ class JBImage(JBData):
         return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, src=JBData.getBase64Data( self.localFile ) )
 
     def getDefaultFileName(self):
-        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
+        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
     @staticmethod
@@ -200,7 +200,7 @@ class JBImage(JBData):
 
 class JBVideo(JBData):
     def __init__(self, name, width, height, url=None, data=None, localFile=None):
-        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix=".webm")
+        super(JBVideo, self).__init__(name, url, data, localFile, atype=JBData.JBVIDEO, suffix="webm")
         self.width = width
         self.height = height
 
@@ -218,7 +218,7 @@ class JBVideo(JBData):
         self.localFile = localFile
 
     def getDefaultFileName(self):
-        p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}{suffix}".format(name=self.name, suffix=self.suffix)
+        p = cfg['REVEAL_VIDEOS_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
     def __repr_html__(self, cls = None, style=None):
