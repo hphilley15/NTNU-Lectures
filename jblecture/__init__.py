@@ -289,7 +289,7 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
     cfg['ASSETS']['fira-logo-1'] =  jbdata.JBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1.png" ) )
     cfg['ASSETS']['pairLogo'] =  jbdata.JBImage( name = 'pairLogo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "pairLogo.png" ) )
-    # https://i.postimg.cc/V63MsGL3/logo-with-transparent-bg.png
+
     ratio = 1.0
     cssStr = """
         @page {{
@@ -464,3 +464,21 @@ def _a( *objects, sep=' ', end='\n', width=None):
     if width:
         s = textwrap.fill(s, width )
     return s
+
+def createBase64ImageFromFigure( fig ):
+    from io import BytesIO
+    figfile = BytesIO()
+    fig.savefig(figfile, dpi=300, bbox_inches='tight', format="png")
+    figfile.seek(0)  # rewind to beginning of file
+    # figdata_png = base64.b64encode(figfile.read())
+    image = base64.b64encode(figfile.getvalue()).decode('utf-8')
+    return image
+
+
+def createSVGImageFromFigure( fig ):
+    from io import BytesIO
+    figfile = BytesIO()
+    fig.savefig(figfile, dpi=300, bbox_inches='tight', format="svg" )
+    figfile.seek(0)  # rewind to beginning of file
+    image = figfile.getvalue()
+    return image    
