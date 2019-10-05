@@ -274,6 +274,8 @@ def createEnvironment( params = {} ):
         cfg['REVEAL_IMAGES_DIR']  / 'logo.png')
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
         cfg['REVEAL_IMAGES_DIR']  / 'FIRA-logo-1.png')
+    shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "pairLogo.png", 
+        cfg['REVEAL_IMAGES_DIR']  / 'pairLogo.png')
     
     # Copy html, js, and css artefacts
     shutil.copy2(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
@@ -286,7 +288,8 @@ def createEnvironment( params = {} ):
     cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
     cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
     cfg['ASSETS']['fira-logo-1'] =  jbdata.JBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1.png" ) )
-
+    cfg['ASSETS']['pairLogo'] =  jbdata.JBImage( name = 'pairLogo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "pairLogo.png" ) )
+    # https://i.postimg.cc/V63MsGL3/logo-with-transparent-bg.png
     ratio = 1.0
     cssStr = """
         @page {{
