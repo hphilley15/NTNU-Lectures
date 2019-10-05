@@ -58,8 +58,7 @@ class JBData:
         elif localFile:
             data = JBData.sReadData( localFile + "." + suffix)
             print('localFile', str(localFile) + "." + suffix)
-            self.suffix = pathlib.Path( localFile ).suffix
-            self.localFile = pathlib.Path(localFile)
+            self.localFile = localFile
         else:
             uploaded = files.upload()
             for fn in uploaded.keys():
