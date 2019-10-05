@@ -128,12 +128,19 @@ class JBData:
 
 class JBImage(JBData): 
     def __init__(self, name, width, height, url=None, data=None, localFile=None, suffix="png"):
-        if (not suffix) or (suffix == '.png'):
+        if ( not suffix ):
+            if localFile[:-4:] == ".png":
+                suffix = "png"
+            elif localFile[:-4:] == ".svg":
+                suffix = "svg"
+        if ( localFile and localFile[-4:] == "." + suffix ):
+            localFile = localFile[0:-4]
+        if suffix == 'png':
             t = JBData.JBIMAGE_PNG
-        elif suffix == ".svg":
+        elif suffix == "svg":
             t = JBData.JBIMAGE_SVG
         else:
-            raise Exception("Unknown JBImage data type", suffix )
+            raise Exception("Unknown JBImage data type: " + suffix )
         super(JBImage, self).__init__(name, url, data, localFile, atype=JBData.JBIMAGE, suffix=suffix)
         self.width = width
         self.height = height

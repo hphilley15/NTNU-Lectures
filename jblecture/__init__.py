@@ -285,10 +285,10 @@ def createEnvironment( params = {} ):
 
     cfg['ASSETS'] = {}
 
-    cfg['ASSETS']['robbi'] = jbdata.JBImage( name='robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi.png" ) )
-    cfg['ASSETS']['logo'] =  jbdata.JBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo.png" ) )
-    cfg['ASSETS']['fira-logo-1'] =  jbdata.JBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1.png" ) )
-    cfg['ASSETS']['pairLogo'] =  jbdata.JBImage( name = 'pairLogo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "pairLogo.png" ) )
+    addJBImage( name = 'robbi', width=162, height=138, localFile= str( cfg['REVEAL_IMAGES_DIR']  / "robbi" ), suffix="png" )
+    addJBImage( name = 'logo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "logo" ), suffix="png" )
+    addJBImage( name = 'fira-logo-1', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "FIRA-logo-1"), suffix="png" )
+    addJBImage( name = 'pairLogo', width=0, height=0, localFile= str( cfg['REVEAL_IMAGES_DIR'] / "pairLogo" ), suffix="png" )
 
     ratio = 1.0
     cssStr = """
