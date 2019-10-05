@@ -56,8 +56,8 @@ class JBData:
                 JBData.sWriteData(localFile, self.data)
             self.localFile = localFile
         elif localFile:
-            data = JBData.sReadData(localFile)
-            print('localFile', localFile)
+            data = JBData.sReadData( localFile + "." + suffix)
+            print('localFile', localFile + "." + suffix)
             self.suffix = pathlib.Path( localFile ).suffix
             self.localFile = pathlib.Path(localFile)
         else:
@@ -170,7 +170,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, src=JBData.getBase64Data( self.localFile ) )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, src=JBData.getBase64Data( self.localFile + "." + self.suffix ) )
 
     def getDefaultFileName(self):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
