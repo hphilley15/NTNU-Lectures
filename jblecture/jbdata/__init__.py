@@ -209,7 +209,7 @@ class JBImage(JBData):
         return JBImage.sCreateHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
-        if ( self.type == JBIMAGE_SVG ):
+        if ( self.type == JBData.JBIMAGE_SVG ):
             s = self.__repr_html_svg__( cls, style )
         elif self.url:
             s = self.__repr_html_url__( cls, style )
