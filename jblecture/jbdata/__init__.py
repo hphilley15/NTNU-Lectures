@@ -172,6 +172,16 @@ class JBImage(JBData):
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
         return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="data:image/png;base64,{src}"/></span>\n'.format(id=id, width=w, height=h, style=cs, src=JBData.getBase64Data( str(self.localFile) + "." + self.suffix ) )
 
+    def __repr_html_svg__(self, cls=None, style=None):
+        id = self.generateId()
+        w = self.createWidthString()
+        h = self.createHeightString()
+        if id not in self.ids:
+            self.ids.append( id )
+        cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
+        data = JBData.sReadData( str(self.localFile) + "." + self.suffix )
+        return '<span id="{id}" {style}>{data}</span>\n'.format(id=id, width=w, height=h, style=cs, data=data )
+
     def getDefaultFileName(self):
         p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
@@ -199,7 +209,9 @@ class JBImage(JBData):
         return JBImage.sCreateHeightString( self.height )
 
     def __repr_html__(self, cls = None, style=None):
-        if self.url:
+        if ( self.type == JBIMAGE_SVG ):
+            s = self.__repr_html_svg__( cls, style )
+        elif self.url:
             s = self.__repr_html_url__( cls, style )
         else:
             s = self.__repr_html_base64__( cls, style ) 
