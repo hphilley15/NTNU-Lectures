@@ -179,7 +179,7 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        data = JBData.sReadData( str(self.localFile) + "." + self.suffix )
+        data = JBData.sReadData( str(self.localFile) + "." + self.suffix ).decode('utf-8')
         return '<span id="{id}" {style}>{data}</span>\n'.format(id=id, width=w, height=h, style=cs, data=data )
 
     def getDefaultFileName(self):
