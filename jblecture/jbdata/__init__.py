@@ -147,6 +147,7 @@ class JBImage(JBData):
         elif suffix == "jpg" or suffix == "jpeg":
             atype = JBData.JBIMAGE_JPG
         else:
+            print('name', name, 'localFile', localFile, 'suffix', suffix)
             raise Exception("Unknown JBImage data type: " + suffix )
         super(JBImage, self).__init__(name, url, data, localFile, atype=atype, suffix=suffix)
         self.width = width
