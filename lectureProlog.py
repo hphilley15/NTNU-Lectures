@@ -107,3 +107,35 @@ from IPython.core.display import display, HTML
 
 doc = cfg['doc']
 GDrive = None
+
+import IPython
+import uuid
+from google.colab import output
+
+class InvokeButton(object):
+  def __init__(self, title, callback):
+    self._title = title
+    self._callback = callback
+
+  def _repr_html_(self):
+    callback_id = 'button-' + str(uuid.uuid4())
+    output.register_callback(callback_id, self._callback)
+
+    template = """<button id="{callback_id}" style="height:3cm;">{title}</button>
+        <script>
+          document.querySelector("#{callback_id}").onclick = (e) => {{
+            //IPython.notebook.execute_cells_after()
+            google.colab.kernel.invokeFunction('{callback_id}', [], {{}})
+            e.preventDefault();
+          }};
+        </script>"""
+    html = template.format(title=self._title, callback_id=callback_id)
+    return html
+
+def createRevealJSAndDownload():
+  print('Create reveal.js and download it')
+  doc.createRevealDownload( cfg['ROOT_DIR'] / "reveal.js" )
+  downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
+
+InvokeButton('Create and Download Reveal.js Slideshow', createRevealJSAndDownload )
+
