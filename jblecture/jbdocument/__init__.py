@@ -168,11 +168,13 @@ class JBDocument:
             s = s + f'"{a.name}" : '
             rpath = str( pathlib.Path(a.localFile).relative_to(cfg['REVEAL_DIR'] ) )
 
-            if ( a.type == JBData.JBIMAGE_PNG ) or ( a.type == JBData.JBIMAGE_SVG ):
+            if ( a.type == JBData.JBIMAGE_PNG ) or ( a.type == JBData.JBIMAGE_SVG ) or ( a.type == JBData.JBIMAGE_JPG ):
                 if a.type == JBData.JBIMAGE_PNG:
                     suffix = "png"
                 elif a.type == JBData.JBIMAGE_SVG:
                     suffix = "svg"
+                elif a.type == JBData.JBIMAGE_JPG:
+                    suffix = "jpg"
                 else:
                     raise Exception("Unknown JBImage Type")
 

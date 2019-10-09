@@ -2,6 +2,7 @@ var atype = {
     JBDATA : 0,
     JBIMAGE_PNG : 10,
     JBIMAGE_SVG : 11,
+    JBIMAGE_JPG : 12,
     JBVIDEO: 30,    
 };
 
