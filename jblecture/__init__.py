@@ -60,7 +60,7 @@ except ImportError:
 defaults['REVEAL_THEME'] = 'ntnuerc'
 
 print('*** CWD', os.getcwd() )
-with open("./html/index_template.html") as f:
+with open("./NTNU-Lectures/html/index_template.html") as f:
     defaults['REVEAL_PRESENTATION_TEMPLATE'] = f.read()
 
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
