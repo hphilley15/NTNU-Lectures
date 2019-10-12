@@ -59,7 +59,7 @@ except ImportError:
 # Reveal.js Parameters
 defaults['REVEAL_THEME'] = 'ntnuerc'
 
-with open("../html/index_template.html") as f:
+with open("./html/index_template.html") as f:
     defaults['REVEAL_PRESENTATION_TEMPLATE'] = f.read()
 
 defaults['REVEAL_SLIDE_TEMPLATE'] = """
