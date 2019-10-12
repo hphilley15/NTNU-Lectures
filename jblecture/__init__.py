@@ -59,6 +59,7 @@ except ImportError:
 # Reveal.js Parameters
 defaults['REVEAL_THEME'] = 'ntnuerc'
 
+print('*** CWD', os.getcwd() )
 with open("./html/index_template.html") as f:
     defaults['REVEAL_PRESENTATION_TEMPLATE'] = f.read()
 
