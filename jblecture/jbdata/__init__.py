@@ -135,7 +135,7 @@ class JBImage(JBData):
                     suffix = "svg"
                 elif str(localFile)[-4:] == ".jpg":
                     suffix = "jpg"
-                elif str(localFile[-5:]) == ".jpeg":
+                elif str(localFile)[-5:] == ".jpeg":
                     suffix = "jpeg"
                 
         if ( localFile and str(localFile)[-len(suffix) + 1:] == "." + suffix ):
