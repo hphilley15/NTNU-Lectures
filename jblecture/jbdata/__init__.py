@@ -56,7 +56,7 @@ class JBData:
                 JBData.sWriteData(localFile, self.data)
             self.localFile = localFile
         elif localFile:
-            data = JBData.sReadData( localFile + "." + suffix)
+            data = JBData.sReadData( str(localFile) + "." + suffix)
             print('localFile', str(localFile) + "." + suffix)
             self.localFile = localFile
         else:
