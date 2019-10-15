@@ -186,7 +186,7 @@ def createEnvironment( params = {} ):
             importlib.import_module( p )
         except ModuleNotFoundError:
             print('Using pip to install missing dependency', p)
-            os.system("pip" + " install " + p )
+            os.system("python -m pip" + " install " + p )
 
     cfg = loadModules( cfg )
 
