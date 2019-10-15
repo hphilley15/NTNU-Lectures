@@ -21,7 +21,7 @@ class JBData {
     updateAsset( id, mode ) {
         newContent = "";
         if ( mode == "local" ) {
-            newContent = "<a id=\"dat-" + id + "\" href=\"file://" + this.getLocalName() "\">" + this.name + "</a>";
+            newContent = "<a id=\"dat-" + id + "\" href=\"file://" + this.getLocalName() + "\">" + this.name + "</a>";
         } else if ( mode == "url" ) {
             newContent = "<a id=\"img-" + id + "\" href=\"" + this.url + "\">" + this.name + "</a>";
         } else if ( mode == "localhost" ) {
@@ -39,11 +39,39 @@ class JBData {
 JBData.atype = atype;
 
 class JBImage extends JBData {
-    constructor( name, width, height, url=None, data=None, localFile=None ) {
-        super( name, url, data, localFile, JBData.atype.JBIMAGE, "png");
+    constructor( name, width, height, url=null, data=null, localFile=None, suffix = null ) {
+        var lfLen = 0;
+        if (suffix == null ) {
+            if (localFile != null ) {
+                lfLen = localFile.length;
+                if ( ( lfLen - 4 >= 0 ) && ( localFile. substring( lfLen - 4, lfLen ) == ".png" ) ) {
+                    suffix = "png";
+                } else if ( ( lfLen - 4 >= 0 ) && ( localFile. substring( lfLen - 4, lfLen ) == ".svg" ) ) {
+                    suffix = "svg";
+                } else if ( ( lfLen - 4 >= 0 ) && ( localFile. substring( lfLen - 4, lfLen ) == "..jpg" ) ) {
+                    suffix = "jpg";
+                } else if ( (lfLen - 5 >= 0 ) && ( localFile. substring( lfLen -5, lfLen ) == ".png" ) ) { 
+                    suffix = "jpeg";
+                }
+            }
+        }
+
+        if ( ( localFile != null ) && ( lfLen - suffix.length - 1 >= 0 ) && ( localFile.substring( lfLen - suffix.length - 1, lfLen ) == "." + suffix  ) ) {
+            localFile = localFile.substring( 0, lfLen - suffix.length - 1 );
+        }
+
+        var mytype = null;
+        if ( suffix == "png" ) {
+            mytype = JBData.atype.JBIMAGE_PNG; 
+        } else if ( suffix == "svg") {
+            mytype = JBData.atype.JBIMAGE_SVG; 
+        } else if ( ( suffix == "jpg") || ( suffix == "jpeg" ) ) {
+            mytype = JBData.atype.JBIMAGE_JPG;
+        } 
+        super( name, url, data, localFile, mytype, suffix );
         this.width = width;
         this.height = height;
-        console.log("JBImage(" + name + "," + url + "," + localFile + ")" );
+        console.log("JBImage(" + name + "," + url + "," + localFile + "." + suffix + ")" );
     }
 
     updateAsset( id, mode ) {

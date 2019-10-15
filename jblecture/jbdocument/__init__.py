@@ -174,7 +174,7 @@ class JBDocument:
                 elif a.type == JBData.JBIMAGE_SVG:
                     suffix = "svg"
                 elif a.type == JBData.JBIMAGE_JPG:
-                    suffix = "jpg"
+                    suffix = a.suffix
                 else:
                     raise Exception("Unknown JBImage Type")
 
