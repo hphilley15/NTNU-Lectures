@@ -13,6 +13,10 @@ import sys
 import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
+import portpicker
+import threading
+import http.server
+import socketserver
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -326,6 +330,17 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     dat = jbdata.JBData( name, url, data, localFile, suffix )
     cfg['ASSETS'][dat.name] = dat
     return dat
+
+def startLocalServer():
+    def server_entry():
+        handler = http.server.SimpleHTTPRequestHandler
+        port = 8080
+        with socketserver.TCPServer(("", port), handler) as httpd:
+            print("serving at port", port)
+            httpd.serve_forever()
+
+    thread = threading.Thread( target=server_entry )
+    thread.start()
 
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"

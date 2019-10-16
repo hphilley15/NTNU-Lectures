@@ -139,3 +139,6 @@ def createRevealJSAndDownload():
 
 InvokeButton('Create and Download Reveal.js Slideshow', createRevealJSAndDownload )
 
+from jblecture import startLocalServer
+startLocalServer()
+
