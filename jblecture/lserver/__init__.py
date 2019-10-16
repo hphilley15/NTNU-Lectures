@@ -13,4 +13,4 @@ def server_entry():
         httpd.serve_forever()
 
 thread = threading.Thread( target=server_entry )
-#thread.start()
+thread.start()
