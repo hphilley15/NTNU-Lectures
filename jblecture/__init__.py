@@ -52,7 +52,7 @@ defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
 
-defaults['HTTP_PORT'] = "8080"
+defaults['HTTP_PORT'] = 8080
 
 try:
     from google.colab import files
@@ -334,7 +334,7 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
 def startLocalServer():
     def server_entry():
         handler = http.server.SimpleHTTPRequestHandler
-        port = cfg['HTTP_PORT']
+        port = int( cfg['HTTP_PORT'] )
         with socketserver.TCPServer(("", port), handler) as httpd:
             print("serving at port", port)
             httpd.serve_forever()
