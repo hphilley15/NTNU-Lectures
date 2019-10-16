@@ -220,8 +220,8 @@ class JBImage(JBData):
         s = ""
         if ( self.type == JBData.JBIMAGE_SVG ):
             s = self.__repr_html_svg__( cls, style )
-        elif ( ( not cfg['GOOGLE_COLAB'] ) and self.localFile ):
-            s = self.__repr_html_file__( cls, style ) 
+        #elif ( ( not cfg['GOOGLE_COLAB'] ) and self.localFile ):
+        #    s = self.__repr_html_file__( cls, style ) 
         elif ( ( cfg['GOOGLE_COLAB'] ) and self.localFile ):
             s = self.__repr_html_base64__( cls, style ) 
         elif self.url:
