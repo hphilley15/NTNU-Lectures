@@ -13,10 +13,6 @@ import sys
 import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
-import portpicker
-import threading
-import http.server
-import socketserver
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -330,6 +326,11 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     dat = jbdata.JBData( name, url, data, localFile, suffix )
     cfg['ASSETS'][dat.name] = dat
     return dat
+
+import portpicker
+import threading
+import http.server
+import socketserver
 
 def startLocalServer():
     def server_entry():
