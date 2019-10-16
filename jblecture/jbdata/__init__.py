@@ -221,6 +221,8 @@ class JBImage(JBData):
             s = self.__repr_html_svg__( cls, style )
         elif self.url:
             s = self.__repr_html_url__( cls, style )
+        elif self.localFile:
+            s = self.__repr_html_file__( cls, style ) 
         else:
             s = self.__repr_html_base64__( cls, style ) 
         return s
