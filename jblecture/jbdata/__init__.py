@@ -160,7 +160,8 @@ class JBImage(JBData):
         if id not in self.ids:
             self.ids.append( id )
         cs = self.createStyleString( "class", cls ) + " " + self.createStyleString( "style", style )
-        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format( id=id, width=w, height=h, style=cs, port=cfg['HTTP_PORT'], src=self.localFile )
+        rpath = str( pathlib.Path(self.localFile).relative_to(cfg['REVEAL_DIR'] ) )
+        return '<span id="{id}" {style}><img id="img-{id}" {width} {height} src="http://localhost:{port}/{src}"/></span>\n'.format( id=id, width=w, height=h, style=cs, port=cfg['HTTP_PORT'], src=rpath + "." + self.suffix )
 
     def __repr_html_url__(self, cls=None, style=None):
         id = self.generateId()
@@ -220,8 +221,8 @@ class JBImage(JBData):
         s = ""
         if ( self.type == JBData.JBIMAGE_SVG ):
             s = self.__repr_html_svg__( cls, style )
-        #elif ( ( not cfg['GOOGLE_COLAB'] ) and self.localFile ):
-        #    s = self.__repr_html_file__( cls, style ) 
+        elif ( ( not cfg['GOOGLE_COLAB'] ) and (cfg['HTTP_PORT'] >= 0) and self.localFile ):
+            s = self.__repr_html_file__( cls, style ) 
         elif ( ( cfg['GOOGLE_COLAB'] ) and self.localFile ):
             s = self.__repr_html_base64__( cls, style ) 
         elif self.url:

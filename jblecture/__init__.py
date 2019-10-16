@@ -185,7 +185,7 @@ def createEnvironment( params = {} ):
 
     node = platform.node()
 
-    for p in [ "pygments", "youtube-dl", "jinja2", "PyDrive", "google-colab", "papermill", "pytexturepacker", "patch", "requests_oauthlib", "PyGithub" ]:
+    for p in [ "pygments", "youtube-dl", "jinja2", "PyDrive", "google-colab", "papermill", "pytexturepacker", "patch", "requests_oauthlib", "PyGithub", "portpicker" ]:
         try:
             importlib.import_module( p )
         except ModuleNotFoundError:
@@ -334,7 +334,7 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
 def startLocalServer():
     def server_entry():
         handler = http.server.SimpleHTTPRequestHandler
-        port = 8080
+        port = cfg['HTTP_PORT']
         with socketserver.TCPServer(("", port), handler) as httpd:
             print("serving at port", port)
             httpd.serve_forever()
