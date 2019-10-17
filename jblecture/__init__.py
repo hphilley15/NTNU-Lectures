@@ -333,21 +333,31 @@ import http.server
 import socketserver
 import socket
 
+
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
 
 def startLocalServer():
     def server_entry():
+        cfg['HTTPD'] = None
         os.chdir( cfg['REVEAL_DIR'] )
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with V6Server(("::", port), handler) as httpd:
             print("serving at port", port)
+            cfg['HTTPD'] = httpd
             httpd.serve_forever()
 
+    cfg['HTTP_LOCALSERVER'] = None
     thread = threading.Thread( target=server_entry )
     thread.start()
+    cfg['HTTP_LOCALSERVER'] = thread
 
+def stopLocalServer():
+    if ( cfg['HTTPD'] ):
+        cfg['HTTPD'].shutdown()
+        cfg['HTTPD'].server_close()
+        
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
 cellspacing="2"; border-color: #aaaaaa>
