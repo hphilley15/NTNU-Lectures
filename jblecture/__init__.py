@@ -327,13 +327,14 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     cfg['ASSETS'][dat.name] = dat
     return dat
 
-import portpicker
+# import portpicker
 import threading
 import http.server
 import socketserver
 
 def startLocalServer():
     def server_entry():
+        os.chdir( cfg['REVEAL_DIR'] )
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with socketserver.TCPServer(("", port), handler) as httpd:
