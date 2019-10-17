@@ -350,7 +350,7 @@ def startLocalServer( ):
                 cfg['HTTPD'] = httpd
                 httpd.serve_forever()
 
-    cfg['HTTPD'] = None
+    print("Starting server thread")
     thread = threading.Thread( target=server_entry )
     thread.daemon = True
     thread.start()
