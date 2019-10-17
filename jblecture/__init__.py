@@ -350,13 +350,18 @@ def startLocalServer():
 
     cfg['HTTP_LOCALSERVER'] = None
     thread = threading.Thread( target=server_entry )
+    thread.daemon = True
     thread.start()
     cfg['HTTP_LOCALSERVER'] = thread
 
 def stopLocalServer():
-    if ( cfg['HTTPD'] ):
-        cfg['HTTPD'].shutdown()
-        cfg['HTTPD'].server_close()
+    httpd = cfg['HTTPD']
+    if ( httpd ):
+        httpd.shutdown()
+        httpd.server_close()
+    thread = cfg['HTTP_LOCALSERVER']
+    if ( thread ):
+        thread.
         
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
