@@ -5,12 +5,23 @@ import socketserver
 
 port = portpicker.pick_unused_port()
 
-def server_entry():
-    handler = http.server.SimpleHTTPRequestHandler
+class V6Server(socketserver.TCPServer):
+  address_family = socket.AF_INET6
 
-    with socketserver.TCPServer(("", port), handler) as httpd:
-        print("serving at port", port)
-        httpd.serve_forever()
+def startLocalServer( ):
+    def server_entry():
+        if ( cfg['HTTPD'] ):
+            stopLocalServer()
+        cfg['HTTPD'] = None
+        handler = http.server.SimpleHTTPRequestHandler
+        port = int( cfg['HTTP_PORT'] )
+        with jbcd.JBcd( cfg['REVEAL_DIR'] ):
+            with V6Server(("::", port), handler) as httpd:
+                print("serving at port", port)
+                cfg['HTTPD'] = httpd
+                httpd.serve_forever()
 
-thread = threading.Thread( target=server_entry )
-thread.start()
+    cfg['HTTPD'] = None
+    thread = threading.Thread( target=server_entry )
+    thread.daemon = True
+    thread.start()
