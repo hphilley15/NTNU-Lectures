@@ -16,10 +16,13 @@
  *********************************************/
 :root {
   --global-bg-color: #522;
+  --footer-height: 0.75cm;
 }
+
 body {
-  background: var(--global-bg-color);
-  background-color: var(--global-bg-color) }
+  background: var(--global-bg-color) !important;
+  background-color: var(--global-bg-color) !important
+}
 
 .reveal {
   font-family: Ubuntu, "sans-serif";
@@ -327,8 +330,8 @@ body {
   bottom: 0px;
   right: 0px;
   width: auto;
-  height: 1cm;
-  max-height: 1cm;
+  height: var(--footer-height);
+  max-height: var(--footer-height);
 }
 
 .jb-footer-right-img {
@@ -336,7 +339,7 @@ body {
   background: none;
   box-shadow: none;
   width: auto;
-  height: 1.25cm;
+  height: var(--footer-height);
 }
 
 .jb-footer-left {
@@ -344,8 +347,8 @@ body {
   bottom: 0px;
   left: 0px;
   width: auto;
-  height: 1cm;
-  max-height: 1cm;
+  height: var(--footer-height);
+  max-height: var(--footer-height);
 }
 
 .jb-footer-left-img {
@@ -353,7 +356,7 @@ body {
   background: none;
   box-shadow: none;
   width: auto;
-  height: 1.25cm;
+  height: var(--footer-height);
 }
 
 .jb-input-code {
