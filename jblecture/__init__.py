@@ -337,7 +337,7 @@ import socket
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
 
-def startLocalServer():
+def startLocalServer( ):
     def server_entry():
         cfg['HTTPD'] = None
         os.chdir( cfg['REVEAL_DIR'] )
