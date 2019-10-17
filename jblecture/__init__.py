@@ -333,7 +333,6 @@ import http.server
 import socketserver
 import socket
 
-
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
 
@@ -342,7 +341,7 @@ def startLocalServer( ):
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
-        with cd( cfg['REVEAL_DIR'] ):
+        with jbcd.JBcd( cfg['REVEAL_DIR'] ):
             with V6Server(("::", port), handler) as httpd:
                 print("serving at port", port)
                 cfg['HTTPD'] = httpd
