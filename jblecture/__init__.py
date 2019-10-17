@@ -344,6 +344,7 @@ def startLocalServer( ):
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with jbcd.JBcd( cfg['REVEAL_DIR'] ):
+            os.chdir( cfg['REVEAL_DIR'] )
             with V6Server(("::", port), handler) as httpd:
                 print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
                 cfg['HTTPD'] = httpd
