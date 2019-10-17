@@ -14,9 +14,12 @@
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
+:root {
+  --global-bg-color: #522;
+}
 body {
-  background: #522;
-  background-color: #522; }
+  background: var(--global-bg-color);
+  background-color: var(--global-bg-color) }
 
 .reveal {
   font-family: Ubuntu, "sans-serif";
@@ -304,6 +307,7 @@ body {
  ************************************************/
 .jb-slide {
   text-align: center;
+  background-color: var(--global-bg-color);
 }
 
 .jb-center {
