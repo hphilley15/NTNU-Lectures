@@ -342,11 +342,10 @@ def startLocalServer( cfg ):
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
-        with cd( cfg['REVEAL_DIR'] ):
-            with V6Server(("::", port), handler) as httpd:
-                print("serving at port", port)
-                cfg['HTTPD'] = httpd
-                httpd.serve_forever()
+        with V6Server(("::", port), handler) as httpd:
+            print("serving at port", port)
+            cfg['HTTPD'] = httpd
+            httpd.serve_forever()
 
     cfg['HTTP_LOCALSERVER'] = None
     thread = threading.Thread( target=server_entry )
