@@ -337,7 +337,7 @@ import socket
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
 
-def startLocalServer( cfg ):
+def startLocalServer( ):
     def server_entry():
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
@@ -359,7 +359,7 @@ def stopLocalServer():
     if ( httpd ):
         httpd.shutdown()
         httpd.server_close()
-    thread = cfg['HTTP_LOCALSERVER']
+    #thread = cfg['HTTP_LOCALSERVER']
         
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
