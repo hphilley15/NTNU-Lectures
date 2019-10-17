@@ -349,8 +349,9 @@ def startLocalServer( cfg ):
 
     cfg['HTTP_LOCALSERVER'] = None
     thread = threading.Thread( target=server_entry )
-    #thread.daemon = True
+    thread.daemon = True
     cfg['HTTP_LOCALSERVER'] = thread
+    print(cfg)
     thread.start()
 
 def stopLocalServer():
@@ -359,8 +360,6 @@ def stopLocalServer():
         httpd.shutdown()
         httpd.server_close()
     thread = cfg['HTTP_LOCALSERVER']
-    if ( thread ):
-        thread.
         
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
