@@ -341,14 +341,14 @@ def startLocalServer( ):
         if ('HTTPD' in cfg) and ( cfg['HTTPD'] ):
             stopLocalServer()
         cfg['HTTPD'] = None
-        handler = http.server.SimpleHTTPRequestHandler
+        handler = SimpleHTTPServer.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with jbcd.JBcd( cfg['REVEAL_DIR'] ):
             os.chdir( cfg['REVEAL_DIR'] )
-            with V6Server(("::", port), handler) as httpd:
-                print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
-                cfg['HTTPD'] = httpd
-                httpd.serve_forever()
+            httpd = V6Server(("::", port), handler)
+            print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
+            cfg['HTTPD'] = httpd
+            httpd.serve_forever()
 
     print("Starting server thread")
     thread = threading.Thread( target=server_entry )
