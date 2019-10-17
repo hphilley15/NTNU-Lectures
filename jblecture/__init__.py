@@ -337,10 +337,9 @@ def startLocalServer():
         os.chdir( cfg['REVEAL_DIR'] )
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
-        print( 'Starting local server', port )
-        #with socketserver.TCPServer(("", port), handler) as httpd:
-        #    print("serving at port", port)
-        #    httpd.serve_forever()
+        with socketserver.TCPServer(("", port), handler) as httpd:
+            print("serving at port", port)
+            httpd.serve_forever()
 
     thread = threading.Thread( target=server_entry )
     thread.start()
