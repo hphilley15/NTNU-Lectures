@@ -338,7 +338,7 @@ class V6Server(socketserver.TCPServer):
 
 def startLocalServer( ):
     def server_entry():
-        if ( cfg['HTTPD'] ):
+        if ('HTTPD' in cfg) and ( cfg['HTTPD'] ):
             stopLocalServer()
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
