@@ -20,8 +20,8 @@
 }
 
 body {
-  background: var(--global-bg-color) !important;
-  background-color: var(--global-bg-color) !important
+  background: var(--global-bg-color);
+  background-color: var(--global-bg-color)
 }
 
 .reveal {
