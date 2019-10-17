@@ -343,15 +343,13 @@ def startLocalServer( ):
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with V6Server(("::", port), handler) as httpd:
-            print("serving at port", port)
+            print("serving at port", port, 'httpd', httpd)
             cfg['HTTPD'] = httpd
             httpd.serve_forever()
 
-    cfg['HTTP_LOCALSERVER'] = None
+    cfg['HTTPD'] = None
     thread = threading.Thread( target=server_entry )
     thread.daemon = True
-    cfg['HTTP_LOCALSERVER'] = thread
-    print(cfg)
     thread.start()
 
 def stopLocalServer():
