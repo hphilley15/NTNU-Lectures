@@ -340,7 +340,6 @@ class V6Server(socketserver.TCPServer):
 def startLocalServer( ):
     def server_entry():
         cfg['HTTPD'] = None
-        os.chdir( cfg['REVEAL_DIR'] )
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
         with V6Server(("::", port), handler) as httpd:
