@@ -332,12 +332,15 @@ import threading
 import http.server
 import socketserver
 
+class V6Server(socketserver.TCPServer):
+  address_family = socket.AF_INET6
+
 def startLocalServer():
     def server_entry():
         os.chdir( cfg['REVEAL_DIR'] )
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
-        with socketserver.TCPServer(("", port), handler) as httpd:
+        with V6Server(("::", port), handler) as httpd:
             print("serving at port", port)
             httpd.serve_forever()
 
