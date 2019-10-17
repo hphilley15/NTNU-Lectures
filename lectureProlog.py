@@ -132,14 +132,15 @@ class InvokeButton(object):
     html = template.format(title=self._title, callback_id=callback_id)
     return html
 
+
+from jblecture import startLocalServer
+with cd( cfg['REVEAL_DIR'] ):
+    startLocalServer()
+
 def createRevealJSAndDownload():
   print('Create reveal.js and download it')
   doc.createRevealDownload( cfg['ROOT_DIR'] / "reveal.js" )
   downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
 InvokeButton('Create and Download Reveal.js Slideshow', createRevealJSAndDownload )
-
-from jblecture import startLocalServer
-with cd( cfg['REVEAL_DIR'] ):
-    startLocalServer()
 
