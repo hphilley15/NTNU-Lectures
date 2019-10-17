@@ -337,21 +337,22 @@ import socket
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
 
-def startLocalServer( ):
+def startLocalServer( cfg ):
     def server_entry():
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
         port = int( cfg['HTTP_PORT'] )
-        with V6Server(("::", port), handler) as httpd:
-            print("serving at port", port)
-            cfg['HTTPD'] = httpd
-            httpd.serve_forever()
+        with cd( cfg['REVEAL_DIR'] ):
+            with V6Server(("::", port), handler) as httpd:
+                print("serving at port", port)
+                cfg['HTTPD'] = httpd
+                httpd.serve_forever()
 
     cfg['HTTP_LOCALSERVER'] = None
     thread = threading.Thread( target=server_entry )
-    thread.daemon = True
-    thread.start()
+    #thread.daemon = True
     cfg['HTTP_LOCALSERVER'] = thread
+    thread.start()
 
 def stopLocalServer():
     httpd = cfg['HTTPD']
