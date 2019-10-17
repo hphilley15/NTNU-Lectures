@@ -331,6 +331,7 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
 import threading
 import http.server
 import socketserver
+import socket
 
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
