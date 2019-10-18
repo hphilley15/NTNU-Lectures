@@ -127,7 +127,7 @@ defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
     from .jbcd import JBcd
-    with jbcd.JBcd( root ):
+    with JBcd( root ):
         p = pathlib.Path( dirname )
         if not p.is_dir():
             print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
@@ -141,7 +141,7 @@ def updateGit( cfg, url, dirname, branch,  root ):
         else:
             print("git directory exists")
 
-        with jbcd.JBcd( dirname ):
+        with JBcd( dirname ):
             print("Executing git pull")
             o = None
             try:
@@ -194,7 +194,7 @@ def createEnvironment( params = {} ):
 
     # 'decktape',
     for pkg in [  'scenejs' ]:            
-        with jbcd.JBcd( cfg['REVEAL_DIR']  ):
+        with JBcd( cfg['REVEAL_DIR']  ):
             print( f"Executing npm install {pkg}" )
             o = None
             try:
@@ -250,7 +250,7 @@ def createDocument( cfg ):
     return doc
 
 def zipDirectory( archive, dir, root = '.' ):
-    with jbcd.JBcd(root):
+    with JBcd(root):
         xroot = dir
 
         with zipfile.ZipFile( archive, 'w', zipfile.ZIP_DEFLATED, True ) as zf:
@@ -281,7 +281,7 @@ def fetchRenpyData( cfg ):
     updateGit( cfg, "https://github.com/guichristmann/Lecture-VN.git", "Lecture-VN", "", cfg['ORIG_ROOT'] )
     src = cfg['ORIG_ROOT'] / 'Lecture-VN' / 'Resources' / 'templateProject' / 'game'
     cfg['RENPY_GAME_DIR'].mkdir(parents = True, exist_ok = True )
-    with jbcd.JBcd( cfg['RENPY_GAME_DIR'] ):
+    with JBcd( cfg['RENPY_GAME_DIR'] ):
         print("Creating renpy directory in " + str( cfg['RENPY_GAME_DIR'] ) )
         for d in [ cfg['RENPY_IMAGES_DIR'], cfg['RENPY_IMAGES_DIR'] / "slides", cfg['RENPY_SOUNDS_DIR'], cfg['RENPY_VIDEOS_DIR'], "renpy/game/tl" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
