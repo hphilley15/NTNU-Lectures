@@ -57,19 +57,23 @@ def createLocalGit(title, root ):
             with JBcd( p ):
                 print("Executing git pull")
                 runCommand( cfg['GIT_CMD'] + " pull" )
-
         else:
+            p.mkdir( parents=True, exist_ok= True )
             with JBcd( pathlib.Path( root ) ):
                 runCommand( cfg['GIT_CMD'] + " clone " + repo.name + " ." )
     else:
-        with JBcd( p ):
-            dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
-            for d in dirs:
-                d.mkdir( parents=True, exists_ok=True )
-            runCommand( cfg['GIT_CMD'] + " init" )
+        if p.is_dir():
+            pass
+        else:
+            p.mkdir( parents=True, exist_ok= True )
+            with JBcd( p ):
+                dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
+                for d in dirs:
+                    d.mkdir( parents=True, exists_ok=True )
+                runCommand( cfg['GIT_CMD'] + " init" )
 
-            for d in dirs:
-                runCommand( cfg['GIT_CMD'] + " add " + d )
+                for d in dirs:
+                    runCommand( cfg['GIT_CMD'] + " add " + d )
 
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
