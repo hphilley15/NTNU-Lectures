@@ -134,7 +134,7 @@ class InvokeButton(object):
 
 def createRevealJSAndDownload():
   print('Create reveal.js and download it')
-  doc.createRevealDownload( cfg['ROOT_DIR'] / "reveal.js" )
+  doc.createRevealDownload( cfg['REVEAL_DIR'] )
   downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
 # jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
