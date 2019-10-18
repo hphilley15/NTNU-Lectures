@@ -341,7 +341,7 @@ def startLocalServer( ):
             stopLocalServer()
         cfg['HTTPD'] = None
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-        port = portpicker.pick_unused_port()
+        port = cfg['HTTP_PORT'] # portpicker.pick_unused_port()
         print( "Selected port", port )
         with JBcd(cfg['REVEAL_DIR']):
             os.chdir( cfg['REVEAL_DIR'] )
