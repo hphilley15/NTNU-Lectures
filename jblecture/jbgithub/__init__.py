@@ -40,6 +40,7 @@ def findRepoByName( title ):
 
 
 def runCommand( cmd ):
+    print( "Running command " + cmd )
     o = None
     try:
         o = subprocess.check_output( cmd, shell=True)
