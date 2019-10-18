@@ -24,7 +24,7 @@ def login( token ):
 def getRepositories( ):
     repos = None
     if 'GITHUB' in cfg and cfg['GITHUB']:
-        repos = cfg['GITHUB'].get_user().get_repos():
+        repos = cfg['GITHUB'].get_user().get_repos()
     return repos
 
 def findRepoByName( title ):
