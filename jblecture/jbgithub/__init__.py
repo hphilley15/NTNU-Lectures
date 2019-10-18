@@ -69,7 +69,7 @@ def createLocalGit(title, root ):
             dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
             for d in dirs:
                 x = p / d
-                x.mkdir( parents=True, exists_ok=True )
+                x.mkdir( parents=True, exist_ok=True )
             runCommand( cfg['GIT_CMD'] + " init" )
             with JBcd( p ):
                 for d in dirs:
