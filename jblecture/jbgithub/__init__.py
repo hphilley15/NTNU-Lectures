@@ -19,10 +19,14 @@ def readGithubToken():
     return passwd
 
 def login( token ):
-    cfg['GITHUB'] = Github( token )
-
+    g = Github( token )
+    cfg['GITHUB'] = g
+    return g
+    
 def getRepositories( ):
     repos = None
+    if 'GITHUB' not in cfg or cfg['GITHUB'] is None:
+        login( readGithubToken() )
     if 'GITHUB' in cfg and cfg['GITHUB']:
         repos = cfg['GITHUB'].get_user().get_repos()
     return repos
