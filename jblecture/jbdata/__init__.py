@@ -221,10 +221,12 @@ class JBImage(JBData):
         s = ""
         if ( self.type == JBData.JBIMAGE_SVG ):
             s = self.__repr_html_svg__( cls, style )
-        elif ( ( cfg['HTTPD'] ) and self.localFile ):
+        elif ( ('HTTPD' in cfg) and ( cfg['HTTPD'] ) and self.localFile ):
             s = self.__repr_html_file__( cls, style )
         elif self.url:
             s = self.__repr_html_url__( cls, style )
+        else:
+            s = self.__repr_html_base64__( cls, style )
         return s
 
 class JBVideo(JBData):
