@@ -173,7 +173,7 @@ def loadModules( cfg ):
     from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
-    from .jbgithub import createEnvironment, login, getRositories
+    from .jbgithub import createEnvironment, login, getRepositories
     cfg = jbgithub.createEnvironment( cfg )
 
     print('Loading of modules finished')
