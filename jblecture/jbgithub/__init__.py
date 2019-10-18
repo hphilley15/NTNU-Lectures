@@ -100,7 +100,8 @@ def createLocalGit(title, root ):
         copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
             p / "js" / 'ntnu.js')
 
-        for aname in cfg['ASSETS']:
+        assets = cfg['ASSETS']
+        for aname in assets:
             a = assets[ aname ]
             rpath = pathlib.Path(a.localFile + "." + a.suffix).relative_to( cfg['REVEAL_DIR'] )
             copyAndAdd( str(a.localFile) + "." + a.suffix, 
