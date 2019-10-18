@@ -329,9 +329,9 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
 
 # import portpicker
 import threading
-import http.server
-import socketserver
 import socket
+from six.moves import socketserver
+from six.moves import SimpleHTTPServer
 
 class V6Server(socketserver.TCPServer):
   address_family = socket.AF_INET6
