@@ -221,7 +221,7 @@ class JBImage(JBData):
         s = ""
         if ( self.type == JBData.JBIMAGE_SVG ):
             s = self.__repr_html_svg__( cls, style )
-        elif ( ( cfg['HTTPD'] ) and ( cfg['HTTP_PORT'] >= 0 ) and self.localFile ):
+        elif ( ( cfg['HTTPD'] ) and self.localFile ):
             s = self.__repr_html_file__( cls, style )
         elif self.url:
             s = self.__repr_html_url__( cls, style )
