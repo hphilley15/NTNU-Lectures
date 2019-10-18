@@ -349,7 +349,7 @@ def startLocalServer( ):
             cfg['HTTPD'] = httpd
             cfg['HTTP_PORT'] = port
 
-        httpd.serve_forever()
+            httpd.serve_forever()
 
     print("Starting server thread")
     thread = threading.Thread( target=server_entry )
