@@ -66,12 +66,12 @@ def createLocalGit(title, root ):
             pass
         else:
             p.mkdir( parents=True, exist_ok= True )
+            dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
+            for d in dirs:
+                x = p / d
+                x.mkdir( parents=True, exists_ok=True )
+            runCommand( cfg['GIT_CMD'] + " init" )
             with JBcd( p ):
-                dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
-                for d in dirs:
-                    d.mkdir( parents=True, exists_ok=True )
-                runCommand( cfg['GIT_CMD'] + " init" )
-
                 for d in dirs:
                     runCommand( cfg['GIT_CMD'] + " add " + d )
 
