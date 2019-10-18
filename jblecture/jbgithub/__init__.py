@@ -81,31 +81,32 @@ def createLocalGit(title, root ):
             for d in dirs:
                 x = p / d
                 x.mkdir( parents=True, exist_ok=True )
-            runCommand( cfg['GIT_CMD'] + " init" )
+            with JBcd( p ):
+                runCommand( cfg['GIT_CMD'] + " init" )
+        with JBcd( p ):
+            copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
+                p / "css" / 'ntnuerc.css'  )
+            copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'fira.css' , 
+                p / "css" / 'fira.css'  )
+            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
+                p / "assets" / "images" / 'robbi.png' )
+            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
+                p / "assets" / "images" / 'logo.png')
+            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
+                p / "assets" / "images" / 'FIRA-logo-1.png')
+            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "pairLogo.png", 
+                p / "assets" / "images" / 'pairLogo.png')
+            
+            # Copy html, js, and css artefacts
+            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
+                p / "js" / 'ntnu.js')
 
-        copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
-            p / "css" / 'ntnuerc.css'  )
-        copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'fira.css' , 
-            p / "css" / 'fira.css'  )
-        copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
-             p / "assets" / "images" / 'robbi.png' )
-        copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
-            p / "assets" / "images" / 'logo.png')
-        copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
-            p / "assets" / "images" / 'FIRA-logo-1.png')
-        copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "pairLogo.png", 
-            p / "assets" / "images" / 'pairLogo.png')
-        
-        # Copy html, js, and css artefacts
-        copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
-            p / "js" / 'ntnu.js')
-
-        assets = cfg['ASSETS']
-        for aname in assets:
-            a = assets[ aname ]
-            rpath = pathlib.Path(a.localFile + "." + a.suffix).relative_to( cfg['REVEAL_DIR'] )
-            copyAndAdd( str(a.localFile) + "." + a.suffix, 
-                        p /  rpath )
+            assets = cfg['ASSETS']
+            for aname in assets:
+                a = assets[ aname ]
+                rpath = pathlib.Path(a.localFile + "." + a.suffix).relative_to( cfg['REVEAL_DIR'] )
+                copyAndAdd( str(a.localFile) + "." + a.suffix, 
+                            p /  rpath )
             
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
