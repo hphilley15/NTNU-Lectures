@@ -1,5 +1,6 @@
 from github import Github
 import os
+import getpass
 
 cfg = {}
 
@@ -13,7 +14,7 @@ def createEnvironment( mycfg ):
 def readGithubToken():
     passwd = getpass.getpass("Github Token:")    
     return passwd
-    
+
 def login( token ):
     cfg['GITHUB'] = Github( token )
 

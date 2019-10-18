@@ -13,7 +13,6 @@ import sys
 import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
-import getpass
 
 from .jbcd import JBcd
 
