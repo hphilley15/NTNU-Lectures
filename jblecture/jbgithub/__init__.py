@@ -2,7 +2,7 @@ from github import Github
 import os
 import getpass
 import pathlib
-from .jbcd import JBcd
+from ..jbcd import JBcd
 import subprocess
 
 cfg = {}
