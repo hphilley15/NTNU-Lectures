@@ -127,6 +127,7 @@ defaults['RenpyInitLabel'] =  ".init"
 defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
 
 def updateGit( cfg, url, dirname, branch,  root ):
+    from .jbcd import JBcd
     with JBcd( root ):
         p = pathlib.Path( dirname )
         if not p.is_dir():
@@ -156,6 +157,8 @@ def loadModules( cfg ):
     if cfg['MODULE_ROOT'] not in sys.path:
         sys.path.append( str( cfg['MODULE_ROOT']  ) )
     print('sys.path', sys.path )    
+
+    from .jbcd import JBcd
 
     from .jbdata import createEnvironment, JBImage, JBVideo
     cfg = jbdata.createEnvironment( cfg )
