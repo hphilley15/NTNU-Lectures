@@ -332,7 +332,7 @@ def startLocalServer( ):
     from six.moves import socketserver
     from six.moves import SimpleHTTPServer
 
-    class V6Server():
+    class V6Server( socketserver.TCPServer ):
         address_family = socket.AF_INET6
 
     def server_entry():
