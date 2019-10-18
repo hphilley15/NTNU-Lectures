@@ -133,10 +133,7 @@ class InvokeButton(object):
     return html
 
 
-from jblecture import startLocalServer, stopLocalServer
-cfg['HTTP_PORT'] = 9000
-with cd( cfg['REVEAL_DIR'] ):
-    startLocalServer()
+jblecture.startLocalServer()
 
 def createRevealJSAndDownload():
   print('Create reveal.js and download it')

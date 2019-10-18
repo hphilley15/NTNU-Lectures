@@ -2,6 +2,7 @@ import portpicker
 import threading
 import http.server
 import socketserver
+from .jbcd import JBcd
 
 port = portpicker.pick_unused_port()
 
@@ -14,14 +15,15 @@ def startLocalServer( ):
             stopLocalServer()
         cfg['HTTPD'] = None
         handler = http.server.SimpleHTTPRequestHandler
-        port = int( cfg['HTTP_PORT'] )
-        with jbcd.JBcd( cfg['REVEAL_DIR'] ):
+        port = portpicker.pick_unused_port()
+        with JBcd( cfg['REVEAL_DIR'] ):
             with V6Server(("::", port), handler) as httpd:
                 print("serving at port", port)
                 cfg['HTTPD'] = httpd
                 httpd.serve_forever()
 
     cfg['HTTPD'] = None
+    cfg['HTTP_PORT'] = port
     thread = threading.Thread( target=server_entry )
     thread.daemon = True
     thread.start()

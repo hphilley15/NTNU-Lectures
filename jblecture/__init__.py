@@ -48,7 +48,7 @@ defaults['GIT_CMD'] = 'git'
 
 defaults['GOOGLE_COLAB'] = False
 
-defaults['HTTP_PORT'] = 8080
+defaults['HTTP_PORT'] = None
 
 try:
     from google.colab import files
@@ -326,7 +326,7 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     cfg['ASSETS'][dat.name] = dat
     return dat
 
-# import portpicker
+import portpicker
 import threading
 import socket
 from six.moves import socketserver
@@ -341,7 +341,7 @@ def startLocalServer( ):
             stopLocalServer()
         cfg['HTTPD'] = None
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-        port = int( cfg['HTTP_PORT'] )
+        port = portpicker.pick_unused_port()
         with jbcd.JBcd( cfg['REVEAL_DIR'] ):
             os.chdir( cfg['REVEAL_DIR'] )
             httpd = V6Server(("::", port), handler)
