@@ -325,6 +325,7 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     cfg['ASSETS'][dat.name] = dat
     return dat
 
+import socket
 from six.moves import SimpleHTTPServer
 from six.moves import socketserver
 class V6Server( socketserver.TCPServer ):
@@ -333,7 +334,6 @@ class V6Server( socketserver.TCPServer ):
 def startLocalServer( ):
     import portpicker
     import threading
-    import socket
 
     def server_entry():
         if ('HTTPD' in cfg) and ( cfg['HTTPD'] ):
