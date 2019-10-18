@@ -331,8 +331,6 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
 import socket
 from six.moves import SimpleHTTPServer
 from six.moves import socketserver
-class V6Server( socketserver.TCPServer ):
-    address_family = socket.AF_INET6
 
 def startLocalServer( ):
     import portpicker
@@ -347,7 +345,7 @@ def startLocalServer( ):
         print( "Selected port", port )
         with JBcd(cfg['REVEAL_DIR']):
             os.chdir( cfg['REVEAL_DIR'] )
-            httpd = V6Server(("::", port), handler)
+            httpd = socketserver.TCPServer(("", port), handler)
             print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
             cfg['HTTPD'] = httpd
             cfg['HTTP_PORT'] = port
