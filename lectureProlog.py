@@ -137,5 +137,11 @@ def createRevealJSAndDownload():
   doc.createRevealDownload( cfg['ROOT_DIR'] / "reveal.js" )
   downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
+jbgithub.login( jbgithub.readToken() )
+if ( cfg['GITHUB'] ):
+    print("Successful login to github")
+
+# This must come last
 InvokeButton('Create and Download Reveal.js Slideshow', createRevealJSAndDownload )
+
 

@@ -3,14 +3,19 @@ import os
 
 cfg = {}
 
-def createEnvironment( mycfg, token ):
+def createEnvironment( mycfg ):
     global cfg
     cfg = mycfg
-    if 'GITHUB_TOKEN' in os.environ:
-        cfg['GITHUB'] = Github( os.environ('GITHUB_TOKEN') )
-    else:
-        cfg['GITHUB'] = None
+    cfg['GITHUB'] = None
     return cfg
+
+
+def readGithubToken():
+    passwd = getpass.getpass("Github Token:")    
+    return passwd
+    
+def login( token ):
+    cfg['GITHUB'] = Github( token )
 
 def getRositories( ):
     repos = []

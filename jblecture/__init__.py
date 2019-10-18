@@ -13,6 +13,8 @@ import sys
 import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
+import getpass
+
 from .jbcd import JBcd
 
 defaults = {}
@@ -172,9 +174,9 @@ def loadModules( cfg ):
     from .jbdocument import createEnvironment, JBDocument
     cfg = jbdocument.createEnvironment( cfg )
 
-    from .jbgithub import createEnvironment, getRositories
+    from .jbgithub import createEnvironment, login, getRositories
     cfg = jbgithub.createEnvironment( cfg )
-    
+
     print('Loading of modules finished')
     return cfg
 
@@ -467,4 +469,4 @@ def createSVGImageFromFigure( fig ):
     fig.savefig(figfile, dpi=300, bbox_inches='tight', format="svg" )
     figfile.seek(0)  # rewind to beginning of file
     image = figfile.getvalue().decode('utf-8')
-    return image    
+    return image
