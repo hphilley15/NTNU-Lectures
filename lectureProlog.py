@@ -137,7 +137,7 @@ def createRevealJSAndDownload():
   doc.createRevealDownload( cfg['ROOT_DIR'] / "reveal.js" )
   downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
-jbgithub.login( jbgithub.readToken() )
+jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
 if ( cfg['GITHUB'] ):
     print("Successful login to github")
 

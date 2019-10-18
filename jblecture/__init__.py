@@ -333,43 +333,6 @@ def addJBData( name, url=None, data=None, localFile=None, suffix="dat" ):
     cfg['ASSETS'][dat.name] = dat
     return dat
 
-import socket
-from six.moves import SimpleHTTPServer
-from six.moves import socketserver
-
-def startLocalServer( ):
-    import portpicker
-    import threading
-
-    def server_entry():
-        if ('HTTPD' in cfg) and ( cfg['HTTPD'] ):
-            stopLocalServer()
-        cfg['HTTPD'] = None
-        handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-        port = cfg['HTTP_PORT'] # portpicker.pick_unused_port()
-        print( "Selected port", port )
-        with JBcd(cfg['REVEAL_DIR']):
-            os.chdir( cfg['REVEAL_DIR'] )
-            httpd = socketserver.TCPServer(("", port), handler)
-            print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
-            cfg['HTTPD'] = httpd
-            cfg['HTTP_PORT'] = port
-
-            httpd.serve_forever()
-
-    print("Starting server thread")
-    thread = threading.Thread( target=server_entry )
-    thread.daemon = True
-    thread.start()
-
-def stopLocalServer():
-    httpd = cfg['HTTPD']
-    if ( httpd ):
-        httpd.shutdown()
-        httpd.server_close()
-        cfg['HTTPD'] = None
-    #thread = cfg['HTTP_LOCALSERVER']
-        
 tableT = """
 <table style="text-align: left; width: 100%; font-size:0.4em" border="1" cellpadding="2"
 cellspacing="2"; border-color: #aaaaaa>
