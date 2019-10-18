@@ -13,6 +13,7 @@ import sys
 import zipfile
 from distutils.dir_util import copy_tree
 import textwrap
+from .jbcd import JBcd
 
 defaults = {}
 defaults['TITLE'] = 'TempTitle'
@@ -124,8 +125,6 @@ label {{label}}:
 defaults['RenpyTransition'] = "fade"
 defaults['RenpyInitLabel'] =  ".init"
 defaults['PAGE_SIZE'] = [ int(1280), int (720) ]
-
-from .jbcd import JBcd
 
 def updateGit( cfg, url, dirname, branch,  root ):
     with JBcd( root ):
@@ -342,7 +341,7 @@ def startLocalServer( ):
         cfg['HTTPD'] = None
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
         port = portpicker.pick_unused_port()
-        with jbcd.JBcd( cfg['REVEAL_DIR'] ):
+        with JBcd( cfg['REVEAL_DIR'] ):
             os.chdir( cfg['REVEAL_DIR'] )
             httpd = V6Server(("::", port), handler)
             print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
