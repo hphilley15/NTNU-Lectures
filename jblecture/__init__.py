@@ -346,6 +346,7 @@ def startLocalServer( ):
             httpd = V6Server(("::", port), handler)
             print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
             cfg['HTTPD'] = httpd
+            cfg['HTTP_PORT'] = port
             httpd.serve_forever()
 
     print("Starting server thread")
@@ -358,6 +359,7 @@ def stopLocalServer():
     if ( httpd ):
         httpd.shutdown()
         httpd.server_close()
+        cfg['HTTPD'] = None
     #thread = cfg['HTTP_LOCALSERVER']
         
 tableT = """

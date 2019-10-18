@@ -4,26 +4,35 @@ import http.server
 import socketserver
 from .jbcd import JBcd
 
-port = portpicker.pick_unused_port()
-
-class V6Server(socketserver.TCPServer):
-  address_family = socket.AF_INET6
-
 def startLocalServer( ):
+    import portpicker
+    import threading
+    import socket
+    from six.moves import socketserver
+    from six.moves import SimpleHTTPServer
+
+    class V6Server(socketserver.TCPServer):
+        address_family = socket.AF_INET6
+
     def server_entry():
-        if ( cfg['HTTPD'] ):
+        if ('HTTPD' in cfg) and ( cfg['HTTPD'] ):
             stopLocalServer()
         cfg['HTTPD'] = None
-        handler = http.server.SimpleHTTPRequestHandler
+        handler = SimpleHTTPServer.SimpleHTTPRequestHandler
         port = portpicker.pick_unused_port()
         with JBcd( cfg['REVEAL_DIR'] ):
-            with V6Server(("::", port), handler) as httpd:
-                print("serving at port", port)
-                cfg['HTTPD'] = httpd
-                httpd.serve_forever()
+            os.chdir( cfg['REVEAL_DIR'] )
+            httpd = V6Server(("::", port), handler)
+            print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
+            cfg['HTTPD'] = httpd
+            cfg['HTTP_PORT'] = port
+            httpd.serve_forever()
 
+
+def stopLocalServer():
+    httpd = cfg['HTTPD']
+    if ( httpd ):
+        httpd.shutdown()
+        httpd.server_close()
     cfg['HTTPD'] = None
-    cfg['HTTP_PORT'] = port
-    thread = threading.Thread( target=server_entry )
-    thread.daemon = True
-    thread.start()
+    #thread = cfg['HTTP_LOCALSERVER']
