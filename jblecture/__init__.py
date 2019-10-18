@@ -342,11 +342,12 @@ def startLocalServer( ):
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
         port = portpicker.pick_unused_port()
         print( "Selected port", port )
-        os.chdir( cfg['REVEAL_DIR'] )
-        httpd = V6Server(("::", port), handler)
-        print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
-        cfg['HTTPD'] = httpd
-        cfg['HTTP_PORT'] = port
+        with JBcd(cfg['REVEAL_DIR']):
+            os.chdir( cfg['REVEAL_DIR'] )
+            httpd = V6Server(("::", port), handler)
+            print("serving at port", port, 'cwd', os.getcwd(), 'reveal', cfg['REVEAL_DIR'] )
+            cfg['HTTPD'] = httpd
+            cfg['HTTP_PORT'] = port
 
         httpd.serve_forever()
 
