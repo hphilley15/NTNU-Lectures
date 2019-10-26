@@ -137,11 +137,11 @@ def createRevealJSAndDownload():
   doc.createRevealDownload( cfg['REVEAL_DIR'] )
   downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
-# jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
-# if ( cfg['GITHUB'] ):
-#     print("Successful login to github")
-# else:
-#     print("Github integration disabled")
+jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
+if ( cfg['GITHUB'] ):
+    print("Successful login to github")
+else:
+    print("Github integration disabled")
 
 # This must come last
 InvokeButton('Create and Download Reveal.js Slideshow', createRevealJSAndDownload )

@@ -4,6 +4,7 @@ import getpass
 import pathlib
 from ..jbcd import JBcd
 import subprocess
+import distutils
 import shutil
 
 cfg = {}
@@ -54,60 +55,35 @@ def runCommand( cmd ):
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
-def copyAndAdd( srcPath, destPath ):
-    src = str( srcPath )
-    dest = str( destPath )
-    shutil.copy2( src, dest )
-    runCommand( cfg['GIT_CMD'] + " add " + str( dest ) )
-
 def createLocalGit(title, root ):
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
 
     repo = findRepoByName( title )
-    if repo:
-        if p.is_dir():                
-            with JBcd( p ):
-                print("Executing git pull")
-                runCommand( cfg['GIT_CMD'] + " pull" )
-        else:
-            p.mkdir( parents=True, exist_ok= True )
-            with JBcd( pathlib.Path( root ) ):
-                runCommand( cfg['GIT_CMD'] + " clone " + repo.name + " ." )
-    else:
-        if not p.is_dir():
-            p.mkdir( parents=True, exist_ok= True )
-            dirs = ["css", "js", "assets/images", "assets/videos", "assets/sounds" ]
-            for d in dirs:
-                x = p / d
-                x.mkdir( parents=True, exist_ok=True )
-            with JBcd( p ):
-                runCommand( cfg['GIT_CMD'] + " init" )
+    if not repo:
+        user = cfg['GITHUB'].get_user()
+        repo = user.create_repo(title)
+    if p.is_dir():                
         with JBcd( p ):
-            copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'ntnuerc.css' , 
-                p / "css" / 'ntnuerc.css'  )
-            copyAndAdd( cfg['ORIG_ROOT'] / 'NTNU-Lectures' / 'html' / 'fira.css' , 
-                p / "css" / 'fira.css'  )
-            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnuerc-logo-1.png", 
-                p / "assets" / "images" / 'robbi.png' )
-            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "ntnu-ee-logo.png", 
-                p / "assets" / "images" / 'logo.png')
-            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "FIRA-logo-1.png", 
-                p / "assets" / "images" / 'FIRA-logo-1.png')
-            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "images" / "pairLogo.png", 
-                p / "assets" / "images" / 'pairLogo.png')
-            
-            # Copy html, js, and css artefacts
-            copyAndAdd(  cfg['ORIG_ROOT'] / 'NTNU-Lectures' / "html" / "ntnu.js", 
-                p / "js" / 'ntnu.js')
+            print("Executing git pull")
+            runCommand( cfg['GIT_CMD'] + " pull gh-pages" )
+    else:
+        #p.mkdir( parents=True, exist_ok= True )
+        with JBcd( pathlib.Path( root ) ):
+            runCommand( cfg['GIT_CMD'] + " clone " + repo.name + " ." )
+        
+        with JBcd( p ):
+            runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
+        
+    with JBcd(p):
+        shutil.copyfile( cfg['REVEAL_DIR'] / 'index.html', 'index.html' )
+        for d in ["css", "js", "assets", "plugin" ]:
+            distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
+        runCommand( cfg['GIT_CMD'] + " add ." )
+        runCommand( cfg['GIT_CMD'] + " push origin" )
 
-            assets = cfg['ASSETS']
-            for aname in assets:
-                a = assets[ aname ]
-                rpath = pathlib.Path(a.localFile + "." + a.suffix).relative_to( cfg['REVEAL_DIR'] )
-                copyAndAdd( str(a.localFile) + "." + a.suffix, 
-                            p /  rpath )
-            
+
+    
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
             #     if ( branch ):
