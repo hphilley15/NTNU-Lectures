@@ -55,9 +55,15 @@ def runCommand( cmd ):
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
-def createLocalGit(title, root ):
+def createGithub(title, root ):
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
+
+    tok = jblecture.jbgithub.readGithubToken()
+    if not tok:
+        return None
+
+    cfg['GITHUB'] = login(tok)
 
     repo = findRepoByName( title )
     if not repo:
@@ -81,8 +87,6 @@ def createLocalGit(title, root ):
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
         runCommand( cfg['GIT_CMD'] + " add ." )
         runCommand( cfg['GIT_CMD'] + " push origin" )
-
-
     
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
