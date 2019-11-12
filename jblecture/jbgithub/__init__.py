@@ -76,7 +76,7 @@ def createGithub(title, root ):
     else:
         #p.mkdir( parents=True, exist_ok= True )
         with JBcd( pathlib.Path( root ) ):
-            runCommand( cfg['GIT_CMD'] + " clone " + repo.name + " ." )
+            runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.name + '"' + " ." )
         
         with JBcd( p ):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
@@ -86,6 +86,7 @@ def createGithub(title, root ):
         for d in ["css", "js", "assets", "plugin" ]:
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
         runCommand( cfg['GIT_CMD'] + " add ." )
+        runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"" )
         runCommand( cfg['GIT_CMD'] + " push origin" )
     
             # if not p.is_dir():
