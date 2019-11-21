@@ -68,14 +68,17 @@ def createGitHub(title, root ):
 
     repo = findRepoByName( title )
     if not repo:
+        print('Repo', title, 'not found. Creating empty repo')
         user = cfg['GITHUB'].get_user()
         repo = user.create_repo(title)
+
+    print('repo.name', repo.name )
     if p.is_dir():                
         with JBcd( p ):
             print("Executing git pull")
             runCommand( cfg['GIT_CMD'] + " pull gh-pages" )
     else:
-        #p.mkdir( parents=True, exist_ok= True )
+        p.mkdir( parents=True, exist_ok= True )
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.name + '"' + " ." )
         
