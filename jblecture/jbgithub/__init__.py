@@ -103,6 +103,7 @@ def createGitHub( title, root = None):
                 runCommand( cfg['GIT_CMD'] + " branch gh-pages" )
                 
         with JBcd( p ):
+            print("Checking out branch gh-pages")
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
 
     with JBcd(p):
