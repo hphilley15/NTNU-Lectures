@@ -33,6 +33,9 @@ def getRepositories( ):
         repos = cfg['GITHUB'].get_user().get_repos()
     return repos
 
+def createRepoTitle( title ):
+    return tite.replace(" ", "-")
+
 def findRepoByName( title ):
     repo = None
     if 'GITHUB' in cfg and cfg['GITHUB']:
@@ -56,6 +59,8 @@ def runCommand( cmd ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
 def createGitHub(title, root ):
+    title = createRepoTitle( tite )
+    
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
 
