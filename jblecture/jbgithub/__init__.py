@@ -59,11 +59,12 @@ def createGitHub(title, root ):
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
 
-    tok = readGithubToken()
-    if not tok:
-        return None
+    if ( ( 'GITHUB' not in cfg )  or ( not cfg['GITHUB'] ) ):
+        tok = readGithubToken()
+        if not tok:
+            return None
 
-    cfg['GITHUB'] = login(tok)
+        cfg['GITHUB'] = login(tok)
 
     repo = findRepoByName( title )
     if not repo:
