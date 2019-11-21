@@ -58,9 +58,11 @@ def runCommand( cmd ):
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
-def createGitHub(title, root ):
-    title = createRepoTitle( tite )
-    
+def createGitHub( title, root = None):
+    title = createRepoTitle( title )
+    if not root:
+        root = cfg['ROOT_DIR']
+
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
 
