@@ -47,6 +47,16 @@ def findRepoByName( title ):
                     break
     return repo
 
+def findBranchByName( repo, bName ):
+    branch = None
+    if 'GITHUB' in cfg and cfg['GITHUB']:
+        branches = repo.get_branches()
+        if branches:
+            for b in branches:
+                if b.name == bName:
+                    branch = repo.get_branch( branch = bName )
+                    break
+    return branch
 
 def runCommand( cmd ):
     print( "Running command " + cmd )
