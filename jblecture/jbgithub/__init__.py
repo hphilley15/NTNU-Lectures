@@ -95,7 +95,6 @@ def createGitHub( title, root = None):
             print("Executing git pull")
             runCommand( cfg['GIT_CMD'] + " pull gh-pages" )
     else:
-        p.mkdir( parents=True, exist_ok= True )
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " ." )
             if ( not findBranchByName(repo, "gh-pages") ):
