@@ -34,7 +34,7 @@ def getRepositories( ):
     return repos
 
 def createRepoTitle( title ):
-    return tite.replace(" ", "-")
+    return title.replace(" ", "-")
 
 def findRepoByName( title ):
     repo = None
