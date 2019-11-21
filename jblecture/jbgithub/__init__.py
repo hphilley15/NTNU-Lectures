@@ -89,10 +89,15 @@ def createGitHub( title, root = None):
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " ." )
             if ( not repo.get_branch(branch="gh-pages") ):
+                print("Creating branch gh-pages")
                 runCommand( cfg['GIT_CMD'] + " branch gh-pages" )
                 
         with JBcd( p ):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
+
+    with JBcd(p):
+        runCommand( cfg['GIT_CMD'] + " config user.email colab@gmail.com" )
+        runCommand( cfg['GIT_CMD'] + " config user.name Colaboratory" )
         
     with JBcd(p):
         shutil.copyfile( cfg['REVEAL_DIR'] / 'index.html', 'index.html' )
@@ -101,7 +106,7 @@ def createGitHub( title, root = None):
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
         runCommand( cfg['GIT_CMD'] + " add ." )
         runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"" )
-        runCommand( cfg['GIT_CMD'] + " push origin" )
+        runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
     
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
