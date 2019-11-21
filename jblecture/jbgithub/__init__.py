@@ -62,9 +62,9 @@ def runCommand( cmd ):
     print( "Running command " + cmd )
     o = None
     try:
-        o = subprocess.check_output( cmd, shell=True)
+        o = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True)
     except subprocess.CalledProcessError as error:
-        print("Command returned error CalledProcessError", error, error.stderr)
+        print("Command returned error CalledProcessError", error, error.output.decode('utf-8'), error.stderr.decode('utf-8') )
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
