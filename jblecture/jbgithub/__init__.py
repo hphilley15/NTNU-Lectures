@@ -87,7 +87,7 @@ def createGitHub( title, root = None):
     else:
         p.mkdir( parents=True, exist_ok= True )
         with JBcd( pathlib.Path( root ) ):
-            runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.name + '"' + " ." )
+            runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " ." )
         
         with JBcd( p ):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
