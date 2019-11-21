@@ -97,11 +97,12 @@ def createGitHub( title, root = None):
     else:
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " " + str(p) )
+
+        
+        with JBcd( p ):
             if ( not findBranchByName(repo, "gh-pages") ):
                 print("Creating branch gh-pages")
                 runCommand( cfg['GIT_CMD'] + " branch gh-pages" )
-                
-        with JBcd( p ):
             print("Checking out branch gh-pages")
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
 
