@@ -79,7 +79,7 @@ def createGitHub( title, root = None):
         user = cfg['GITHUB'].get_user()
         repo = user.create_repo(title)
 
-    print('repo.name', repo.name )
+    print('repo.name', repo.name, repo.clone_url )
     if p.is_dir():                
         with JBcd( p ):
             print("Executing git pull")
