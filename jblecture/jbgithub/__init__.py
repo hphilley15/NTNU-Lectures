@@ -55,11 +55,11 @@ def runCommand( cmd ):
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
-def createGithub(title, root ):
+def createGitHub(title, root ):
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
 
-    tok = jblecture.jbgithub.readGithubToken()
+    tok = readGithubToken()
     if not tok:
         return None
 
