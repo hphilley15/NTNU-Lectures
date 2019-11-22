@@ -137,9 +137,19 @@ class JBImage(JBData):
                     suffix = "jpg"
                 elif str(localFile)[-5:] == ".jpeg":
                     suffix = "jpeg"
-                
+            elif ( url ):
+                if str(url)[-4:] == ".png":
+                    suffix = "png"
+                elif str(url)[-4:] == ".svg":
+                    suffix = "svg"
+                elif str(url)[-4:] == ".jpg":
+                    suffix = "jpg"
+                elif str(url)[-5:] == ".jpeg":
+                    suffix = "jpeg"
+
         if ( localFile and str(localFile)[-len(suffix) + 1:] == "." + suffix ):
             localFile = str(localFile)[0:-len(suffix) + 1]
+
         if suffix == 'png':
             atype = JBData.JBIMAGE_PNG
         elif suffix == "svg":
