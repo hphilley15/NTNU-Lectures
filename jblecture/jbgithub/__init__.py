@@ -6,6 +6,7 @@ from ..jbcd import JBcd
 import subprocess
 import distutils
 import shutil
+import git
 
 cfg = {}
 
@@ -94,7 +95,9 @@ def createGitHub( title, root = None):
         with JBcd( p ):
             print("Executing git pull")
             if ( findBranchByName(repo, "gh-pages") ):
-                runCommand( cfg['GIT_CMD'] + " pull gh-pages" )
+                runCommand( cfg['GIT_CMD'] + " pull origin gh-pages" )
+            elif ( findBranchByName(repo, "master") ):
+                runCommand( cfg['GIT_CMD'] + " pull origin master" )
             else:
                 pass
                 #runCommand( cfg['GIT_CMD'] + " pull" )
@@ -102,7 +105,6 @@ def createGitHub( title, root = None):
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " " + str(p) )
 
-        
         with JBcd( p ):
             if ( not findBranchByName(repo, "gh-pages") ):
                 print("Creating branch gh-pages")
