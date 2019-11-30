@@ -1,4 +1,4 @@
-from github import Github, GitAuthor
+from github import Github, GitAuthor, GithubException
 import os
 import getpass
 import pathlib
