@@ -89,13 +89,18 @@ def createGitHub( title, root = None):
         print('Repo', title, 'not found. Creating empty repo')
         user = cfg['GITHUB'].get_user()
         repo = user.create_repo(title)
+        if not repo:
+            return None
 
-    contents = repo.get_contents("")
-    print( "Contents", contents )
-    if not contents:
+    try:
+        contents = repo.get_contents("")
+    except GithubException:
         repo.create_file("README.md", "Initial commit", "Update readme file here.", "gh-pages")
-
+        contents = repo.get_contents("")
+    
     print('repo.name', repo.name, repo.clone_url )
+    print( "Contents", contents )
+        
     if p.is_dir():                
         with JBcd( p ):
             print("Executing git pull")
