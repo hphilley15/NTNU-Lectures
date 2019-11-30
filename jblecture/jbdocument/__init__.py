@@ -248,6 +248,9 @@ class JBDocument:
 
             currentIdx = self.findSlideIndex( s.right )
 
+    def setTitle( self, title ):
+        cfg['TITLE'] = title
+
     # def createRenpySlideShow(self, startId = None ):
     #     rdir = cfg['RENPY_GAME_DIR']
     #     self.createSlideImages( rdir )

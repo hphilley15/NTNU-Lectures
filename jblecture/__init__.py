@@ -17,7 +17,7 @@ import textwrap
 from .jbcd import JBcd
 
 defaults = {}
-defaults['TITLE'] = 'TempTitle'
+defaults['TITLE'] = '{title}'
 defaults['HOME_DIR'] = pathlib.Path.home().resolve()
 defaults['ORIG_ROOT'] = pathlib.Path('.').resolve()
 defaults['ROOT_DIR'] = defaults['ORIG_ROOT'] / 'BuildDir'
