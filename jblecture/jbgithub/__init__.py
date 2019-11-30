@@ -76,7 +76,7 @@ def createGitHub( title, root = None):
 
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
-    cfg['GITHUB_AUTHOR'] = 
+    cfg['GITHUB_AUTHOR'] = None
     if ( ( 'GITHUB' not in cfg )  or ( not cfg['GITHUB'] ) ):
         tok = readGithubToken()
         if not tok:
