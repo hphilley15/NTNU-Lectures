@@ -89,6 +89,10 @@ def createGitHub( title, root = None):
         print('Repo', title, 'not found. Creating empty repo')
         user = cfg['GITHUB'].get_user()
         repo = user.create_repo(title)
+
+    contents = repo.get_contents("")
+    print( "Contents", contents )
+    if not contents:
         repo.create_file("README.md", "Initial commit", "Update readme file here.", "gh-pages")
 
     print('repo.name', repo.name, repo.clone_url )
