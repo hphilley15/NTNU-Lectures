@@ -1,4 +1,4 @@
-from github import Github
+from github import Github, GitAuthor
 import os
 import getpass
 import pathlib
@@ -76,7 +76,7 @@ def createGitHub( title, root = None):
 
     p = pathlib.Path( root ) / pathlib.Path( title )
     cfg['GITHUB_DIR'] = p
-
+    cfg['GITHUB_AUTHOR'] = 
     if ( ( 'GITHUB' not in cfg )  or ( not cfg['GITHUB'] ) ):
         tok = readGithubToken()
         if not tok:
@@ -89,6 +89,7 @@ def createGitHub( title, root = None):
         print('Repo', title, 'not found. Creating empty repo')
         user = cfg['GITHUB'].get_user()
         repo = user.create_repo(title)
+        repo.create_file("README.md", "Initial commit", "Update readme file here.", "gh-pages")
 
     print('repo.name', repo.name, repo.clone_url )
     if p.is_dir():                
