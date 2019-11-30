@@ -147,7 +147,7 @@ def updateGit( cfg, url, dirname, branch,  root ):
             print("Executing git pull")
             o = None
             try:
-                o = subprocess.check_output(cfg['GIT_CMD'] + " pull", shell=True)
+                o = subprocess.check_output(cfg['GIT_CMD'] + " pull", stderr=subprocess.STDOUT, shell=True)
             except subprocess.CalledProcessError:
                 pass
             if ( o ):
@@ -203,7 +203,7 @@ def createEnvironment( params = {} ):
             print( f"Executing npm install {pkg}" )
             o = None
             try:
-                o = subprocess.check_output( f"npm install {pkg}", shell = True)
+                o = subprocess.check_output( f"npm install {pkg}", stderr=subprocess.STDOUT, shell = True)
             except subprocess.CalledProcessError:
                 pass
             if ( o ):    

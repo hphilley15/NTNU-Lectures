@@ -163,7 +163,7 @@ def updateGit( url, dirname, branch,  root ):
                 print("Executing git pull")
                 o = None
                 try:
-                    o = subprocess.check_output(GIT_CMD + " pull", shell=True)
+                    o = subprocess.check_output(GIT_CMD + " pull", stderr=subprocess.STDOUT, shell=True)
                 except subprocess.CalledProcessError:
                     pass
                 if ( o ):
@@ -174,7 +174,7 @@ def npmInstallCanopy( dirname ):
         print("Executing npm install")
         o = None
         try:
-            o = subprocess.check_output("npm install --save-dev canopy", shell=True)
+            o = subprocess.check_output("npm install --save-dev canopy", stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError:
             pass
         if ( o ):
@@ -185,7 +185,7 @@ def npmInstall( dirname ):
         print("Executing npm install")
         o = None
         try:
-            o = subprocess.check_output("npm install", shell=True)
+            o = subprocess.check_output("npm install", stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError:
             pass
         if ( o ):
@@ -196,7 +196,7 @@ def compileGrammar( dirname, grammar, lang ):
         print("Executing canopy", grammar, 'language', lang )
         o = None
         try:
-            o = subprocess.check_output(f"canopy {grammar} --lang {lang}", shell=True)
+            o = subprocess.check_output(f"canopy {grammar} --lang {lang}", stderr=subprocess.STDOUT, shell=True)
         except subprocess.CalledProcessError:
             pass
         if ( o ):

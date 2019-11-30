@@ -41,7 +41,7 @@ def updateGit( url, dirname, branch,  root ):
                 print("Executing git pull")
                 o = None
                 try:
-                    o = subprocess.check_output(GIT_CMD + " pull", shell=True)
+                    o = subprocess.check_output(GIT_CMD + " pull", stderr=subprocess.STDOUT, shell=True)
                 except subprocess.CalledProcessError:
                     pass
                 if ( o ):

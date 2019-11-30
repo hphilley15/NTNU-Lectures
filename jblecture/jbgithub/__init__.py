@@ -106,11 +106,10 @@ def createGitHub( title, root = None):
             print("Executing git pull")
             if ( findBranchByName(repo, "gh-pages") ):
                 runCommand( cfg['GIT_CMD'] + " pull origin gh-pages" )
-            elif ( findBranchByName(repo, "master") ):
+            
+            if ( findBranchByName(repo, "master") ):
                 runCommand( cfg['GIT_CMD'] + " pull origin master" )
-            else:
-                pass
-                #runCommand( cfg['GIT_CMD'] + " pull" )
+            
     else:
         with JBcd( pathlib.Path( root ) ):
             runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " " + str(p) )
@@ -133,7 +132,8 @@ def createGitHub( title, root = None):
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
         runCommand( cfg['GIT_CMD'] + " add ." )
         runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"" )
-        runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
+        
+        #runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
     
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])

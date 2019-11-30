@@ -206,7 +206,7 @@ class JBDocument:
             print("Executing npm install")
             o = None
             try:
-                o = subprocess.check_output("npm install", shell = True)
+                o = subprocess.check_output("npm install", stderr=subprocess.STDOUT, shell = True)
             except subprocess.CalledProcessError:
                 pass
             if ( o ):    
