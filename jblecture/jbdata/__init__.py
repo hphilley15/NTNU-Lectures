@@ -64,7 +64,7 @@ class JBData:
                 lfname = lfname + "." + suffix
             data = JBData.sReadData(  lfname )
             print('localFile',  lfname )
-            self.localFile = lfname[0:-len(suffix)]
+            self.localFile = lfname[0:-len(suffix)-1]
         else:
             uploaded = files.upload()
             for fn in uploaded.keys():
