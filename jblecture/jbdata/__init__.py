@@ -37,10 +37,14 @@ class JBData:
     def __init__(self, name, url=None, data=None, lfname=None, atype = JBDATA, suffix="dat"):
         self.url = url
         self.name = name
-        self.suffix = suffix
         self.data = None
         self.ids = []
         self.type = atype
+
+        if suffix and suffix[0] == ".":
+            suffix = suffix[1:]
+
+        self.suffix = suffix
 
         if data:
             if not lfname:
