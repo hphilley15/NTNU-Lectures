@@ -51,14 +51,14 @@ class JBData:
                 lfname = self.getDefaultFileName()
             with open(lfname, "wb") as f:
                 f.write(data)
-                self.localFile = lfname[0:-len(suffix)]
+                self.localFile = lfname[0:-len(suffix) - 1 ]
         elif url:
             if not lfname:
                 lfname = self.getDefaultFileName()
             self.data = self.readDataFromURL(url, lfname)
             if (self.data):
                 JBData.sWriteData(lfname, self.data)
-            self.localFile = lfname[0:-len(suffix)]
+            self.localFile = lfname[0:-len(suffix) - 1]
         elif lfname:
             if lfname[-len(suffix)-1:] != "." + suffix:
                 lfname = lfname + "." + suffix
