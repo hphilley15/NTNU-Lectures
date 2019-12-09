@@ -56,6 +56,8 @@ class JBData:
                 JBData.sWriteData(lfname, self.data)
             self.localFile = lfname[0:-len(suffix)]
         elif lfname:
+            if lfname[-len(suffix)-1:] != "." + suffix:
+                lfname = lfname + "." + suffix
             data = JBData.sReadData(  lfname )
             print('localFile',  lfname )
             self.localFile = lfname[0:-len(suffix)]
