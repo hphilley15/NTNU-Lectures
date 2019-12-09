@@ -202,7 +202,8 @@ class JBImage(JBData):
         return '<span id="{id}" {style}>{data}</span>\n'.format(id=id, width=w, height=h, style=cs, data=data )
 
     def getDefaultFileName(self):
-        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)        return str(  p.expanduser().resolve() )
+        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)        
+        return str(  p.expanduser().resolve() )
 
     @staticmethod
     def sCreateWidthString( width ):
