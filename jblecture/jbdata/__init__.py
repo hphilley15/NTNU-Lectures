@@ -154,7 +154,7 @@ class JBImage(JBData):
                     suffix = "jpeg"
 
         if ( localFile and str(localFile)[-len(suffix) + 1:] == "." + suffix ):
-            localFile = str(localFile)[0:-len(suffix) + 1]
+            localFile = str(localFile)[0:-len(suffix)]
 
         if suffix == 'png':
             atype = JBData.JBIMAGE_PNG
