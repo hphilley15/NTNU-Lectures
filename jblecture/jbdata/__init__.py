@@ -34,7 +34,7 @@ class JBData:
         p = cfg['ROOT_DIR'] / 'reveal.js' / 'assets' / "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
         return str(  p.expanduser().resolve() )
 
-    def __init__(self, name, url=None, data=None, localFile=None, atype = JBDATA, suffix="dat"):
+    def __init__(self, name, url=None, data=None, lfname=None, atype = JBDATA, suffix="dat"):
         self.url = url
         self.name = name
         self.suffix = suffix
@@ -43,22 +43,22 @@ class JBData:
         self.type = atype
 
         if data:
-            if not localFile:
-                localFile = self.getDefaultFileName()
-            with open(localFile, "wb") as f:
+            if not lfname:
+                lfname = self.getDefaultFileName()
+            with open(lfname, "wb") as f:
                 f.write(data)
-                self.localFile = localFile
+                self.localFile = lfname[0:-len(suffix)]
         elif url:
-            if not localFile:
-                localFile = self.getDefaultFileName()
-            self.data = self.readDataFromURL(url, localFile)
+            if not lfname:
+                lfname = self.getDefaultFileName()
+            self.data = self.readDataFromURL(url, lfname)
             if (self.data):
-                JBData.sWriteData(localFile, self.data)
-            self.localFile = localFile
-        elif localFile:
-            data = JBData.sReadData( str(localFile) + "." + suffix)
-            print('localFile', str(localFile) + "." + suffix)
-            self.localFile = localFile
+                JBData.sWriteData(lfname, self.data)
+            self.localFile = lfname[0:-len(suffix)]
+        elif lfname:
+            data = JBData.sReadData(  lfname )
+            print('localFile',  lfname )
+            self.localFile = lfname[0:-len(suffix)]
         else:
             uploaded = files.upload()
             for fn in uploaded.keys():
@@ -202,8 +202,7 @@ class JBImage(JBData):
         return '<span id="{id}" {style}>{data}</span>\n'.format(id=id, width=w, height=h, style=cs, data=data )
 
     def getDefaultFileName(self):
-        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)
-        return str(  p.expanduser().resolve() )
+        p = cfg['REVEAL_IMAGES_DIR'] /  "{name}.{suffix}".format(name=self.name, suffix=self.suffix)        return str(  p.expanduser().resolve() )
 
     @staticmethod
     def sCreateWidthString( width ):
