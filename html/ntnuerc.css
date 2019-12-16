@@ -379,3 +379,8 @@ body {
 .jb-text {
   text-align: left;
 }
+
+.jb-math {
+  text-align: center;
+  color: #eee
+}
