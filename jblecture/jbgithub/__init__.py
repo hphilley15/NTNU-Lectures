@@ -81,7 +81,7 @@ def modUrl( url, tok ):
     else:
         raise(Exception("Invalid URL Format"))
     return n
-    
+
 def createGitHub( title, root = None):
     title = createRepoTitle( title )
     if not root:
@@ -135,7 +135,7 @@ def createGitHub( title, root = None):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
 
     with JBcd(p):
-        runcommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, tok ) )
+        runCommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, tok ) )
         runCommand( cfg['GIT_CMD'] + " config user.email jacky.baltes@ntnu.edu.tw" )
         runCommand( cfg['GIT_CMD'] + " config user.name \"Jacky Baltes\"" )
         
