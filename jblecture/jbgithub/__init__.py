@@ -7,6 +7,7 @@ import subprocess
 import distutils
 import shutil
 import git
+import re
 
 cfg = {}
 
@@ -69,6 +70,18 @@ def runCommand( cmd ):
     if ( o ):
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
+# https://github.com/cvroberto21/Test-Implementation.git
+
+def modUrl( url, tok ):
+    n = None
+    m = re.match( r"(?P<scheme>https?)://(?P<host>[^/]*)/(?P<user>[^/]*)/(?P<repo>.*)", url )
+    
+    if m:
+        n = m.group('scheme') + "://" + m.group('user') + ':' + tok + '@' + m.group('host') + '/' + m.group('user') + '/' + m.group('repo')
+    else:
+        raise(Exception("Invalid URL Format"))
+    return n
+    
 def createGitHub( title, root = None):
     title = createRepoTitle( title )
     if not root:
@@ -100,7 +113,7 @@ def createGitHub( title, root = None):
     
     print('repo.name', repo.name, repo.clone_url )
     print( "Contents", contents )
-        
+
     if p.is_dir():                
         with JBcd( p ):
             print("Executing git pull")
@@ -122,8 +135,9 @@ def createGitHub( title, root = None):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
 
     with JBcd(p):
-        runCommand( cfg['GIT_CMD'] + " config user.email colab@gmail.com" )
-        runCommand( cfg['GIT_CMD'] + " config user.name Colaboratory" )
+        runcommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, tok ) )
+        runCommand( cfg['GIT_CMD'] + " config user.email jacky.baltes@ntnu.edu.tw" )
+        runCommand( cfg['GIT_CMD'] + " config user.name \"Jacky Baltes\"" )
         
     with JBcd(p):
         shutil.copyfile( cfg['REVEAL_DIR'] / 'index.html', 'index.html' )
