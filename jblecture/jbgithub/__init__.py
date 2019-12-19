@@ -60,14 +60,14 @@ def findBranchByName( repo, bName ):
                     break
     return branch
 
-def runCommand( cmd ):
+def runCommand( cmd, echo = False ):
     print( "Running command " + cmd )
     o = None
     try:
         o = subprocess.check_output( cmd, stderr=subprocess.STDOUT, shell=True)
     except subprocess.CalledProcessError as error:
-        print("Command returned error CalledProcessError", error, error.output, error.stderr )
-    if ( o ):
+        print("Command returned error CalledProcessError", error, error.stderr )
+    if o and echo:
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
 # https://github.com/cvroberto21/Test-Implementation.git
