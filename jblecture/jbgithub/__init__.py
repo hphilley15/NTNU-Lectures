@@ -95,6 +95,7 @@ def createGitHub( title, root = None):
         if not tok:
             return None
 
+        cfg['GITHUB_TOKEN'] = tok
         cfg['GITHUB'] = login(tok)
 
     repo = findRepoByName( title )
@@ -135,7 +136,7 @@ def createGitHub( title, root = None):
             runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
 
     with JBcd(p):
-        runCommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, tok ) )
+        runCommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, cfg['GITHUB_TOKEN'] ) )
         runCommand( cfg['GIT_CMD'] + " config user.email jacky.baltes@ntnu.edu.tw" )
         runCommand( cfg['GIT_CMD'] + " config user.name \"Jacky Baltes\"" )
         
