@@ -147,7 +147,10 @@ def createGitHub( title, root = None):
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
         runCommand( cfg['GIT_CMD'] + " add ." )
         runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"" )
-        
+
+    with JBcd(p):
+        runCommand( cfg['GIT_CMD'] + " push" )
+
         #runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
     
             # if not p.is_dir():
