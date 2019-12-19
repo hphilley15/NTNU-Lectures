@@ -25,12 +25,14 @@ def readGithubToken():
 def login( token ):
     g = Github( token )
     cfg['GITHUB'] = g
+    cfg['GITHUB_TOKEN'] = token
     return g
 
 def getRepositories( ):
     repos = None
     if 'GITHUB' not in cfg or cfg['GITHUB'] is None:
-        login( readGithubToken() )
+        tok = readGithubToken()
+        login( tok )
     if 'GITHUB' in cfg and cfg['GITHUB']:
         repos = cfg['GITHUB'].get_user().get_repos()
     return repos
@@ -94,10 +96,8 @@ def createGitHub( title, root = None):
         tok = readGithubToken()
         if not tok:
             return None
-
-        cfg['GITHUB_TOKEN'] = tok
-        cfg['GITHUB'] = login(tok)
-
+        login(tok)
+        
     repo = findRepoByName( title )
     if not repo:
         print('Repo', title, 'not found. Creating empty repo')
