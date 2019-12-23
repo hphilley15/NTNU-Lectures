@@ -177,7 +177,7 @@ class JBMagics(Magics):
             mathjax.Hub.Configured();
         })();
         </script>
-      """))
+        """))
 
       #display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=default'></script>"))
 
@@ -263,7 +263,8 @@ class JBMagics(Magics):
                               help="""
         HTML inline style to be applied to the cell.
         """
-
+                              )
+                              
     @magic_arguments.argument('--no-math', action="store_true",
                               help="""
         Add MathJax to render math in output cell.
