@@ -264,7 +264,7 @@ class JBMagics(Magics):
         HTML inline style to be applied to the cell.
         """
                               )
-                              
+
     @magic_arguments.argument('--no-math', action="store_true",
                               help="""
         Add MathJax to render math in output cell.
@@ -277,7 +277,8 @@ class JBMagics(Magics):
         out = not args.no_stdout
         err = not args.no_stderr
         disp = not args.no_display
-        math = not args.math
+        math = not args.no_math
+        
 
         # print('args', args )
 
