@@ -151,8 +151,36 @@ class JBMagics(Magics):
     @cell_magic
     def reveal_html(self, line, cell):
         it = self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
-        display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/"
-             "latest.js?config=default'></script>"))
+        display(HTML("""
+        <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
+        <script>
+            (() => {
+            const mathjax = window.MathJax;
+            mathjax.Hub.Config({
+            'tex2jax': {
+                'inlineMath': [['$', '$'], ['\\(', '\\)']],
+                'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+                'processEscapes': true,
+                'processEnvironments': true,
+                'skipTags': ['script', 'noscript', 'style', 'textarea', 'code'],
+                'displayAlign': 'center',
+            },
+            'HTML-CSS': {
+                'styles': {'.MathJax_Display': {'margin': 0}},
+                'linebreaks': {'automatic': true},
+                // Disable to prevent OTF font loading, which aren't part of our
+                // distribution.
+                'imageFont': null,
+            },
+            'messageStyle': 'none'
+            });
+            mathjax.Hub.Configured();
+        })();
+        </script>
+      """))
+      
+      #display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=default'></script>"))
+
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
