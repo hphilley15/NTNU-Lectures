@@ -145,14 +145,14 @@ class JBMagics(Magics):
         # print(self.shell.user_ns['test'])
         # print(s)
         display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/"
-             "latest.js?config=default'></script>")
+             "latest.js?config=default'></script>"))
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
     def reveal_html(self, line, cell):
         it = self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
         display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/"
-             "latest.js?config=default'></script>")
+             "latest.js?config=default'></script>"))
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
@@ -162,7 +162,7 @@ class JBMagics(Magics):
 
         it = self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
         display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/"
-             "latest.js?config=default'></script>")
+             "latest.js?config=default'></script>"))
         display(HTML(self.instTemplate(it, {})))
 
     @cell_magic
