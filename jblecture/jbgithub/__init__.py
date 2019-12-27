@@ -80,6 +80,7 @@ def modUrl( url, tok ):
     
     if m:
         n = m.group('scheme') + "://" + m.group('user') + ':' + tok + '@' + m.group('host') + '/' + m.group('user') + '/' + m.group('repo')
+        cfg['GITHUB_USER'] = m.group('user')
     else:
         raise(Exception("Invalid URL Format"))
     return n
