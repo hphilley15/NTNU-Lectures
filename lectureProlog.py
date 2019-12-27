@@ -102,7 +102,6 @@ from jblecture import instTemplate
 from jblecture import _a, createBase64ImageFromFigure, createSVGImageFromFigure
 from jblecture import cfg
 from jblecture import downloadDir, zipDirectory
-from jblecture.jbgithub import createGitHub
 from IPython.core.display import display, HTML, Math
 
 doc = cfg['doc']
@@ -139,7 +138,7 @@ def createRevealJSAndDownload():
 
 def finalize():
     doc.createRevealDownload( cfg['REVEAL_DIR'] )
-    createGitHub()
+    jblecture.jbgithub.createGitHub( cfg['TITLE'], cfg['ROOT_DIR'])
     
 # jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
 # if ( cfg['GITHUB'] ):
