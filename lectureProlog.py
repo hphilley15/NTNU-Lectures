@@ -141,12 +141,10 @@ def finalize():
     
     doc.createRevealDownload( cfg['REVEAL_DIR'] )
     if jblecture.jbgithub.createGitHub( cfg['TITLE'], cfg['ROOT_DIR']):
-        rtitle = jblecture.jbgithub.createRepoTitle( cfg['TITLE'] )
-        user = "ntnuerc"
-        display(HTML("<p>Successful upload of presentation</p>"))
-        display(HTML('<p>You can now watch it under <a href="https://{user}.github.io/{rtitle}">{rtitle}</a></p>'.format(user=cfg['GITHUB_USER'], rtitle=rtitle) ) )
+        print("Successful upload of presentation")
+        print("You can access presentation at " + cfg['GITHUB_PAGES_URL'] )
     else:
-        display(HTML("<p>Upload of presentation {title} failed</p>".format(title=title)))
+        print("Upload of presentation failed")
 
 # jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
 # if ( cfg['GITHUB'] ):
