@@ -265,7 +265,7 @@ class JBMagics(Magics):
         """
                               )
 
-    @magic_arguments.argument('--math', action="store_true", default="False"
+    @magic_arguments.argument('--math', action="store_true", default="False",
                               help="""
         Add MathJax to render math in output cell.
         """
