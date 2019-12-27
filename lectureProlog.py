@@ -102,8 +102,8 @@ from jblecture import instTemplate
 from jblecture import _a, createBase64ImageFromFigure, createSVGImageFromFigure
 from jblecture import cfg
 from jblecture import downloadDir, zipDirectory
-
-from IPython.core.display import display, HTML
+from jblecture.jbgithub import createGitHub
+from IPython.core.display import display, HTML, Math
 
 doc = cfg['doc']
 GDrive = None
@@ -133,10 +133,14 @@ class InvokeButton(object):
     return html
 
 def createRevealJSAndDownload():
-  print('Create reveal.js and download it')
-  doc.createRevealDownload( cfg['REVEAL_DIR'] )
-  downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
+    print('Create reveal.js and download it')
+    doc.createRevealDownload( cfg['REVEAL_DIR'] )
+    downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
+def finalize():
+    doc.createRevealDownload( cfg['REVEAL_DIR'] )
+    createGitHub()
+    
 # jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
 # if ( cfg['GITHUB'] ):
 #     print("Successful login to github")
