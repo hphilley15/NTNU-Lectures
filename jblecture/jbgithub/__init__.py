@@ -154,6 +154,7 @@ def createGitHub( title, root = None):
     
         runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
     
+    return True
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
             #     if ( branch ):

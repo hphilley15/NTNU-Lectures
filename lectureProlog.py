@@ -137,9 +137,17 @@ def createRevealJSAndDownload():
     downloadDir( cfg['ROOT_DIR'] / "{title}_reveal.zip".format( title=title ), "reveal.js", cfg['ROOT_DIR'] )
 
 def finalize():
-    doc.createRevealDownload( cfg['REVEAL_DIR'] )
-    jblecture.jbgithub.createGitHub( cfg['TITLE'], cfg['ROOT_DIR'])
+    cfg['TITLE'] = title
     
+    doc.createRevealDownload( cfg['REVEAL_DIR'] )
+    if jblecture.jbgithub.createGitHub( cfg['TITLE'], cfg['ROOT_DIR']):
+        rtitle = jblecture.jbgithub.createRepoTitle( cfg['TITLE'] )
+        user = "ntnuerc"
+        display(HTML("<p>Successful upload of presentation</p>"))
+        display(HTML('<p>You can now watch it under <a href="https://{user}.github.io/{rtitle}">{rtitle}</a></p>'.format(user="ntnuerc", rtitle=rtitle)) 
+    else:
+        display(HTML("<p>Upload of presentation {title} failed</p>".format(title=title)))
+        
 # jblecture.jbgithub.login( jblecture.jbgithub.readGithubToken() )
 # if ( cfg['GITHUB'] ):
 #     print("Successful login to github")
