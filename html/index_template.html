@@ -52,7 +52,7 @@
                 ]
             });
 		
-	    MathJax.Hub.Config(
+	    MathJax.Hub.Config({
                     // pass other options into `MathJax.Hub.Config()`
 			'tex2jax': {
 			    'inlineMath': [['$', '$'], ['\\(', '\\)']],
@@ -71,7 +71,7 @@
 			},
 			'messageStyle': 'none'
 			TeX: { Macros: 'macros' }	    
-	    );
+			       });
         </script>
         <script>
             {{assets}}
