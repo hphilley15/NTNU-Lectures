@@ -76,7 +76,7 @@ def runCommand( cmd, secure = False ):
         o = subprocess.call( cmd, stdout=myStdOut, stderr=myStdErr, shell=True)
     except subprocess.CalledProcessError as error:
         print("Command returned error CalledProcessError", error, error.stderr )
-    if o and echo:
+    if o and not secure:
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
 # https://github.com/cvroberto21/Test-Implementation.git
