@@ -41,6 +41,18 @@
                 math: {
                     mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
                     config: 'TeX-AMS_HTML-full',  // See http://docs.mathjax.org/en/latest/config-files.html
+                },
+
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/math/math.js', async: true }
+                ]
+            });
+		
+	    MathJax.Hub.Config(
                     // pass other options into `MathJax.Hub.Config()`
 			'tex2jax': {
 			    'inlineMath': [['$', '$'], ['\\(', '\\)']],
@@ -58,17 +70,8 @@
 			    'imageFont': null,
 			},
 			'messageStyle': 'none'
-			TeX: { Macros: 'macros' }
-                },
-
-                dependencies: [
-                    { src: 'plugin/markdown/marked.js' },
-                    { src: 'plugin/markdown/markdown.js' },
-                    { src: 'plugin/notes/notes.js', async: true },
-                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: 'plugin/math/math.js', async: true }
-                ]
-            });
+			TeX: { Macros: 'macros' }	    
+	    );
         </script>
         <script>
             {{assets}}
