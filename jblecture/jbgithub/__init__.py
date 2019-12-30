@@ -62,11 +62,18 @@ def findBranchByName( repo, bName ):
                     break
     return branch
 
-def runCommand( cmd, echo = False ):
+def runCommand( cmd, secure = False ):
     print( "Running command " + cmd )
     o = None
+    
+    if not secure:
+        myStdOut = subprocess.STDOUT
+        myStdErr = subprocess.STDERR
+    else:
+        myStdOut = subprocess.DEVNULL
+        myStdErr = subprocess.DEVNULL
     try:
-        o = subprocess.call( cmd, stderr=subprocess.STDOUT, shell=True)
+        o = subprocess.call( cmd, stdout=myStdOut, stderr=myStdErr, shell=True)
     except subprocess.CalledProcessError as error:
         print("Command returned error CalledProcessError", error, error.stderr )
     if o and echo:
@@ -121,40 +128,40 @@ def createGitHub( title, root = None):
         with JBcd( p ):
             print("Executing git pull")
             if ( findBranchByName(repo, "gh-pages") ):
-                runCommand( cfg['GIT_CMD'] + " pull origin gh-pages" )
+                runCommand( cfg['GIT_CMD'] + " pull origin gh-pages", True )
             
             if ( findBranchByName(repo, "master") ):
-                runCommand( cfg['GIT_CMD'] + " pull origin master" )
+                runCommand( cfg['GIT_CMD'] + " pull origin master", True )
             
     else:
         with JBcd( pathlib.Path( root ) ):
-            runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " " + str(p) )
+            runCommand( cfg['GIT_CMD'] + " clone " + '"' + repo.clone_url + '"' + " " + str(p), True )
 
         with JBcd( p ):
             if ( not findBranchByName(repo, "gh-pages") ):
                 print("Creating branch gh-pages")
-                runCommand( cfg['GIT_CMD'] + " branch gh-pages" )
+                runCommand( cfg['GIT_CMD'] + " branch gh-pages", True )
             print("Checking out branch gh-pages")
-            runCommand( cfg['GIT_CMD'] + " checkout gh-pages" )
+            runCommand( cfg['GIT_CMD'] + " checkout gh-pages", True )
 
     with JBcd(p):
-        runCommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, cfg['GITHUB_TOKEN'] ) )
-        runCommand( cfg['GIT_CMD'] + " config user.email jacky.baltes@ntnu.edu.tw" )
-        runCommand( cfg['GIT_CMD'] + " config user.name \"Jacky Baltes\"" )
+        runCommand( cfg['GIT_CMD'] + " remote set-url origin " + modUrl( repo.clone_url, cfg['GITHUB_TOKEN'] ), True )
+        runCommand( cfg['GIT_CMD'] + " config user.email jacky.baltes@ntnu.edu.tw", True )
+        runCommand( cfg['GIT_CMD'] + " config user.name \"Jacky Baltes\"", True )
         
     with JBcd(p):
         shutil.copyfile( cfg['REVEAL_DIR'] / 'index.html', 'index.html' )
         for d in ["css", "js", "assets", "plugin" ]:
             pathlib.Path(d).mkdir( parents = True, exist_ok = True )
             distutils.dir_util.copy_tree( cfg['REVEAL_DIR'] / d, d)
-        runCommand( cfg['GIT_CMD'] + " add ." )
-        runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"" )
+        runCommand( cfg['GIT_CMD'] + " add .", True )
+        runCommand( cfg['GIT_CMD'] + " commit -m \"Commit\"", True )
 
     with JBcd(p):
-        runCommand( cfg['GIT_CMD'] + " push" )
-        runCommand( cfg['GIT_CMD'] + " push --set-upstream origin gh-pages" )
+        runCommand( cfg['GIT_CMD'] + " push", True )
+        runCommand( cfg['GIT_CMD'] + " push --set-upstream origin gh-pages", True )
     
-        runCommand( cfg['GIT_CMD'] + " push origin gh-pages" )
+        runCommand( cfg['GIT_CMD'] + " push origin gh-pages", True )
     
     return True
             # if not p.is_dir():
