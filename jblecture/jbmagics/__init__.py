@@ -89,8 +89,6 @@ class JBMagics(Magics):
         if css:
             it = it + "<style>\n" + css + "\n" + "</style>" + "\n"
 
-        it = it + '<div class="reveal">'
-        it = it + '<div class="slides">'
         it = it + '<div class="section">'
         it = it + '<div class="{cls} jb-render">\n'.format(cls=cls)
 
@@ -109,8 +107,6 @@ class JBMagics(Magics):
 
         it = it + '</div>\n'
 
-        it = it + '</div>'
-        it = it + '</div>'
         it = it + '</div>'
 
         # it = it + """
@@ -158,7 +154,17 @@ class JBMagics(Magics):
 
     @cell_magic
     def reveal_html(self, line, cell):
-        it = self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
+        it = """
+        <div class="reveal">
+          <div class="slides">
+        """
+        it = it + self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
+
+        it = it + """
+            </div>
+        </div>
+        """
+
         display(HTML("""
         <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
         <script>
@@ -186,7 +192,6 @@ class JBMagics(Magics):
         })();
         </script>
         """))
-
       #display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=default'></script>"))
 
         display(HTML(self.instTemplate(it, {})))
@@ -196,7 +201,17 @@ class JBMagics(Magics):
 
         md = self.html_body(input_string=cell)
 
-        it = self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
+        it = """
+        <div class="reveal">
+          <div class="slides">
+        """
+        it = it + self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
+
+        it = it + """
+            </div>
+        </div>
+        """
+
         display(HTML("""
         <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
         <script>
@@ -290,6 +305,12 @@ class JBMagics(Magics):
 
         # print('args', args )
 
+        if args.id:
+            if args.id[0] == '"' or args.id[0] == "'":
+                args.id = args.id[1:]
+            if args.id[-1] == '"' or args.id[-1] == "'":
+                args.id = args.id[1:]
+            
         if (args.style):
             if args.style[0] == '"' or args.style[0] == "'":
                 args.style = args.style[1:]
