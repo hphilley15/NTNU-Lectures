@@ -11,7 +11,7 @@
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
-        <script src="http://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
+        <script src="https://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
 		
         <!-- Printing and PDF exports -->
         <script>
@@ -41,8 +41,6 @@
                 math: {
                     mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
                     config: 'TeX-AMS_HTML-full',  // See http://docs.mathjax.org/en/latest/config-files.html
-                    // pass other options into `MathJax.Hub.Config()`
-                    TeX: { Macros: 'macros' }
                 },
 
                 dependencies: [
@@ -53,6 +51,27 @@
                     { src: 'plugin/math/math.js', async: true }
                 ]
             });
+		
+	    MathJax.Hub.Config({
+                    // pass other options into `MathJax.Hub.Config()`
+			'tex2jax': {
+			    'inlineMath': [['$', '$'], ['\\(', '\\)']],
+			    'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+			    'processEscapes': true,
+			    'processEnvironments': true,
+			    'skipTags': ['script', 'noscript', 'style', 'textarea', 'code'],
+			    'displayAlign': 'center',
+			},
+			'HTML-CSS': {
+			    'styles': {'.MathJax_Display': {'margin': 0}},
+			    'linebreaks': {'automatic': true},
+			    // Disable to prevent OTF font loading, which aren't part of our
+			    // distribution.
+			    'imageFont': null,
+			},
+			'messageStyle': 'none',
+			'TeX': { 'Macros': 'macros' }	    
+			       });
         </script>
         <script>
             {{assets}}

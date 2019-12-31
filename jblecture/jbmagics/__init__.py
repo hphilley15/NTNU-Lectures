@@ -89,6 +89,7 @@ class JBMagics(Magics):
         if css:
             it = it + "<style>\n" + css + "\n" + "</style>" + "\n"
 
+        it = it + '<div class="section">'
         it = it + '<div class="{cls} jb-render">\n'.format(cls=cls)
 
         if line:
@@ -105,6 +106,9 @@ class JBMagics(Magics):
         # it = it + "</div>"
 
         it = it + '</div>\n'
+
+        it = it + '</div>'
+
         # it = it + """
         #          <script src="reveal.js/js/reveal.js"></script>
         #          <script>
@@ -150,7 +154,17 @@ class JBMagics(Magics):
 
     @cell_magic
     def reveal_html(self, line, cell):
-        it = self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
+        it = """
+        <div class="reveal">
+          <div class="slides">
+        """
+        it = it + self.embedCellHTML(cell, line, 'jb-output', self.doc.createLocalTheme())
+
+        it = it + """
+            </div>
+        </div>
+        """
+
         display(HTML("""
         <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
         <script>
@@ -178,7 +192,6 @@ class JBMagics(Magics):
         })();
         </script>
         """))
-
       #display(HTML("<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=default'></script>"))
 
         display(HTML(self.instTemplate(it, {})))
@@ -188,7 +201,17 @@ class JBMagics(Magics):
 
         md = self.html_body(input_string=cell)
 
-        it = self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
+        it = """
+        <div class="reveal">
+          <div class="slides">
+        """
+        it = it + self.embedCellHTML(md, line, 'jb-output', self.doc.createLocalTheme())
+
+        it = it + """
+            </div>
+        </div>
+        """
+
         display(HTML("""
         <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
         <script>
@@ -265,7 +288,7 @@ class JBMagics(Magics):
         """
                               )
 
-    @magic_arguments.argument('--no-math', action="store_true",
+    @magic_arguments.argument('--math', action="store_true", default="False",
                               help="""
         Add MathJax to render math in output cell.
         """
@@ -277,11 +300,17 @@ class JBMagics(Magics):
         out = not args.no_stdout
         err = not args.no_stderr
         disp = not args.no_display
-        math = not args.no_math
+        math = args.math
         
 
         # print('args', args )
 
+        if args.id:
+            if args.id[0] == '"' or args.id[0] == "'":
+                args.id = args.id[1:]
+            if args.id[-1] == '"' or args.id[-1] == "'":
+                args.id = args.id[1:]
+            
         if (args.style):
             if args.style[0] == '"' or args.style[0] == "'":
                 args.style = args.style[1:]

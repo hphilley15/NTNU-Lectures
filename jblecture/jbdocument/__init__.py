@@ -44,11 +44,11 @@ class JBDocument:
         themePath = pathlib.Path( cfg['ROOT_DIR'] / 'reveal.js' / 'css' / 'theme' / tname ).resolve()
         with themePath.open() as f:
             css = f.read()
-        for x, r in [("\.reveal \.slides section ", ".jb-render "),
-                     ("\.reveal \.slides ", ".jb-render "),
-                     ("\.reveal ", ".jb-render "),
-                     ("section", ".jb-render ")]:
-            css = re.sub(x, r, css)
+        # for x, r in [("\.reveal \.slides section ", ".jb-render "),
+        #              ("\.reveal \.slides ", ".jb-render "),
+        #              ("\.reveal ", ".jb-render "),
+        #              ("section", ".jb-render ")]:
+        #     css = re.sub(x, r, css)
         return css
 
     @staticmethod

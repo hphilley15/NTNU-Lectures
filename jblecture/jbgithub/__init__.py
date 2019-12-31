@@ -46,6 +46,7 @@ def findRepoByName( title ):
         repos = getRepositories()
         if repos:
             for r in repos:
+                # print("Github repo", r.name )
                 if r.name == title:
                     repo = r
                     break
@@ -65,6 +66,7 @@ def findBranchByName( repo, bName ):
 def runCommand( cmd, secure = False ):
     print( "Running command " + cmd )
     o = None
+<<<<<<< HEAD
     if not secure:
         myStdOut = subprocess.STDOUT
     else:
@@ -73,9 +75,20 @@ def runCommand( cmd, secure = False ):
     
     try:
         o = subprocess.check_output( cmd, stderr= myStdOut, shell=True)
+=======
+    
+    if not secure:
+        myStdOut = subprocess.STDOUT
+        myStdErr = subprocess.STDERR
+    else:
+        myStdOut = subprocess.DEVNULL
+        myStdErr = subprocess.DEVNULL
+    try:
+        o = subprocess.call( cmd, stdout=myStdOut, stderr=myStdErr, shell=True)
+>>>>>>> mg
     except subprocess.CalledProcessError as error:
         print("Command returned error CalledProcessError", error, error.stderr )
-    if o and echo:
+    if o and not secure:
         print( "Output " + cmd + ":\n" + o.decode('utf-8') )
 
 # https://github.com/cvroberto21/Test-Implementation.git
@@ -86,6 +99,8 @@ def modUrl( url, tok ):
     
     if m:
         n = m.group('scheme') + "://" + m.group('user') + ':' + tok + '@' + m.group('host') + '/' + m.group('user') + '/' + m.group('repo')
+        cfg['GITHUB_USER'] = m.group('user')
+        cfg['GITHUB_PAGES_URL' ] =  'https://{user}.github.io/{repo}'.format( user=m.group('user'), repo=m.group('repo')[:-4] )
     else:
         raise(Exception("Invalid URL Format"))
     return n
@@ -156,9 +171,16 @@ def createGitHub( title, root = None):
 
     with JBcd(p):
         runCommand( cfg['GIT_CMD'] + " push", True )
+<<<<<<< HEAD
 
         #runCommand( cfg['GIT_CMD'] + " push origin gh-pages", True )
+=======
+        runCommand( cfg['GIT_CMD'] + " push --set-upstream origin gh-pages", True )
     
+        runCommand( cfg['GIT_CMD'] + " push origin gh-pages", True )
+>>>>>>> mg
+    
+    return True
             # if not p.is_dir():
             #     print("cloning {0} from url {1} root {2}".format( dirname, url, root ), 'git command', cfg['GIT_CMD'])
             #     if ( branch ):
