@@ -46,6 +46,7 @@ def findRepoByName( title ):
         repos = getRepositories()
         if repos:
             for r in repos:
+                print("Github repo", r.name )
                 if r.name == title:
                     repo = r
                     break
