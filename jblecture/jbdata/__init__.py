@@ -1,7 +1,7 @@
 from urllib import request
 import pathlib
 import base64
-import youtube_dl
+import yt_dlp
 import uuid
 
 cfg = {}
@@ -260,7 +260,7 @@ class JBVideo(JBData):
     def readDataFromURL( self, url, localFile ):
         print('Reading video from', url)
         ydl_opts = {'outtmpl': localFile }
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         self.localFile = localFile
 
